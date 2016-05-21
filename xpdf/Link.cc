@@ -149,36 +149,36 @@ GString *LinkAction::getFileSpecName(Object *fileSpecObj) {
     i = 0;
     if (name->getChar(0) == '/') {
       if (name->getLength() >= 2 && name->getChar(1) == '/') {
-	name->del(0);
-	i = 0;
+    name->del(0);
+    i = 0;
       } else if (name->getLength() >= 2 &&
-		 ((name->getChar(1) >= 'a' && name->getChar(1) <= 'z') ||
-		  (name->getChar(1) >= 'A' && name->getChar(1) <= 'Z')) &&
-		 (name->getLength() == 2 || name->getChar(2) == '/')) {
-	name->setChar(0, name->getChar(1));
-	name->setChar(1, ':');
-	i = 2;
+         ((name->getChar(1) >= 'a' && name->getChar(1) <= 'z') ||
+          (name->getChar(1) >= 'A' && name->getChar(1) <= 'Z')) &&
+         (name->getLength() == 2 || name->getChar(2) == '/')) {
+    name->setChar(0, name->getChar(1));
+    name->setChar(1, ':');
+    i = 2;
       } else {
-	for (j = 2; j < name->getLength(); ++j) {
-	  if (name->getChar(j-1) != '\\' &&
-	      name->getChar(j) == '/') {
-	    break;
-	  }
-	}
-	if (j < name->getLength()) {
-	  name->setChar(0, '\\');
-	  name->insert(0, '\\');
-	  i = 2;
-	}
+    for (j = 2; j < name->getLength(); ++j) {
+      if (name->getChar(j-1) != '\\' &&
+          name->getChar(j) == '/') {
+        break;
+      }
+    }
+    if (j < name->getLength()) {
+      name->setChar(0, '\\');
+      name->insert(0, '\\');
+      i = 2;
+    }
       }
     }
     for (; i < name->getLength(); ++i) {
       if (name->getChar(i) == '/') {
-	name->setChar(i, '\\');
+    name->setChar(i, '\\');
       } else if (name->getChar(i) == '\\' &&
-		 i+1 < name->getLength() &&
-		 name->getChar(i+1) == '/') {
-	name->del(i);
+         i+1 < name->getLength() &&
+         name->getChar(i+1) == '/') {
+    name->del(i);
       }
     }
 #else
@@ -230,13 +230,13 @@ LinkDest::LinkDest(Array *a) {
     } else {
       a->get(2, &obj2);
       if (obj2.isNull()) {
-	changeLeft = gFalse;
+    changeLeft = gFalse;
       } else if (obj2.isNum()) {
-	changeLeft = gTrue;
-	left = obj2.getNum();
+    changeLeft = gTrue;
+    left = obj2.getNum();
       } else {
-	error(-1, "Bad annotation destination position");
-	goto err1;
+    error(-1, "Bad annotation destination position");
+    goto err1;
       }
       obj2.free();
     }
@@ -245,13 +245,13 @@ LinkDest::LinkDest(Array *a) {
     } else {
       a->get(3, &obj2);
       if (obj2.isNull()) {
-	changeTop = gFalse;
+    changeTop = gFalse;
       } else if (obj2.isNum()) {
-	changeTop = gTrue;
-	top = obj2.getNum();
+    changeTop = gTrue;
+    top = obj2.getNum();
       } else {
-	error(-1, "Bad annotation destination position");
-	goto err1;
+    error(-1, "Bad annotation destination position");
+    goto err1;
       }
       obj2.free();
     }
@@ -260,13 +260,13 @@ LinkDest::LinkDest(Array *a) {
     } else {
       a->get(4, &obj2);
       if (obj2.isNull()) {
-	changeZoom = gFalse;
+    changeZoom = gFalse;
       } else if (obj2.isNum()) {
-	changeZoom = gTrue;
-	zoom = obj2.getNum();
+    changeZoom = gTrue;
+    zoom = obj2.getNum();
       } else {
-	error(-1, "Bad annotation destination position");
-	goto err1;
+    error(-1, "Bad annotation destination position");
+    goto err1;
       }
       obj2.free();
     }
@@ -502,29 +502,29 @@ LinkLaunch::LinkLaunch(Object *actionObj) {
       obj1.free();
 #ifdef WIN32
       if (actionObj->dictLookup("Win", &obj1)->isDict()) {
-	obj1.dictLookup("F", &obj2);
-	fileName = getFileSpecName(&obj2);
-	obj2.free();
-	if (obj1.dictLookup("P", &obj2)->isString()) {
-	  params = obj2.getString()->copy();
-	}
-	obj2.free();
+    obj1.dictLookup("F", &obj2);
+    fileName = getFileSpecName(&obj2);
+    obj2.free();
+    if (obj1.dictLookup("P", &obj2)->isString()) {
+      params = obj2.getString()->copy();
+    }
+    obj2.free();
       } else {
-	error(-1, "Bad launch-type link action");
+    error(-1, "Bad launch-type link action");
       }
 #else
       //~ This hasn't been defined by Adobe yet, so assume it looks
       //~ just like the Win dictionary until they say otherwise.
       if (actionObj->dictLookup("Unix", &obj1)->isDict()) {
-	obj1.dictLookup("F", &obj2);
-	fileName = getFileSpecName(&obj2);
-	obj2.free();
-	if (obj1.dictLookup("P", &obj2)->isString()) {
-	  params = obj2.getString()->copy();
-	}
-	obj2.free();
+    obj1.dictLookup("F", &obj2);
+    fileName = getFileSpecName(&obj2);
+    obj2.free();
+    if (obj1.dictLookup("P", &obj2)->isString()) {
+      params = obj2.getString()->copy();
+    }
+    obj2.free();
       } else {
-	error(-1, "Bad launch-type link action");
+    error(-1, "Bad launch-type link action");
       }
 #endif
     }
@@ -554,21 +554,21 @@ LinkURI::LinkURI(Object *uriObj, GString *baseURI) {
     if (baseURI && baseURI->getLength() > 0) {
       n = strcspn(uri2->getCString(), "/:");
       if (n == uri2->getLength() || uri2->getChar(n) == '/') {
-	uri = baseURI->copy();
-	c = uri->getChar(uri->getLength() - 1);
-	if (c == '/' || c == '?') {
-	  if (uri2->getChar(0) == '/') {
-	    uri2->del(0);
-	  }
-	} else {
-	  if (uri2->getChar(0) != '/') {
-	    uri->append('/');
-	  }
-	}
-	uri->append(uri2);
-	delete uri2;
+    uri = baseURI->copy();
+    c = uri->getChar(uri->getLength() - 1);
+    if (c == '/' || c == '?') {
+      if (uri2->getChar(0) == '/') {
+        uri2->del(0);
+      }
+    } else {
+      if (uri2->getChar(0) != '/') {
+        uri->append('/');
+      }
+    }
+    uri->append(uri2);
+    delete uri2;
       } else {
-	uri = uri2;
+    uri = uri2;
       }
     } else {
       uri = uri2;
@@ -639,8 +639,8 @@ LinkUnknown::~LinkUnknown() {
 //------------------------------------------------------------------------
 
 LinkBorderStyle::LinkBorderStyle(LinkBorderType typeA, double widthA,
-				 double *dashA, int dashLengthA,
-				 double rA, double gA, double bA) {
+                 double *dashA, int dashLengthA,
+                 double rA, double gA, double bA) {
   type = typeA;
   width = widthA;
   dash = dashA;
@@ -757,19 +757,19 @@ Links::Links(Object *annots, GString *baseURI) {
   if (annots->isArray()) {
     for (i = 0; i < annots->arrayGetLength(); ++i) {
       if (annots->arrayGet(i, &obj1)->isDict()) {
-	if (obj1.dictLookup("Subtype", &obj2)->isName("Link")) {
-	  link = new Link(obj1.getDict(), baseURI);
-	  if (link->isOk()) {
-	    if (numLinks >= size) {
-	      size += 16;
-	      links = (Link **)greallocn(links, size, sizeof(Link *));
-	    }
-	    links[numLinks++] = link;
-	  } else {
-	    delete link;
-	  }
-	}
-	obj2.free();
+    if (obj1.dictLookup("Subtype", &obj2)->isName("Link")) {
+      link = new Link(obj1.getDict(), baseURI);
+      if (link->isOk()) {
+        if (numLinks >= size) {
+          size += 16;
+          links = (Link **)greallocn(links, size, sizeof(Link *));
+        }
+        links[numLinks++] = link;
+      } else {
+        delete link;
+      }
+    }
+    obj2.free();
       }
       obj1.free();
     }

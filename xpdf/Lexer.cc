@@ -126,7 +126,7 @@ Object *Lexer::getObj(Object *obj) {
     }
     if (comment) {
       if (c == '\r' || c == '\n')
-	comment = gFalse;
+    comment = gFalse;
     } else if (c == '%') {
       comment = gTrue;
     } else if (specialChars[c] != 1) {
@@ -153,13 +153,13 @@ Object *Lexer::getObj(Object *obj) {
     while (1) {
       c = lookChar();
       if (isdigit(c)) {
-	getChar();
-	xi = xi * 10 + (c - '0');
+    getChar();
+    xi = xi * 10 + (c - '0');
       } else if (c == '.') {
-	getChar();
-	goto doReal;
+    getChar();
+    goto doReal;
       } else {
-	break;
+    break;
       }
     }
     if (neg)
@@ -172,14 +172,14 @@ Object *Lexer::getObj(Object *obj) {
     while (1) {
       c = lookChar();
       if (c == '-') {
-	// ignore minus signs in the middle of numbers to match
-	// Adobe's behavior
-	error(getPos(), "Badly formatted number");
-	getChar();
-	continue;
+    // ignore minus signs in the middle of numbers to match
+    // Adobe's behavior
+    error(getPos(), "Badly formatted number");
+    getChar();
+    continue;
       }
       if (!isdigit(c)) {
-	break;
+    break;
       }
       getChar();
       xf = xf + scale * (c - '0');
@@ -207,93 +207,93 @@ Object *Lexer::getObj(Object *obj) {
       case '\r':
       case '\n':
 #endif
-	error(getPos(), "Unterminated string");
-	done = gTrue;
-	break;
+    error(getPos(), "Unterminated string");
+    done = gTrue;
+    break;
 
       case '(':
-	++numParen;
-	c2 = c;
-	break;
+    ++numParen;
+    c2 = c;
+    break;
 
       case ')':
-	if (--numParen == 0) {
-	  done = gTrue;
-	} else {
-	  c2 = c;
-	}
-	break;
+    if (--numParen == 0) {
+      done = gTrue;
+    } else {
+      c2 = c;
+    }
+    break;
 
       case '\\':
-	switch (c = getChar()) {
-	case 'n':
-	  c2 = '\n';
-	  break;
-	case 'r':
-	  c2 = '\r';
-	  break;
-	case 't':
-	  c2 = '\t';
-	  break;
-	case 'b':
-	  c2 = '\b';
-	  break;
-	case 'f':
-	  c2 = '\f';
-	  break;
-	case '\\':
-	case '(':
-	case ')':
-	  c2 = c;
-	  break;
-	case '0': case '1': case '2': case '3':
-	case '4': case '5': case '6': case '7':
-	  c2 = c - '0';
-	  c = lookChar();
-	  if (c >= '0' && c <= '7') {
-	    getChar();
-	    c2 = (c2 << 3) + (c - '0');
-	    c = lookChar();
-	    if (c >= '0' && c <= '7') {
-	      getChar();
-	      c2 = (c2 << 3) + (c - '0');
-	    }
-	  }
-	  break;
-	case '\r':
-	  c = lookChar();
-	  if (c == '\n') {
-	    getChar();
-	  }
-	  break;
-	case '\n':
-	  break;
-	case EOF:
-	  error(getPos(), "Unterminated string");
-	  done = gTrue;
-	  break;
-	default:
-	  c2 = c;
-	  break;
-	}
-	break;
+    switch (c = getChar()) {
+    case 'n':
+      c2 = '\n';
+      break;
+    case 'r':
+      c2 = '\r';
+      break;
+    case 't':
+      c2 = '\t';
+      break;
+    case 'b':
+      c2 = '\b';
+      break;
+    case 'f':
+      c2 = '\f';
+      break;
+    case '\\':
+    case '(':
+    case ')':
+      c2 = c;
+      break;
+    case '0': case '1': case '2': case '3':
+    case '4': case '5': case '6': case '7':
+      c2 = c - '0';
+      c = lookChar();
+      if (c >= '0' && c <= '7') {
+        getChar();
+        c2 = (c2 << 3) + (c - '0');
+        c = lookChar();
+        if (c >= '0' && c <= '7') {
+          getChar();
+          c2 = (c2 << 3) + (c - '0');
+        }
+      }
+      break;
+    case '\r':
+      c = lookChar();
+      if (c == '\n') {
+        getChar();
+      }
+      break;
+    case '\n':
+      break;
+    case EOF:
+      error(getPos(), "Unterminated string");
+      done = gTrue;
+      break;
+    default:
+      c2 = c;
+      break;
+    }
+    break;
 
       default:
-	c2 = c;
-	break;
+    c2 = c;
+    break;
       }
 
       if (c2 != EOF) {
-	if (n == tokBufSize) {
-	  if (!s)
-	    s = new GString(tokBuf, tokBufSize);
-	  else
-	    s->append(tokBuf, tokBufSize);
-	  p = tokBuf;
-	  n = 0;
-	}
-	*p++ = (char)c2;
-	++n;
+    if (n == tokBufSize) {
+      if (!s)
+        s = new GString(tokBuf, tokBufSize);
+      else
+        s->append(tokBuf, tokBufSize);
+      p = tokBuf;
+      n = 0;
+    }
+    *p++ = (char)c2;
+    ++n;
       }
     } while (!done);
     if (!s)
@@ -310,33 +310,33 @@ Object *Lexer::getObj(Object *obj) {
     while ((c = lookChar()) != EOF && !specialChars[c]) {
       getChar();
       if (c == '#') {
-	c2 = lookChar();
-	if (c2 >= '0' && c2 <= '9') {
-	  c = c2 - '0';
-	} else if (c2 >= 'A' && c2 <= 'F') {
-	  c = c2 - 'A' + 10;
-	} else if (c2 >= 'a' && c2 <= 'f') {
-	  c = c2 - 'a' + 10;
-	} else {
-	  goto notEscChar;
-	}
-	getChar();
-	c <<= 4;
-	c2 = getChar();
-	if (c2 >= '0' && c2 <= '9') {
-	  c += c2 - '0';
-	} else if (c2 >= 'A' && c2 <= 'F') {
-	  c += c2 - 'A' + 10;
-	} else if (c2 >= 'a' && c2 <= 'f') {
-	  c += c2 - 'a' + 10;
-	} else {
-	  error(getPos(), "Illegal digit in hex char in name");
-	}
+    c2 = lookChar();
+    if (c2 >= '0' && c2 <= '9') {
+      c = c2 - '0';
+    } else if (c2 >= 'A' && c2 <= 'F') {
+      c = c2 - 'A' + 10;
+    } else if (c2 >= 'a' && c2 <= 'f') {
+      c = c2 - 'a' + 10;
+    } else {
+      goto notEscChar;
+    }
+    getChar();
+    c <<= 4;
+    c2 = getChar();
+    if (c2 >= '0' && c2 <= '9') {
+      c += c2 - '0';
+    } else if (c2 >= 'A' && c2 <= 'F') {
+      c += c2 - 'A' + 10;
+    } else if (c2 >= 'a' && c2 <= 'f') {
+      c += c2 - 'a' + 10;
+    } else {
+      error(getPos(), "Illegal digit in hex char in name");
+    }
       }
      notEscChar:
       if (++n == tokBufSize) {
-	error(getPos(), "Name token too long");
-	break;
+    error(getPos(), "Name token too long");
+    break;
       }
       *p++ = c;
     }
@@ -370,44 +370,44 @@ Object *Lexer::getObj(Object *obj) {
       c2 = 0;
       s = NULL;
       while (1) {
-	c = getChar();
-	if (c == '>') {
-	  break;
-	} else if (c == EOF) {
-	  error(getPos(), "Unterminated hex string");
-	  break;
-	} else if (specialChars[c] != 1) {
-	  c2 = c2 << 4;
-	  if (c >= '0' && c <= '9')
-	    c2 += c - '0';
-	  else if (c >= 'A' && c <= 'F')
-	    c2 += c - 'A' + 10;
-	  else if (c >= 'a' && c <= 'f')
-	    c2 += c - 'a' + 10;
-	  else
-	    error(getPos(), "Illegal character <%02x> in hex string", c);
-	  if (++m == 2) {
-	    if (n == tokBufSize) {
-	      if (!s)
-		s = new GString(tokBuf, tokBufSize);
-	      else
-		s->append(tokBuf, tokBufSize);
-	      p = tokBuf;
-	      n = 0;
-	    }
-	    *p++ = (char)c2;
-	    ++n;
-	    c2 = 0;
-	    m = 0;
-	  }
-	}
+    c = getChar();
+    if (c == '>') {
+      break;
+    } else if (c == EOF) {
+      error(getPos(), "Unterminated hex string");
+      break;
+    } else if (specialChars[c] != 1) {
+      c2 = c2 << 4;
+      if (c >= '0' && c <= '9')
+        c2 += c - '0';
+      else if (c >= 'A' && c <= 'F')
+        c2 += c - 'A' + 10;
+      else if (c >= 'a' && c <= 'f')
+        c2 += c - 'a' + 10;
+      else
+        error(getPos(), "Illegal character <%02x> in hex string", c);
+      if (++m == 2) {
+        if (n == tokBufSize) {
+          if (!s)
+        s = new GString(tokBuf, tokBufSize);
+          else
+        s->append(tokBuf, tokBufSize);
+          p = tokBuf;
+          n = 0;
+        }
+        *p++ = (char)c2;
+        ++n;
+        c2 = 0;
+        m = 0;
+      }
+    }
       }
       if (!s)
-	s = new GString(tokBuf, n);
+    s = new GString(tokBuf, n);
       else
-	s->append(tokBuf, n);
+    s->append(tokBuf, n);
       if (m == 1)
-	s->append((char)(c2 << 4));
+    s->append((char)(c2 << 4));
       obj->initString(s);
     }
     break;
@@ -442,8 +442,8 @@ Object *Lexer::getObj(Object *obj) {
     while ((c = lookChar()) != EOF && !specialChars[c]) {
       getChar();
       if (++n == tokBufSize) {
-	error(getPos(), "Command token too long");
-	break;
+    error(getPos(), "Command token too long");
+    break;
       }
       *p++ = c;
     }
@@ -473,7 +473,7 @@ void Lexer::skipToNextLine() {
     }
     if (c == '\r') {
       if ((c = lookChar()) == '\n') {
-	getChar();
+    getChar();
       }
       return;
     }

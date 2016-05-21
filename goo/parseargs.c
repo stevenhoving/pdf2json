@@ -27,11 +27,11 @@ GBool parseArgs(ArgDesc *args, int *argc, char *argv[]) {
     if (!strcmp(argv[i], "--")) {
       --*argc;
       for (j = i; j < *argc; ++j)
-	argv[j] = argv[j+1];
+    argv[j] = argv[j+1];
       break;
     } else if ((arg = findArg(args, argv[i]))) {
       if (!grabArg(arg, i, argc, argv))
-	ok = gFalse;
+    ok = gFalse;
     } else {
       ++i;
     }

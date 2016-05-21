@@ -24,10 +24,10 @@
 //------------------------------------------------------------------------
 
 SplashFontFile *SplashT1FontFile::loadType1Font(SplashT1FontEngine *engineA,
-						SplashFontFileID *idA,
-						char *fileNameA,
-						GBool deleteFileA,
-						char **encA) {
+                        SplashFontFileID *idA,
+                        char *fileNameA,
+                        GBool deleteFileA,
+                        char **encA) {
   int t1libIDA;
   char **encTmp;
   char *encStrTmp;
@@ -64,13 +64,13 @@ SplashFontFile *SplashT1FontFile::loadType1Font(SplashT1FontEngine *engineA,
   T1_ReencodeFont(t1libIDA, encTmp);
 
   return new SplashT1FontFile(engineA, idA, fileNameA, deleteFileA,
-			      t1libIDA, encTmp, encStrTmp);
+                  t1libIDA, encTmp, encStrTmp);
 }
 
 SplashT1FontFile::SplashT1FontFile(SplashT1FontEngine *engineA,
-				   SplashFontFileID *idA,
-				   char *fileNameA, GBool deleteFileA,
-				   int t1libIDA, char **encA, char *encStrA):
+                   SplashFontFileID *idA,
+                   char *fileNameA, GBool deleteFileA,
+                   int t1libIDA, char **encA, char *encStrA):
   SplashFontFile(idA, fileNameA, deleteFileA)
 {
   engine = engineA;
@@ -86,7 +86,7 @@ SplashT1FontFile::~SplashT1FontFile() {
 }
 
 SplashFont *SplashT1FontFile::makeFont(SplashCoord *mat,
-				       SplashCoord *textMat) {
+                       SplashCoord *textMat) {
   SplashFont *font;
 
   font = new SplashT1Font(this, mat, textMat);

@@ -81,12 +81,12 @@ static ArgDesc argDesc[] = {
    "ignore images"},
   {"-noframes", argFlag,   &noframes,      0,
    "use standard output"},
-/*  {"-zoom",   argFP,    &scale,         0,
+/*{"-zoom",   argFP,    &scale,         0,
    "zoom the pdf document (default 1.5)"}, */
   {"-xml",    argFlag,    &xml,         0,
    "output for XML post-processing"},
   {"-split",   argInt,    &split,         0,
-     "split the output every nth page"},     
+     "split the output every nth page"},
   {"-hidden", argFlag,   &showHidden,   0,
    "output hidden text"},
   {"-enc",    argString,   textEncName,    sizeof(textEncName),
@@ -100,7 +100,8 @@ static ArgDesc argDesc[] = {
   {NULL}
 };
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   PDFDoc *doc = NULL;
   GString *fileName = NULL;
   GString *docTitle = NULL;
@@ -138,7 +139,7 @@ int main(int argc, char *argv[]) {
   if (textEncName[0]) {
     globalParams->setTextEncoding(textEncName);
     if( !globalParams->getTextEncoding() )  {
-	goto error;    
+      goto error;
     }
   }
 
@@ -176,19 +177,20 @@ int main(int argc, char *argv[]) {
   // construct text file name
   if (argc == 3) {
     GString* tmp = new GString(argv[2]);
-    p=tmp->getCString()+tmp->getLength()-5;
+    p=tmp->getCString() + tmp->getLength() - 5;
    
     if (!strcmp(p, ".xml") || !strcmp(p, ".XML"))
-	htmlFileName = new GString(tmp->getCString(),
-				   tmp->getLength() - 5);
-    else htmlFileName =new GString(tmp);
+      htmlFileName = new GString(tmp->getCString(),
+                     tmp->getLength() - 5);
+    else
+        htmlFileName =new GString(tmp);
     
     delete tmp;
   } else {
     p = fileName->getCString() + fileName->getLength() - 4;
     if (!strcmp(p, ".pdf") || !strcmp(p, ".PDF"))
       htmlFileName = new GString(fileName->getCString(),
-				 fileName->getLength() - 4);
+                                 fileName->getLength() - 4);
     else
       htmlFileName = fileName->copy();
   }
@@ -215,7 +217,7 @@ int main(int argc, char *argv[]) {
     subject = getInfoString(info.getDict(), "Subject");
     date = getInfoDate(info.getDict(), "ModDate");
     if( !date )
-	date = getInfoDate(info.getDict(), "CreationDate");
+      date = getInfoDate(info.getDict(), "CreationDate");
   }
   info.free();
   if( !docTitle ) docTitle = new GString(htmlFileName);
@@ -224,19 +226,18 @@ int main(int argc, char *argv[]) {
   {int i;
   for(i = 0; extsList[i]; i++)
   {
-	  if( strstr(gsDevice, extsList[i]) != (char *) NULL )
-	  {
-		  strncpy(extension, extsList[i], sizeof(extension));
-		  break;
-	  }
+    if( strstr(gsDevice, extsList[i]) != (char *) NULL )
+    {
+      strncpy(extension, extsList[i], sizeof(extension));
+      break;
+    }
   }}
 
   rawOrder = complexMode; // todo: figure out what exactly rawOrder do :)
   
   if(textAsJSON)
-	xml = gTrue;
+    xml = gTrue;
 
-  
   // write text file
   htmlOut = new ImgOutputDev(htmlFileName->getCString(), 
       docTitle->getCString(), 
@@ -335,7 +336,7 @@ static GString* getInfoDate(Dict *infoDict, char *key) {
       tmStruct.tm_isdst = -1;
       mktime(&tmStruct); // compute the tm_wday and tm_yday fields
       if (strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%S+00:00", &tmStruct)) {
-	result = new GString(buf);
+        result = new GString(buf);
       } else {
         result = new GString(s);
       }

@@ -187,10 +187,10 @@ GBool PageAttrs::readBox(Dict *dict, char *key, PDFRectangle *box) {
     obj2.free();
     if (ok) {
       if (tmp.x1 > tmp.x2) {
-	t = tmp.x1; tmp.x1 = tmp.x2; tmp.x2 = t;
+    t = tmp.x1; tmp.x1 = tmp.x2; tmp.x2 = t;
       }
       if (tmp.y1 > tmp.y2) {
-	t = tmp.y1; tmp.y1 = tmp.y2; tmp.y2 = t;
+    t = tmp.y1; tmp.y1 = tmp.y2; tmp.y2 = t;
       }
       *box = tmp;
     }
@@ -217,7 +217,7 @@ Page::Page(XRef *xrefA, int numA, Dict *pageDict, PageAttrs *attrsA) {
   pageDict->lookupNF("Annots", &annots);
   if (!(annots.isRef() || annots.isArray() || annots.isNull())) {
     error(-1, "Page annotations object (page %d) is wrong type (%s)",
-	  num, annots.getTypeName());
+      num, annots.getTypeName());
     annots.free();
     goto err2;
   }
@@ -225,9 +225,9 @@ Page::Page(XRef *xrefA, int numA, Dict *pageDict, PageAttrs *attrsA) {
   // contents
   pageDict->lookupNF("Contents", &contents);
   if (!(contents.isRef() || contents.isArray() ||
-	contents.isNull())) {
+    contents.isNull())) {
     error(-1, "Page contents object (page %d) is wrong type (%s)",
-	  num, contents.getTypeName());
+      num, contents.getTypeName());
     contents.free();
     goto err1;
   }
@@ -257,22 +257,22 @@ Links *Page::getLinks(Catalog *catalog) {
 }
 
 void Page::display(OutputDev *out, double hDPI, double vDPI,
-		   int rotate, GBool useMediaBox, GBool crop,
+           int rotate, GBool useMediaBox, GBool crop,
            Links *links, GBool printing, Catalog *catalog,
-		   GBool (*abortCheckCbk)(void *data),
-		   void *abortCheckCbkData) {
+           GBool (*abortCheckCbk)(void *data),
+           void *abortCheckCbkData) {
 
   displaySlice(out, hDPI, vDPI, rotate, useMediaBox, crop,
-	       -1, -1, -1, -1, links, printing, catalog,
-	       abortCheckCbk, abortCheckCbkData);
+           -1, -1, -1, -1, links, printing, catalog,
+           abortCheckCbk, abortCheckCbkData);
 }
 
 void Page::displaySlice(OutputDev *out, double hDPI, double vDPI,
-			int rotate, GBool useMediaBox, GBool crop,
-			int sliceX, int sliceY, int sliceW, int sliceH,
+            int rotate, GBool useMediaBox, GBool crop,
+            int sliceX, int sliceY, int sliceW, int sliceH,
             Links *links, GBool printing, Catalog *catalog,
-			GBool (*abortCheckCbk)(void *data),
-			void *abortCheckCbkData) {
+            GBool (*abortCheckCbk)(void *data),
+            void *abortCheckCbkData) {
 #ifndef PDF_PARSER_ONLY
   PDFRectangle *mediaBox, *cropBox;
   PDFRectangle box;
@@ -284,9 +284,9 @@ void Page::displaySlice(OutputDev *out, double hDPI, double vDPI,
   int i;
 
   if (!out->checkPageSlice(this, hDPI, vDPI, rotate, useMediaBox, crop,
-			   sliceX, sliceY, sliceW, sliceH,
-			   printing, catalog,
-			   abortCheckCbk, abortCheckCbkData)) {
+               sliceX, sliceY, sliceW, sliceH,
+               printing, catalog,
+               abortCheckCbk, abortCheckCbkData)) {
     return;
   }
 
@@ -298,21 +298,21 @@ void Page::displaySlice(OutputDev *out, double hDPI, double vDPI,
   }
 
   makeBox(hDPI, vDPI, rotate, useMediaBox, out->upsideDown(),
-	  sliceX, sliceY, sliceW, sliceH, &box, &crop);
+      sliceX, sliceY, sliceW, sliceH, &box, &crop);
   cropBox = getCropBox();
 
   if (globalParams->getPrintCommands()) {
     mediaBox = getMediaBox();
     printf("***** MediaBox = ll:%g,%g ur:%g,%g\n",
-	   mediaBox->x1, mediaBox->y1, mediaBox->x2, mediaBox->y2);
+       mediaBox->x1, mediaBox->y1, mediaBox->x2, mediaBox->y2);
     printf("***** CropBox = ll:%g,%g ur:%g,%g\n",
-	   cropBox->x1, cropBox->y1, cropBox->x2, cropBox->y2);
+       cropBox->x1, cropBox->y1, cropBox->x2, cropBox->y2);
     printf("***** Rotate = %d\n", attrs->getRotate());
   }
 
   gfx = new Gfx(xref, out, num, attrs->getResourceDict(),
-		hDPI, vDPI, &box, crop ? cropBox : (PDFRectangle *)NULL,
-		rotate, abortCheckCbk, abortCheckCbkData);
+        hDPI, vDPI, &box, crop ? cropBox : (PDFRectangle *)NULL,
+        rotate, abortCheckCbk, abortCheckCbkData);
   contents.fetch(xref, &obj);
   if (!obj.isNull()) {
     gfx->saveState();
@@ -340,7 +340,7 @@ void Page::displaySlice(OutputDev *out, double hDPI, double vDPI,
   if (acroForm) {
     if (acroForm->lookup("NeedAppearances", &obj)) {
       if (obj.isBool() && obj.getBool()) {
-	annotList->generateAppearances(acroForm);
+    annotList->generateAppearances(acroForm);
       }
     }
     obj.free();
@@ -361,9 +361,9 @@ void Page::displaySlice(OutputDev *out, double hDPI, double vDPI,
 }
 
 void Page::makeBox(double hDPI, double vDPI, int rotate,
-		   GBool useMediaBox, GBool upsideDown,
-		   double sliceX, double sliceY, double sliceW, double sliceH,
-		   PDFRectangle *box, GBool *crop) {
+           GBool useMediaBox, GBool upsideDown,
+           double sliceX, double sliceY, double sliceW, double sliceH,
+           PDFRectangle *box, GBool *crop) {
   PDFRectangle *mediaBox, *cropBox, *baseBox;
   double kx, ky;
 
@@ -375,11 +375,11 @@ void Page::makeBox(double hDPI, double vDPI, int rotate,
     ky = 72.0 / vDPI;
     if (rotate == 90) {
       if (upsideDown) {
-	box->x1 = baseBox->x1 + ky * sliceY;
-	box->x2 = baseBox->x1 + ky * (sliceY + sliceH);
+    box->x1 = baseBox->x1 + ky * sliceY;
+    box->x2 = baseBox->x1 + ky * (sliceY + sliceH);
       } else {
-	box->x1 = baseBox->x2 - ky * (sliceY + sliceH);
-	box->x2 = baseBox->x2 - ky * sliceY;
+    box->x1 = baseBox->x2 - ky * (sliceY + sliceH);
+    box->x2 = baseBox->x2 - ky * sliceY;
       }
       box->y1 = baseBox->y1 + kx * sliceX;
       box->y2 = baseBox->y1 + kx * (sliceX + sliceW);
@@ -387,19 +387,19 @@ void Page::makeBox(double hDPI, double vDPI, int rotate,
       box->x1 = baseBox->x2 - kx * (sliceX + sliceW);
       box->x2 = baseBox->x2 - kx * sliceX;
       if (upsideDown) {
-	box->y1 = baseBox->y1 + ky * sliceY;
-	box->y2 = baseBox->y1 + ky * (sliceY + sliceH);
+    box->y1 = baseBox->y1 + ky * sliceY;
+    box->y2 = baseBox->y1 + ky * (sliceY + sliceH);
       } else {
-	box->y1 = baseBox->y2 - ky * (sliceY + sliceH);
-	box->y2 = baseBox->y2 - ky * sliceY;
+    box->y1 = baseBox->y2 - ky * (sliceY + sliceH);
+    box->y2 = baseBox->y2 - ky * sliceY;
       }
     } else if (rotate == 270) {
       if (upsideDown) {
-	box->x1 = baseBox->x2 - ky * (sliceY + sliceH);
-	box->x2 = baseBox->x2 - ky * sliceY;
+    box->x1 = baseBox->x2 - ky * (sliceY + sliceH);
+    box->x2 = baseBox->x2 - ky * sliceY;
       } else {
-	box->x1 = baseBox->x1 + ky * sliceY;
-	box->x2 = baseBox->x1 + ky * (sliceY + sliceH);
+    box->x1 = baseBox->x1 + ky * sliceY;
+    box->x2 = baseBox->x1 + ky * (sliceY + sliceH);
       }
       box->y1 = baseBox->y2 - kx * (sliceX + sliceW);
       box->y2 = baseBox->y2 - kx * sliceX;
@@ -407,11 +407,11 @@ void Page::makeBox(double hDPI, double vDPI, int rotate,
       box->x1 = baseBox->x1 + kx * sliceX;
       box->x2 = baseBox->x1 + kx * (sliceX + sliceW);
       if (upsideDown) {
-	box->y1 = baseBox->y2 - ky * (sliceY + sliceH);
-	box->y2 = baseBox->y2 - ky * sliceY;
+    box->y1 = baseBox->y2 - ky * (sliceY + sliceH);
+    box->y2 = baseBox->y2 - ky * sliceY;
       } else {
-	box->y1 = baseBox->y1 + ky * sliceY;
-	box->y2 = baseBox->y1 + ky * (sliceY + sliceH);
+    box->y1 = baseBox->y1 + ky * sliceY;
+    box->y2 = baseBox->y1 + ky * (sliceY + sliceH);
       }
     }
   } else if (useMediaBox) {
@@ -434,7 +434,7 @@ void Page::processLinks(OutputDev *out, Catalog *catalog) {
 }
 
 void Page::getDefaultCTM(double *ctm, double hDPI, double vDPI,
-			 int rotate, GBool useMediaBox, GBool upsideDown) {
+             int rotate, GBool useMediaBox, GBool upsideDown) {
   GfxState *state;
   int i;
 
@@ -445,8 +445,8 @@ void Page::getDefaultCTM(double *ctm, double hDPI, double vDPI,
     rotate += 360;
   }
   state = new GfxState(hDPI, vDPI,
-		       useMediaBox ? getMediaBox() : getCropBox(),
-		       rotate, upsideDown);
+               useMediaBox ? getMediaBox() : getCropBox(),
+               rotate, upsideDown);
   for (i = 0; i < 6; ++i) {
     ctm[i] = state->getCTM()[i];
   }

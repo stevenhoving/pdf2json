@@ -113,9 +113,9 @@ XmlFont::XmlFont(GString* ftname,int _size, double _charspace, GfxRGB rgb){
 
     int i=0;
     while (strcmp(ftname->getCString(),fonts[i].Fontname)&&(i<font_num))
-	{
-		i++;
-	}
+    {
+        i++;
+    }
     pos=i;
     delete fontname;
   }
@@ -168,8 +168,8 @@ void XmlFont::clear(){
 */
 GBool XmlFont::isEqual(const XmlFont& x) const{
   return ((size==x.size) && (lineSize==x.lineSize) && (charspace==x.charspace) &&
-	  (pos==x.pos) && (bold==x.bold) && (oblique==x.oblique) && (italic==x.italic) &&
-	  (color.isEqual(x.getColor())));
+      (pos==x.pos) && (bold==x.bold) && (oblique==x.oblique) && (italic==x.italic) &&
+      (color.isEqual(x.getColor())));
 }
 
 /*
@@ -178,7 +178,7 @@ GBool XmlFont::isEqual(const XmlFont& x) const{
 */
 GBool XmlFont::isEqualIgnoreBold(const XmlFont& x) const{
   return ((size==x.size) &&
-	  (color.isEqual(x.getColor())));
+      (color.isEqual(x.getColor())));
 }
 
 GString* XmlFont::getFontName(){
@@ -218,16 +218,16 @@ GString* XmlFont::HtmlFilter(Unicode* u, int uLen) {
   for (int i = 0; i < uLen; ++i) {
     switch (u[i])
       {
-	case '"': tmp->append("&quot;");  break;
-	case '&': tmp->append("&amp;");  break;
-	case '<': tmp->append("&lt;");  break;
-	case '>': tmp->append("&gt;");  break;
-	default:
-	  {
-	    // convert unicode to string
-	    if ((n = uMap->mapUnicode(u[i], buf, sizeof(buf))) > 0) {
-	      tmp->append(buf, n);
-	  }
+    case '"': tmp->append("&quot;");  break;
+    case '&': tmp->append("&amp;");  break;
+    case '<': tmp->append("&lt;");  break;
+    case '>': tmp->append("&gt;");  break;
+    default:
+      {
+        // convert unicode to string
+        if ((n = uMap->mapUnicode(u[i], buf, sizeof(buf))) > 0) {
+          tmp->append(buf, n);
+      }
       }
     }
   }
@@ -263,10 +263,10 @@ int XmlFontAccu::AddFont(const XmlFont& font){
  GVector<XmlFont>::iterator i;
  for (i=accu->begin();i!=accu->end();i++)
  {
-	if (font.isEqual(*i))
-	{
-		return (int)(i-(accu->begin()));
-	}
+    if (font.isEqual(*i))
+    {
+        return (int)(i-(accu->begin()));
+    }
  }
 
  accu->push_back(font);
@@ -318,18 +318,18 @@ static GString* EscapeSpecialChars( GString* s)
                 case 0x1f: replace = "";  break;
                 default: continue;
             }
-	    if( replace ){
-	        if( !tmp )
+        if( replace ){
+            if( !tmp )
                 tmp = new GString( s );
-	        if( tmp ){
-	            tmp->del( j, 1 );
-	            int l = strlen( replace );
-	            tmp->insert( j, replace, l );
-	            j += l - 1;
-	        }
-	    }
-	}
-	return tmp ? tmp : s;
+            if( tmp ){
+                tmp->del( j, 1 );
+                int l = strlen( replace );
+                tmp->insert( j, replace, l );
+                j += l - 1;
+            }
+        }
+    }
+    return tmp ? tmp : s;
 }
 
 // get CSS font name for font #i

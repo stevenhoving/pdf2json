@@ -128,7 +128,7 @@ GfxFont *GfxFont::makeFont(XRef *xref, char *tagA, Ref idA, Dict *fontDict) {
     font = new GfxCIDFont(xref, tagA, idA, nameA, fontDict);
   } else {
     error(-1, "Unknown font type: '%s'",
-	  obj1.isName() ? obj1.getName() : "???");
+      obj1.isName() ? obj1.getName() : "???");
     font = new Gfx8BitFont(xref, tagA, idA, nameA, fontUnknownType, fontDict);
   }
   obj1.free();
@@ -193,66 +193,66 @@ void GfxFont::readFontDescriptor(XRef *xref, Dict *fontDict) {
     if (obj1.dictLookupNF("FontFile", &obj2)->isRef()) {
       embFontID = obj2.getRef();
       if (type != fontType1) {
-	error(-1, "Mismatch between font type and embedded font file");
-	type = fontType1;
+    error(-1, "Mismatch between font type and embedded font file");
+    type = fontType1;
       }
     }
     obj2.free();
     if (embFontID.num == -1 &&
-	obj1.dictLookupNF("FontFile2", &obj2)->isRef()) {
+    obj1.dictLookupNF("FontFile2", &obj2)->isRef()) {
       embFontID = obj2.getRef();
       if (type != fontTrueType && type != fontCIDType2) {
-	error(-1, "Mismatch between font type and embedded font file");
-	type = type == fontCIDType0 ? fontCIDType2 : fontTrueType;
+    error(-1, "Mismatch between font type and embedded font file");
+    type = type == fontCIDType0 ? fontCIDType2 : fontTrueType;
       }
     }
     obj2.free();
     if (embFontID.num == -1 &&
-	obj1.dictLookupNF("FontFile3", &obj2)->isRef()) {
+    obj1.dictLookupNF("FontFile3", &obj2)->isRef()) {
       if (obj2.fetch(xref, &obj3)->isStream()) {
-	obj3.streamGetDict()->lookup("Subtype", &obj4);
-	if (obj4.isName("Type1")) {
-	  embFontID = obj2.getRef();
-	  if (type != fontType1) {
-	    error(-1, "Mismatch between font type and embedded font file");
-	    type = fontType1;
-	  }
-	} else if (obj4.isName("Type1C")) {
-	  embFontID = obj2.getRef();
-	  if (type != fontType1 && type != fontType1C) {
-	    error(-1, "Mismatch between font type and embedded font file");
-	  }
-	  type = fontType1C;
-	} else if (obj4.isName("TrueType")) {
-	  embFontID = obj2.getRef();
-	  if (type != fontTrueType) {
-	    error(-1, "Mismatch between font type and embedded font file");
-	    type = fontTrueType;
-	  }
-	} else if (obj4.isName("CIDFontType0C")) {
-	  embFontID = obj2.getRef();
-	  if (type != fontCIDType0) {
-	    error(-1, "Mismatch between font type and embedded font file");
-	  }
-	  type = fontCIDType0C;
-	} else if (obj4.isName("OpenType")) {
-	  embFontID = obj2.getRef();
-	  if (type == fontTrueType) {
-	    type = fontTrueTypeOT;
-	  } else if (type == fontType1) {
-	    type = fontType1COT;
-	  } else if (type == fontCIDType0) {
-	    type = fontCIDType0COT;
-	  } else if (type == fontCIDType2) {
-	    type = fontCIDType2OT;
-	  } else {
-	    error(-1, "Mismatch between font type and embedded font file");
-	  }
-	} else {
-	  error(-1, "Unknown embedded font type '%s'",
-		obj4.isName() ? obj4.getName() : "???");
-	}
-	obj4.free();
+    obj3.streamGetDict()->lookup("Subtype", &obj4);
+    if (obj4.isName("Type1")) {
+      embFontID = obj2.getRef();
+      if (type != fontType1) {
+        error(-1, "Mismatch between font type and embedded font file");
+        type = fontType1;
+      }
+    } else if (obj4.isName("Type1C")) {
+      embFontID = obj2.getRef();
+      if (type != fontType1 && type != fontType1C) {
+        error(-1, "Mismatch between font type and embedded font file");
+      }
+      type = fontType1C;
+    } else if (obj4.isName("TrueType")) {
+      embFontID = obj2.getRef();
+      if (type != fontTrueType) {
+        error(-1, "Mismatch between font type and embedded font file");
+        type = fontTrueType;
+      }
+    } else if (obj4.isName("CIDFontType0C")) {
+      embFontID = obj2.getRef();
+      if (type != fontCIDType0) {
+        error(-1, "Mismatch between font type and embedded font file");
+      }
+      type = fontCIDType0C;
+    } else if (obj4.isName("OpenType")) {
+      embFontID = obj2.getRef();
+      if (type == fontTrueType) {
+        type = fontTrueTypeOT;
+      } else if (type == fontType1) {
+        type = fontType1COT;
+      } else if (type == fontCIDType0) {
+        type = fontCIDType0COT;
+      } else if (type == fontCIDType2) {
+        type = fontCIDType2OT;
+      } else {
+        error(-1, "Mismatch between font type and embedded font file");
+      }
+    } else {
+      error(-1, "Unknown embedded font type '%s'",
+        obj4.isName() ? obj4.getName() : "???");
+    }
+    obj4.free();
       }
       obj3.free();
     }
@@ -271,7 +271,7 @@ void GfxFont::readFontDescriptor(XRef *xref, Dict *fontDict) {
       t = 0.001 * obj2.getNum();
       // some broken font descriptors set ascent and descent to 0
       if (t != 0) {
-	ascent = t;
+    ascent = t;
       }
     }
     obj2.free();
@@ -280,11 +280,11 @@ void GfxFont::readFontDescriptor(XRef *xref, Dict *fontDict) {
       t = 0.001 * obj2.getNum();
       // some broken font descriptors set ascent and descent to 0
       if (t != 0) {
-	descent = t;
+    descent = t;
       }
       // some broken font descriptors specify a positive descent
       if (descent > 0) {
-	descent = -descent;
+    descent = -descent;
       }
     }
     obj2.free();
@@ -292,10 +292,10 @@ void GfxFont::readFontDescriptor(XRef *xref, Dict *fontDict) {
     // font FontBBox
     if (obj1.dictLookup("FontBBox", &obj2)->isArray()) {
       for (i = 0; i < 4 && i < obj2.arrayGetLength(); ++i) {
-	if (obj2.arrayGet(i, &obj3)->isNum()) {
-	  fontBBox[i] = 0.001 * obj3.getNum();
-	}
-	obj3.free();
+    if (obj2.arrayGet(i, &obj3)->isNum()) {
+      fontBBox[i] = 0.001 * obj3.getNum();
+    }
+    obj3.free();
       }
     }
     obj2.free();
@@ -305,7 +305,7 @@ void GfxFont::readFontDescriptor(XRef *xref, Dict *fontDict) {
 }
 
 CharCodeToUnicode *GfxFont::readToUnicodeCMap(Dict *fontDict, int nBits,
-					      CharCodeToUnicode *ctu) {
+                          CharCodeToUnicode *ctu) {
   GString *buf;
   Object obj1;
   int c;
@@ -357,7 +357,7 @@ char *GfxFont::readExtFontFile(int *len) {
   buf = (char *)gmalloc(*len);
   if ((int)fread(buf, 1, *len, f) != *len) {
     error(-1, "Error reading external font file '%s'",
-	  extFontFile->getCString());
+      extFontFile->getCString());
   }
   fclose(f);
   return buf;
@@ -405,7 +405,7 @@ char *GfxFont::readEmbFontFile(XRef *xref, int *len) {
 //------------------------------------------------------------------------
 
 Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
-			 GfxFontType typeA, Dict *fontDict):
+             GfxFontType typeA, Dict *fontDict):
   GfxFont(tagA, idA, nameA)
 {
   GString *name2;
@@ -438,9 +438,9 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     i = 0;
     while (i < name2->getLength()) {
       if (name2->getChar(i) == ' ') {
-	name2->del(i);
+    name2->del(i);
       } else {
-	++i;
+    ++i;
       }
     }
     a = 0;
@@ -449,9 +449,9 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     while (b - a > 1) {
       m = (a + b) / 2;
       if (name2->cmp(stdFontMap[m].altName) >= 0) {
-	a = m;
+    a = m;
       } else {
-	b = m;
+    b = m;
       }
     }
     if (!name2->cmp(stdFontMap[a].altName)) {
@@ -465,8 +465,8 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
   if (name) {
     for (i = 0; i < nBuiltinFonts; ++i) {
       if (!name->cmp(builtinFonts[i].name)) {
-	builtinFont = &builtinFonts[i];
-	break;
+    builtinFont = &builtinFonts[i];
+    break;
       }
     }
   }
@@ -508,7 +508,7 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
   if (fontDict->lookup("FontMatrix", &obj1)->isArray()) {
     for (i = 0; i < 6 && i < obj1.arrayGetLength(); ++i) {
       if (obj1.arrayGet(i, &obj2)->isNum()) {
-	fontMat[i] = obj2.getNum();
+    fontMat[i] = obj2.getNum();
       }
       obj2.free();
     }
@@ -519,10 +519,10 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
   if (type == fontType3) {
     if (fontDict->lookup("FontBBox", &obj1)->isArray()) {
       for (i = 0; i < 4 && i < obj1.arrayGetLength(); ++i) {
-	if (obj1.arrayGet(i, &obj2)->isNum()) {
-	  fontBBox[i] = obj2.getNum();
-	}
-	obj2.free();
+    if (obj1.arrayGet(i, &obj2)->isNum()) {
+      fontBBox[i] = obj2.getNum();
+    }
+    obj2.free();
       }
     }
     obj1.free();
@@ -596,14 +596,14 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     }
     if (ffT1) {
       if (ffT1->getName()) {
-	if (embFontName) {
-	  delete embFontName;
-	}
-	embFontName = new GString(ffT1->getName());
+    if (embFontName) {
+      delete embFontName;
+    }
+    embFontName = new GString(ffT1->getName());
       }
       if (!baseEnc) {
-	baseEnc = ffT1->getEncoding();
-	baseEncFromFontFile = gTrue;
+    baseEnc = ffT1->getEncoding();
+    baseEncFromFontFile = gTrue;
       }
     }
   } else if (type == fontType1C && (extFontFile || embFontID.num >= 0)) {
@@ -615,14 +615,14 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     }
     if (ffT1C) {
       if (ffT1C->getName()) {
-	if (embFontName) {
-	  delete embFontName;
-	}
-	embFontName = new GString(ffT1C->getName());
+    if (embFontName) {
+      delete embFontName;
+    }
+    embFontName = new GString(ffT1C->getName());
       }
       if (!baseEnc) {
-	baseEnc = ffT1C->getEncoding();
-	baseEncFromFontFile = gTrue;
+    baseEnc = ffT1C->getEncoding();
+    baseEncFromFontFile = gTrue;
       }
     }
   }
@@ -658,8 +658,8 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
       baseEncFromFontFile) {
     for (i = 0; i < 256; ++i) {
       if (!enc[i] && standardEncoding[i]) {
-	enc[i] = standardEncoding[i];
-	encFree[i] = gFalse;
+    enc[i] = standardEncoding[i];
+    encFree[i] = gFalse;
       }
     }
   }
@@ -671,23 +671,23 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
       hasEncoding = gTrue;
       code = 0;
       for (i = 0; i < obj2.arrayGetLength(); ++i) {
-	obj2.arrayGet(i, &obj3);
-	if (obj3.isInt()) {
-	  code = obj3.getInt();
-	} else if (obj3.isName()) {
-	  if (code >= 0 && code < 256) {
-	    if (encFree[code]) {
-	      gfree(enc[code]);
-	    }
-	    enc[code] = copyString(obj3.getName());
-	    encFree[code] = gTrue;
-	  }
-	  ++code;
-	} else {
-	  error(-1, "Wrong type in font encoding resource differences (%s)",
-		obj3.getTypeName());
-	}
-	obj3.free();
+    obj2.arrayGet(i, &obj3);
+    if (obj3.isInt()) {
+      code = obj3.getInt();
+    } else if (obj3.isName()) {
+      if (code >= 0 && code < 256) {
+        if (encFree[code]) {
+          gfree(enc[code]);
+        }
+        enc[code] = copyString(obj3.getName());
+        encFree[code] = gTrue;
+      }
+      ++code;
+    } else {
+      error(-1, "Wrong type in font encoding resource differences (%s)",
+        obj3.getTypeName());
+    }
+    obj3.free();
       }
     }
     obj2.free();
@@ -707,26 +707,26 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
   for (code = 0; code < 256; ++code) {
     if ((charName = enc[code])) {
       if (!(toUnicode[code] = globalParams->mapNameToUnicode(charName)) &&
-	  strcmp(charName, ".notdef")) {
-	// if it wasn't in the name-to-Unicode table, check for a
-	// name that looks like 'Axx' or 'xx', where 'A' is any letter
-	// and 'xx' is two hex digits
-	if ((strlen(charName) == 3 &&
-	     isalpha(charName[0]) &&
-	     isxdigit(charName[1]) && isxdigit(charName[2]) &&
-	     ((charName[1] >= 'a' && charName[1] <= 'f') ||
-	      (charName[1] >= 'A' && charName[1] <= 'F') ||
-	      (charName[2] >= 'a' && charName[2] <= 'f') ||
-	      (charName[2] >= 'A' && charName[2] <= 'F'))) ||
-	    (strlen(charName) == 2 &&
-	     isxdigit(charName[0]) && isxdigit(charName[1]) &&
-	     ((charName[0] >= 'a' && charName[0] <= 'f') ||
-	      (charName[0] >= 'A' && charName[0] <= 'F') ||
-	      (charName[1] >= 'a' && charName[1] <= 'f') ||
-	      (charName[1] >= 'A' && charName[1] <= 'F')))) {
-	  hex = gTrue;
-	}
-	missing = gTrue;
+      strcmp(charName, ".notdef")) {
+    // if it wasn't in the name-to-Unicode table, check for a
+    // name that looks like 'Axx' or 'xx', where 'A' is any letter
+    // and 'xx' is two hex digits
+    if ((strlen(charName) == 3 &&
+         isalpha(charName[0]) &&
+         isxdigit(charName[1]) && isxdigit(charName[2]) &&
+         ((charName[1] >= 'a' && charName[1] <= 'f') ||
+          (charName[1] >= 'A' && charName[1] <= 'F') ||
+          (charName[2] >= 'a' && charName[2] <= 'f') ||
+          (charName[2] >= 'A' && charName[2] <= 'F'))) ||
+        (strlen(charName) == 2 &&
+         isxdigit(charName[0]) && isxdigit(charName[1]) &&
+         ((charName[0] >= 'a' && charName[0] <= 'f') ||
+          (charName[0] >= 'A' && charName[0] <= 'F') ||
+          (charName[1] >= 'a' && charName[1] <= 'f') ||
+          (charName[1] >= 'A' && charName[1] <= 'F')))) {
+      hex = gTrue;
+    }
+    missing = gTrue;
       }
     } else {
       toUnicode[code] = 0;
@@ -740,28 +740,28 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
   if (missing && globalParams->getMapNumericCharNames()) {
     for (code = 0; code < 256; ++code) {
       if ((charName = enc[code]) && !toUnicode[code] &&
-	  strcmp(charName, ".notdef")) {
-	n = strlen(charName);
-	code2 = -1;
-	if (hex && n == 3 && isalpha(charName[0]) &&
-	    isxdigit(charName[1]) && isxdigit(charName[2])) {
-	  sscanf(charName+1, "%x", &code2);
-	} else if (hex && n == 2 &&
-		   isxdigit(charName[0]) && isxdigit(charName[1])) {
-	  sscanf(charName, "%x", &code2);
-	} else if (!hex && n >= 2 && n <= 4 &&
-		   isdigit(charName[0]) && isdigit(charName[1])) {
-	  code2 = atoi(charName);
-	} else if (n >= 3 && n <= 5 &&
-		   isdigit(charName[1]) && isdigit(charName[2])) {
-	  code2 = atoi(charName+1);
-	} else if (n >= 4 && n <= 6 &&
-		   isdigit(charName[2]) && isdigit(charName[3])) {
-	  code2 = atoi(charName+2);
-	}
-	if (code2 >= 0 && code2 <= 0xff) {
-	  toUnicode[code] = (Unicode)code2;
-	}
+      strcmp(charName, ".notdef")) {
+    n = strlen(charName);
+    code2 = -1;
+    if (hex && n == 3 && isalpha(charName[0]) &&
+        isxdigit(charName[1]) && isxdigit(charName[2])) {
+      sscanf(charName+1, "%x", &code2);
+    } else if (hex && n == 2 &&
+           isxdigit(charName[0]) && isxdigit(charName[1])) {
+      sscanf(charName, "%x", &code2);
+    } else if (!hex && n >= 2 && n <= 4 &&
+           isdigit(charName[0]) && isdigit(charName[1])) {
+      code2 = atoi(charName);
+    } else if (n >= 3 && n <= 5 &&
+           isdigit(charName[1]) && isdigit(charName[2])) {
+      code2 = atoi(charName+1);
+    } else if (n >= 4 && n <= 6 &&
+           isdigit(charName[2]) && isdigit(charName[3])) {
+      code2 = atoi(charName+2);
+    }
+    if (code2 >= 0 && code2 <= 0xff) {
+      toUnicode[code] = (Unicode)code2;
+    }
       }
     }
 
@@ -770,7 +770,7 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
   } else if (missing && globalParams->getMapUnknownCharNames()) {
     for (code = 0; code < 256; ++code) {
       if (!toUnicode[code]) {
-	toUnicode[code] = code;
+    toUnicode[code] = code;
       }
     }
   }
@@ -793,10 +793,10 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     for (i = 0; i < 256; ++i) {
       n = ctu->mapToUnicode((CharCode)i, uBuf, 8);
       if (n >= 1) {
-	n = utu->mapToUnicode((CharCode)uBuf[0], uBuf, 8);
-	if (n >= 1) {
-	  ctu2->setMapping((CharCode)i, uBuf, n);
-	}
+    n = utu->mapToUnicode((CharCode)uBuf[0], uBuf, 8);
+    if (n >= 1) {
+      ctu2->setMapping((CharCode)i, uBuf, n);
+    }
       }
     }
     utu->decRefCnt();
@@ -834,10 +834,10 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     for (code = firstChar; code <= lastChar; ++code) {
       obj1.arrayGet(code - firstChar, &obj2);
       if (obj2.isNum()) {
-	widths[code] = obj2.getNum() * mul;
-	if (widths[code] != widths[firstChar]) {
-	  flags &= ~fontFixedWidth;
-	}
+    widths[code] = obj2.getNum() * mul;
+    if (widths[code] != widths[firstChar]) {
+      flags &= ~fontFixedWidth;
+    }
       }
       obj2.free();
     }
@@ -851,7 +851,7 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     }
     for (code = 0; code < 256; ++code) {
       if (enc[code] && builtinFont->widths->getWidth(enc[code], &w)) {
-	widths[code] = 0.001 * w;
+    widths[code] = 0.001 * w;
       }
     }
 
@@ -881,7 +881,7 @@ Gfx8BitFont::Gfx8BitFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     }
     for (code = 0; code < 256; ++code) {
       if (enc[code] && builtinFont->widths->getWidth(enc[code], &w)) {
-	widths[code] = 0.001 * w;
+    widths[code] = 0.001 * w;
       }
     }
   }
@@ -908,8 +908,8 @@ Gfx8BitFont::~Gfx8BitFont() {
 }
 
 int Gfx8BitFont::getNextChar(char *s, int len, CharCode *code,
-			     Unicode *u, int uSize, int *uLen,
-			     double *dx, double *dy, double *ox, double *oy) {
+                 Unicode *u, int uSize, int *uLen,
+                 double *dx, double *dy, double *ox, double *oy) {
   CharCode c;
 
   *code = c = (CharCode)(*s & 0xff);
@@ -968,7 +968,7 @@ Gushort *Gfx8BitFont::getCodeToGIDMap(FoFiTrueType *ff) {
     cmapPlatform = ff->getCmapPlatform(i);
     cmapEncoding = ff->getCmapEncoding(i);
     if ((cmapPlatform == 3 && cmapEncoding == 1) ||
-	cmapPlatform == 0) {
+    cmapPlatform == 0) {
       unicodeCmap = i;
     } else if (cmapPlatform == 1 && cmapEncoding == 0) {
       macRomanCmap = i;
@@ -1007,9 +1007,9 @@ Gushort *Gfx8BitFont::getCodeToGIDMap(FoFiTrueType *ff) {
   if (useMacRoman) {
     for (i = 0; i < 256; ++i) {
       if ((charName = enc[i])) {
-	if ((code = globalParams->getMacRomanCharCode(charName))) {
-	  map[i] = ff->mapCodeToGID(cmap, code);
-	}
+    if ((code = globalParams->getMacRomanCharCode(charName))) {
+      map[i] = ff->mapCodeToGID(cmap, code);
+    }
       }
     }
 
@@ -1017,9 +1017,9 @@ Gushort *Gfx8BitFont::getCodeToGIDMap(FoFiTrueType *ff) {
   } else if (useUnicode) {
     for (i = 0; i < 256; ++i) {
       if (((charName = enc[i]) &&
-	   (u = globalParams->mapNameToUnicode(charName))) ||
-	  (n = ctu->mapToUnicode((CharCode)i, &u, 1))) {
-	map[i] = ff->mapCodeToGID(cmap, u);
+       (u = globalParams->mapNameToUnicode(charName))) ||
+      (n = ctu->mapToUnicode((CharCode)i, &u, 1))) {
+    map[i] = ff->mapCodeToGID(cmap, u);
       }
     }
 
@@ -1028,7 +1028,7 @@ Gushort *Gfx8BitFont::getCodeToGIDMap(FoFiTrueType *ff) {
   } else {
     for (i = 0; i < 256; ++i) {
       if (!(map[i] = ff->mapCodeToGID(cmap, i))) {
-	map[i] = ff->mapCodeToGID(cmap, 0xf000 + i);
+    map[i] = ff->mapCodeToGID(cmap, 0xf000 + i);
       }
     }
   }
@@ -1075,7 +1075,7 @@ static int CDECL cmpWidthExcepV(const void *w1, const void *w2) {
 }
 
 GfxCIDFont::GfxCIDFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
-		       Dict *fontDict):
+               Dict *fontDict):
   GfxFont(tagA, idA, nameA)
 {
   Dict *desFontDict;
@@ -1127,7 +1127,7 @@ GfxCIDFont::GfxCIDFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     type = fontCIDType2;
   } else {
     error(-1, "Unknown Type 0 descendant font type '%s'",
-	  obj1.isName() ? obj1.getName() : "???");
+      obj1.isName() ? obj1.getName() : "???");
     goto err3;
   }
   obj1.free();
@@ -1162,14 +1162,14 @@ GfxCIDFont::GfxCIDFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
     // the "Adobe-Identity" and "Adobe-UCS" collections don't have
     // cidToUnicode files
     if (collection->cmp("Adobe-Identity") &&
-	collection->cmp("Adobe-UCS")) {
+    collection->cmp("Adobe-UCS")) {
 
       // look for a user-supplied .cidToUnicode file
       if (!(ctu = globalParams->getCIDToUnicode(collection))) {
-	error(-1, "Unknown character collection '%s'",
-	      collection->getCString());
-	// fall-through, assuming the Identity mapping -- this appears
-	// to match Adobe's behavior
+    error(-1, "Unknown character collection '%s'",
+          collection->getCString());
+    // fall-through, assuming the Identity mapping -- this appears
+    // to match Adobe's behavior
       }
     }
   }
@@ -1178,13 +1178,13 @@ GfxCIDFont::GfxCIDFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
   if (name && (utu = globalParams->getUnicodeToUnicode(name))) {
     if (ctu) {
       for (c = 0; c < ctu->getLength(); ++c) {
-	n = ctu->mapToUnicode(c, uBuf, 8);
-	if (n >= 1) {
-	  n = utu->mapToUnicode((CharCode)uBuf[0], uBuf, 8);
-	  if (n >= 1) {
-	    ctu->setMapping(c, uBuf, n);
-	  }
-	}
+    n = ctu->mapToUnicode(c, uBuf, 8);
+    if (n >= 1) {
+      n = utu->mapToUnicode((CharCode)uBuf[0], uBuf, 8);
+      if (n >= 1) {
+        ctu->setMapping(c, uBuf, n);
+      }
+    }
       }
       utu->decRefCnt();
     } else {
@@ -1204,7 +1204,7 @@ GfxCIDFont::GfxCIDFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
   obj1.free();
   if (!(cMap = globalParams->getCMap(collection, cMapName))) {
     error(-1, "Unknown CMap '%s' for character collection '%s'",
-	  cMapName->getCString(), collection->getCString());
+      cMapName->getCString(), collection->getCString());
     delete collection;
     delete cMapName;
     goto err2;
@@ -1221,12 +1221,12 @@ GfxCIDFont::GfxCIDFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
       cidToGID = (Gushort *)gmallocn(i, sizeof(Gushort));
       obj1.streamReset();
       while ((c1 = obj1.streamGetChar()) != EOF &&
-	     (c2 = obj1.streamGetChar()) != EOF) {
-	if (cidToGIDLen == i) {
-	  i *= 2;
-	  cidToGID = (Gushort *)greallocn(cidToGID, i, sizeof(Gushort));
-	}
-	cidToGID[cidToGIDLen++] = (Gushort)((c1 << 8) + c2);
+         (c2 = obj1.streamGetChar()) != EOF) {
+    if (cidToGIDLen == i) {
+      i *= 2;
+      cidToGID = (Gushort *)greallocn(cidToGID, i, sizeof(Gushort));
+    }
+    cidToGID[cidToGIDLen++] = (Gushort)((c1 << 8) + c2);
       }
     } else if (!obj1.isName("Identity") && !obj1.isNull()) {
       error(-1, "Invalid CIDToGIDMap entry in CID font");
@@ -1250,52 +1250,52 @@ GfxCIDFont::GfxCIDFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
       obj1.arrayGet(i, &obj2);
       obj1.arrayGet(i + 1, &obj3);
       if (obj2.isInt() && obj3.isInt() && i + 2 < obj1.arrayGetLength()) {
-	if (obj1.arrayGet(i + 2, &obj4)->isNum()) {
-	  if (widths.nExceps == excepsSize) {
-	    excepsSize += 16;
-	    widths.exceps = (GfxFontCIDWidthExcep *)
-	      greallocn(widths.exceps,
-			excepsSize, sizeof(GfxFontCIDWidthExcep));
-	  }
-	  widths.exceps[widths.nExceps].first = obj2.getInt();
-	  widths.exceps[widths.nExceps].last = obj3.getInt();
-	  widths.exceps[widths.nExceps].width = obj4.getNum() * 0.001;
-	  ++widths.nExceps;
-	} else {
-	  error(-1, "Bad widths array in Type 0 font");
-	}
-	obj4.free();
-	i += 3;
+    if (obj1.arrayGet(i + 2, &obj4)->isNum()) {
+      if (widths.nExceps == excepsSize) {
+        excepsSize += 16;
+        widths.exceps = (GfxFontCIDWidthExcep *)
+          greallocn(widths.exceps,
+            excepsSize, sizeof(GfxFontCIDWidthExcep));
+      }
+      widths.exceps[widths.nExceps].first = obj2.getInt();
+      widths.exceps[widths.nExceps].last = obj3.getInt();
+      widths.exceps[widths.nExceps].width = obj4.getNum() * 0.001;
+      ++widths.nExceps;
+    } else {
+      error(-1, "Bad widths array in Type 0 font");
+    }
+    obj4.free();
+    i += 3;
       } else if (obj2.isInt() && obj3.isArray()) {
-	if (widths.nExceps + obj3.arrayGetLength() > excepsSize) {
-	  excepsSize = (widths.nExceps + obj3.arrayGetLength() + 15) & ~15;
-	  widths.exceps = (GfxFontCIDWidthExcep *)
-	    greallocn(widths.exceps,
-		      excepsSize, sizeof(GfxFontCIDWidthExcep));
-	}
-	j = obj2.getInt();
-	for (k = 0; k < obj3.arrayGetLength(); ++k) {
-	  if (obj3.arrayGet(k, &obj4)->isNum()) {
-	    widths.exceps[widths.nExceps].first = j;
-	    widths.exceps[widths.nExceps].last = j;
-	    widths.exceps[widths.nExceps].width = obj4.getNum() * 0.001;
-	    ++j;
-	    ++widths.nExceps;
-	  } else {
-	    error(-1, "Bad widths array in Type 0 font");
-	  }
-	  obj4.free();
-	}
-	i += 2;
+    if (widths.nExceps + obj3.arrayGetLength() > excepsSize) {
+      excepsSize = (widths.nExceps + obj3.arrayGetLength() + 15) & ~15;
+      widths.exceps = (GfxFontCIDWidthExcep *)
+        greallocn(widths.exceps,
+              excepsSize, sizeof(GfxFontCIDWidthExcep));
+    }
+    j = obj2.getInt();
+    for (k = 0; k < obj3.arrayGetLength(); ++k) {
+      if (obj3.arrayGet(k, &obj4)->isNum()) {
+        widths.exceps[widths.nExceps].first = j;
+        widths.exceps[widths.nExceps].last = j;
+        widths.exceps[widths.nExceps].width = obj4.getNum() * 0.001;
+        ++j;
+        ++widths.nExceps;
       } else {
-	error(-1, "Bad widths array in Type 0 font");
-	++i;
+        error(-1, "Bad widths array in Type 0 font");
+      }
+      obj4.free();
+    }
+    i += 2;
+      } else {
+    error(-1, "Bad widths array in Type 0 font");
+    ++i;
       }
       obj3.free();
       obj2.free();
     }
     qsort(widths.exceps, widths.nExceps, sizeof(GfxFontCIDWidthExcep),
-	  &cmpWidthExcep);
+      &cmpWidthExcep);
   }
   obj1.free();
 
@@ -1321,65 +1321,65 @@ GfxCIDFont::GfxCIDFont(XRef *xref, char *tagA, Ref idA, GString *nameA,
       obj1.arrayGet(i, &obj2);
       obj1.arrayGet(i+ 1, &obj3);
       if (obj2.isInt() && obj3.isInt() && i + 4 < obj1.arrayGetLength()) {
-	if (obj1.arrayGet(i + 2, &obj4)->isNum() &&
-	    obj1.arrayGet(i + 3, &obj5)->isNum() &&
-	    obj1.arrayGet(i + 4, &obj6)->isNum()) {
-	  if (widths.nExcepsV == excepsSize) {
-	    excepsSize += 16;
-	    widths.excepsV = (GfxFontCIDWidthExcepV *)
-	      greallocn(widths.excepsV,
-			excepsSize, sizeof(GfxFontCIDWidthExcepV));
-	  }
-	  widths.excepsV[widths.nExcepsV].first = obj2.getInt();
-	  widths.excepsV[widths.nExcepsV].last = obj3.getInt();
-	  widths.excepsV[widths.nExcepsV].height = obj4.getNum() * 0.001;
-	  widths.excepsV[widths.nExcepsV].vx = obj5.getNum() * 0.001;
-	  widths.excepsV[widths.nExcepsV].vy = obj6.getNum() * 0.001;
-	  ++widths.nExcepsV;
-	} else {
-	  error(-1, "Bad widths (W2) array in Type 0 font");
-	}
-	obj6.free();
-	obj5.free();
-	obj4.free();
-	i += 5;
+    if (obj1.arrayGet(i + 2, &obj4)->isNum() &&
+        obj1.arrayGet(i + 3, &obj5)->isNum() &&
+        obj1.arrayGet(i + 4, &obj6)->isNum()) {
+      if (widths.nExcepsV == excepsSize) {
+        excepsSize += 16;
+        widths.excepsV = (GfxFontCIDWidthExcepV *)
+          greallocn(widths.excepsV,
+            excepsSize, sizeof(GfxFontCIDWidthExcepV));
+      }
+      widths.excepsV[widths.nExcepsV].first = obj2.getInt();
+      widths.excepsV[widths.nExcepsV].last = obj3.getInt();
+      widths.excepsV[widths.nExcepsV].height = obj4.getNum() * 0.001;
+      widths.excepsV[widths.nExcepsV].vx = obj5.getNum() * 0.001;
+      widths.excepsV[widths.nExcepsV].vy = obj6.getNum() * 0.001;
+      ++widths.nExcepsV;
+    } else {
+      error(-1, "Bad widths (W2) array in Type 0 font");
+    }
+    obj6.free();
+    obj5.free();
+    obj4.free();
+    i += 5;
       } else if (obj2.isInt() && obj3.isArray()) {
-	if (widths.nExcepsV + obj3.arrayGetLength() / 3 > excepsSize) {
-	  excepsSize =
-	    (widths.nExcepsV + obj3.arrayGetLength() / 3 + 15) & ~15;
-	  widths.excepsV = (GfxFontCIDWidthExcepV *)
-	    greallocn(widths.excepsV,
-		      excepsSize, sizeof(GfxFontCIDWidthExcepV));
-	}
-	j = obj2.getInt();
-	for (k = 0; k < obj3.arrayGetLength(); k += 3) {
-	  if (obj3.arrayGet(k, &obj4)->isNum() &&
-	      obj3.arrayGet(k+1, &obj5)->isNum() &&
-	      obj3.arrayGet(k+2, &obj6)->isNum()) {
-	    widths.excepsV[widths.nExceps].first = j;
-	    widths.excepsV[widths.nExceps].last = j;
-	    widths.excepsV[widths.nExceps].height = obj4.getNum() * 0.001;
-	    widths.excepsV[widths.nExceps].vx = obj5.getNum() * 0.001;
-	    widths.excepsV[widths.nExceps].vy = obj6.getNum() * 0.001;
-	    ++j;
-	    ++widths.nExcepsV;
-	  } else {
-	    error(-1, "Bad widths (W2) array in Type 0 font");
-	  }
-	  obj6.free();
-	  obj5.free();
-	  obj4.free();
-	}
-	i += 2;
+    if (widths.nExcepsV + obj3.arrayGetLength() / 3 > excepsSize) {
+      excepsSize =
+        (widths.nExcepsV + obj3.arrayGetLength() / 3 + 15) & ~15;
+      widths.excepsV = (GfxFontCIDWidthExcepV *)
+        greallocn(widths.excepsV,
+              excepsSize, sizeof(GfxFontCIDWidthExcepV));
+    }
+    j = obj2.getInt();
+    for (k = 0; k < obj3.arrayGetLength(); k += 3) {
+      if (obj3.arrayGet(k, &obj4)->isNum() &&
+          obj3.arrayGet(k+1, &obj5)->isNum() &&
+          obj3.arrayGet(k+2, &obj6)->isNum()) {
+        widths.excepsV[widths.nExceps].first = j;
+        widths.excepsV[widths.nExceps].last = j;
+        widths.excepsV[widths.nExceps].height = obj4.getNum() * 0.001;
+        widths.excepsV[widths.nExceps].vx = obj5.getNum() * 0.001;
+        widths.excepsV[widths.nExceps].vy = obj6.getNum() * 0.001;
+        ++j;
+        ++widths.nExcepsV;
       } else {
-	error(-1, "Bad widths (W2) array in Type 0 font");
-	++i;
+        error(-1, "Bad widths (W2) array in Type 0 font");
+      }
+      obj6.free();
+      obj5.free();
+      obj4.free();
+    }
+    i += 2;
+      } else {
+    error(-1, "Bad widths (W2) array in Type 0 font");
+    ++i;
       }
       obj3.free();
       obj2.free();
     }
     qsort(widths.excepsV, widths.nExcepsV, sizeof(GfxFontCIDWidthExcepV),
-	  &cmpWidthExcepV);
+      &cmpWidthExcepV);
   }
   obj1.free();
 
@@ -1412,8 +1412,8 @@ GfxCIDFont::~GfxCIDFont() {
 }
 
 int GfxCIDFont::getNextChar(char *s, int len, CharCode *code,
-			    Unicode *u, int uSize, int *uLen,
-			    double *dx, double *dy, double *ox, double *oy) {
+                Unicode *u, int uSize, int *uLen,
+                double *dx, double *dy, double *ox, double *oy) {
   CID cid;
   double w, h, vx, vy;
   int n, a, b, m;
@@ -1441,15 +1441,15 @@ int GfxCIDFont::getNextChar(char *s, int len, CharCode *code,
       b = widths.nExceps;
       // invariant: widths.exceps[a].first <= cid < widths.exceps[b].first
       while (b - a > 1) {
-	m = (a + b) / 2;
-	if (widths.exceps[m].first <= cid) {
-	  a = m;
-	} else {
-	  b = m;
-	}
+    m = (a + b) / 2;
+    if (widths.exceps[m].first <= cid) {
+      a = m;
+    } else {
+      b = m;
+    }
       }
       if (cid <= widths.exceps[a].last) {
-	w = widths.exceps[a].width;
+    w = widths.exceps[a].width;
       }
     }
 
@@ -1464,17 +1464,17 @@ int GfxCIDFont::getNextChar(char *s, int len, CharCode *code,
       b = widths.nExcepsV;
       // invariant: widths.excepsV[a].first <= cid < widths.excepsV[b].first
       while (b - a > 1) {
-	m = (a + b) / 2;
-	if (widths.excepsV[m].last <= cid) {
-	  a = m;
-	} else {
-	  b = m;
-	}
+    m = (a + b) / 2;
+    if (widths.excepsV[m].last <= cid) {
+      a = m;
+    } else {
+      b = m;
+    }
       }
       if (cid <= widths.excepsV[a].last) {
-	h = widths.excepsV[a].height;
-	vx = widths.excepsV[a].vx;
-	vy = widths.excepsV[a].vy;
+    h = widths.excepsV[a].height;
+    vx = widths.excepsV[a].vx;
+    vy = widths.excepsV[a].vy;
       }
     }
   }
@@ -1518,23 +1518,23 @@ GfxFontDict::GfxFontDict(XRef *xref, Ref *fontDictRef, Dict *fontDict) {
     obj1.fetch(xref, &obj2);
     if (obj2.isDict()) {
       if (obj1.isRef()) {
-	r = obj1.getRef();
+    r = obj1.getRef();
       } else {
-	// no indirect reference for this font, so invent a unique one
-	// (legal generation numbers are five digits, so any 6-digit
-	// number would be safe)
-	r.num = i;
-	if (fontDictRef) {
-	  r.gen = 100000 + fontDictRef->num;
-	} else {
-	  r.gen = 999999;
-	}
+    // no indirect reference for this font, so invent a unique one
+    // (legal generation numbers are five digits, so any 6-digit
+    // number would be safe)
+    r.num = i;
+    if (fontDictRef) {
+      r.gen = 100000 + fontDictRef->num;
+    } else {
+      r.gen = 999999;
+    }
       }
       fonts[i] = GfxFont::makeFont(xref, fontDict->getKey(i),
-				   r, obj2.getDict());
+                   r, obj2.getDict());
       if (fonts[i] && !fonts[i]->isOk()) {
-	delete fonts[i];
-	fonts[i] = NULL;
+    delete fonts[i];
+    fonts[i] = NULL;
       }
     } else {
       error(-1, "font resource is not a dictionary");

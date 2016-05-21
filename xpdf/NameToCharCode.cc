@@ -62,13 +62,13 @@ void NameToCharCode::add(char *name, CharCode c) {
     }
     for (i = 0; i < oldSize; ++i) {
       if (oldTab[i].name) {
-	h = hash(oldTab[i].name);
-	while (tab[h].name) {
-	  if (++h == size) {
-	    h = 0;
-	  }
-	}
-	tab[h] = oldTab[i];
+    h = hash(oldTab[i].name);
+    while (tab[h].name) {
+      if (++h == size) {
+        h = 0;
+      }
+    }
+    tab[h] = oldTab[i];
       }
     }
     gfree(oldTab);

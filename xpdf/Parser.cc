@@ -37,8 +37,8 @@ Parser::~Parser() {
 }
 
 Object *Parser::getObj(Object *obj, Guchar *fileKey,
-		       CryptAlgorithm encAlgorithm, int keyLength,
-		       int objNum, int objGen) {
+               CryptAlgorithm encAlgorithm, int keyLength,
+               int objNum, int objGen) {
   char *key;
   Stream *str;
   Object obj2;
@@ -62,7 +62,7 @@ Object *Parser::getObj(Object *obj, Guchar *fileKey,
     obj->initArray(xref);
     while (!buf1.isCmd("]") && !buf1.isEOF())
       obj->arrayAdd(getObj(&obj2, fileKey, encAlgorithm, keyLength,
-			   objNum, objGen));
+               objNum, objGen));
     if (buf1.isEOF())
       error(getPos(), "End of file inside array");
     shift();
@@ -73,17 +73,17 @@ Object *Parser::getObj(Object *obj, Guchar *fileKey,
     obj->initDict(xref);
     while (!buf1.isCmd(">>") && !buf1.isEOF()) {
       if (!buf1.isName()) {
-	error(getPos(), "Dictionary key must be a name object");
-	shift();
+    error(getPos(), "Dictionary key must be a name object");
+    shift();
       } else {
-	key = copyString(buf1.getName());
-	shift();
-	if (buf1.isEOF() || buf1.isError()) {
-	  gfree(key);
-	  break;
-	}
-	obj->dictAdd(key, getObj(&obj2, fileKey, encAlgorithm, keyLength,
-				 objNum, objGen));
+    key = copyString(buf1.getName());
+    shift();
+    if (buf1.isEOF() || buf1.isError()) {
+      gfree(key);
+      break;
+    }
+    obj->dictAdd(key, getObj(&obj2, fileKey, encAlgorithm, keyLength,
+                 objNum, objGen));
       }
     }
     if (buf1.isEOF())
@@ -92,11 +92,11 @@ Object *Parser::getObj(Object *obj, Guchar *fileKey,
     // object streams
     if (allowStreams && buf2.isCmd("stream")) {
       if ((str = makeStream(obj, fileKey, encAlgorithm, keyLength,
-			    objNum, objGen))) {
-	obj->initStream(str);
+                objNum, objGen))) {
+    obj->initStream(str);
       } else {
-	obj->free();
-	obj->initError();
+    obj->free();
+    obj->initError();
       }
     } else {
       shift();
@@ -120,9 +120,9 @@ Object *Parser::getObj(Object *obj, Guchar *fileKey,
     s2 = new GString();
     obj2.initNull();
     decrypt = new DecryptStream(new MemStream(s->getCString(), 0,
-					      s->getLength(), &obj2),
-				fileKey, encAlgorithm, keyLength,
-				objNum, objGen);
+                          s->getLength(), &obj2),
+                fileKey, encAlgorithm, keyLength,
+                objNum, objGen);
     decrypt->reset();
     while ((c = decrypt->getChar()) != EOF) {
       s2->append((char)c);
@@ -141,8 +141,8 @@ Object *Parser::getObj(Object *obj, Guchar *fileKey,
 }
 
 Stream *Parser::makeStream(Object *dict, Guchar *fileKey,
-			   CryptAlgorithm encAlgorithm, int keyLength,
-			   int objNum, int objGen) {
+               CryptAlgorithm encAlgorithm, int keyLength,
+               int objNum, int objGen) {
   Object obj;
   BaseStream *baseStr;
   Stream *str;
@@ -196,7 +196,7 @@ Stream *Parser::makeStream(Object *dict, Guchar *fileKey,
   // handle decryption
   if (fileKey) {
     str = new DecryptStream(str, fileKey, encAlgorithm, keyLength,
-			    objNum, objGen);
+                objNum, objGen);
   }
 
   // get filters
@@ -215,12 +215,12 @@ void Parser::shift() {
       inlineImg = 0;
     }
   } else if (buf2.isCmd("ID")) {
-    lexer->skipChar();		// skip char after 'ID' command
+    lexer->skipChar();        // skip char after 'ID' command
     inlineImg = 1;
   }
   buf1.free();
   buf1 = buf2;
-  if (inlineImg > 0)		// don't buffer inline image data
+  if (inlineImg > 0)        // don't buffer inline image data
     buf2.initNull();
   else
     lexer->getObj(&buf2);

@@ -41,7 +41,7 @@ void PreScanOutputDev::stroke(GfxState *state) {
   double dashStart;
 
   check(state->getStrokeColorSpace(), state->getStrokeColor(),
-	state->getStrokeOpacity(), state->getBlendMode());
+    state->getStrokeOpacity(), state->getBlendMode());
   state->getLineDash(&dash, &dashLen, &dashStart);
   if (dashLen != 0) {
     gdi = gFalse;
@@ -50,12 +50,12 @@ void PreScanOutputDev::stroke(GfxState *state) {
 
 void PreScanOutputDev::fill(GfxState *state) {
   check(state->getFillColorSpace(), state->getFillColor(),
-	state->getFillOpacity(), state->getBlendMode());
+    state->getFillOpacity(), state->getBlendMode());
 }
 
 void PreScanOutputDev::eoFill(GfxState *state) {
   check(state->getFillColorSpace(), state->getFillColor(),
-	state->getFillOpacity(), state->getBlendMode());
+    state->getFillOpacity(), state->getBlendMode());
 }
 
 void PreScanOutputDev::clip(GfxState *state) {
@@ -78,11 +78,11 @@ void PreScanOutputDev::beginStringOp(GfxState *state) {
   render = state->getRender();
   if (!(render & 1)) {
     check(state->getFillColorSpace(), state->getFillColor(),
-	  state->getFillOpacity(), state->getBlendMode());
+      state->getFillOpacity(), state->getBlendMode());
   }
   if ((render & 3) == 1 || (render & 3) == 2) {
     check(state->getStrokeColorSpace(), state->getStrokeColor(),
-	  state->getStrokeOpacity(), state->getBlendMode());
+      state->getStrokeOpacity(), state->getBlendMode());
   }
 
   font = state->getFont();
@@ -93,12 +93,12 @@ void PreScanOutputDev::beginStringOp(GfxState *state) {
               fabs(m21) < 0.01 &&
               fabs(state->getHorizScaling() - 1) < 0.001 &&
               (font->getType() == fontTrueType ||
-	       font->getType() == fontTrueTypeOT) &&
+           font->getType() == fontTrueTypeOT) &&
               (font->getEmbeddedFontID(&embRef) ||
-	       font->getExtFontFile() ||
-	       (font->getName() &&
-		(dfp = globalParams->getDisplayFont(font->getName())) &&
-		dfp->kind == displayFontTT));
+           font->getExtFontFile() ||
+           (font->getName() &&
+        (dfp = globalParams->getDisplayFont(font->getName())) &&
+        dfp->kind == displayFontTT));
   if (simpleTTF) {
     //~ need to create a FoFiTrueType object, and check for a Unicode cmap
   }
@@ -111,8 +111,8 @@ void PreScanOutputDev::endStringOp(GfxState *state) {
 }
 
 GBool PreScanOutputDev::beginType3Char(GfxState *state, double x, double y,
-				       double dx, double dy,
-				       CharCode code, Unicode *u, int uLen) {
+                       double dx, double dy,
+                       CharCode code, Unicode *u, int uLen) {
   // return false so all Type 3 chars get rendered (no caching)
   return gFalse;
 }
@@ -121,12 +121,12 @@ void PreScanOutputDev::endType3Char(GfxState *state) {
 }
 
 void PreScanOutputDev::drawImageMask(GfxState *state, Object *ref, Stream *str,
-				     int width, int height, GBool invert,
-				     GBool inlineImg) {
+                     int width, int height, GBool invert,
+                     GBool inlineImg) {
   int i, j;
 
   check(state->getFillColorSpace(), state->getFillColor(),
-	state->getFillOpacity(), state->getBlendMode());
+    state->getFillOpacity(), state->getBlendMode());
   gdi = gFalse;
 
   if (inlineImg) {
@@ -139,9 +139,9 @@ void PreScanOutputDev::drawImageMask(GfxState *state, Object *ref, Stream *str,
 }
 
 void PreScanOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
-				 int width, int height,
-				 GfxImageColorMap *colorMap,
-				 int *maskColors, GBool inlineImg) {
+                 int width, int height,
+                 GfxImageColorMap *colorMap,
+                 int *maskColors, GBool inlineImg) {
   GfxColorSpace *colorSpace;
   int i, j;
 
@@ -162,7 +162,7 @@ void PreScanOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
   if (inlineImg) {
     str->reset();
     j = height * ((width * colorMap->getNumPixelComps() *
-		   colorMap->getBits() + 7) / 8);
+           colorMap->getBits() + 7) / 8);
     for (i = 0; i < j; ++i)
       str->getChar();
     str->close();
@@ -170,12 +170,12 @@ void PreScanOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
 }
 
 void PreScanOutputDev::drawMaskedImage(GfxState *state, Object *ref,
-				       Stream *str,
-				       int width, int height,
-				       GfxImageColorMap *colorMap,
-				       Stream *maskStr,
-				       int maskWidth, int maskHeight,
-				       GBool maskInvert) {
+                       Stream *str,
+                       int width, int height,
+                       GfxImageColorMap *colorMap,
+                       Stream *maskStr,
+                       int maskWidth, int maskHeight,
+                       GBool maskInvert) {
   GfxColorSpace *colorSpace;
 
   colorSpace = colorMap->getColorSpace();
@@ -194,12 +194,12 @@ void PreScanOutputDev::drawMaskedImage(GfxState *state, Object *ref,
 }
 
 void PreScanOutputDev::drawSoftMaskedImage(GfxState *state, Object *ref,
-					   Stream *str,
-					   int width, int height,
-					   GfxImageColorMap *colorMap,
-					   Stream *maskStr,
-					   int maskWidth, int maskHeight,
-					   GfxImageColorMap *maskColorMap) {
+                       Stream *str,
+                       int width, int height,
+                       GfxImageColorMap *colorMap,
+                       Stream *maskStr,
+                       int maskWidth, int maskHeight,
+                       GfxImageColorMap *maskColorMap) {
   GfxColorSpace *colorSpace;
 
   colorSpace = colorMap->getColorSpace();
@@ -216,16 +216,16 @@ void PreScanOutputDev::drawSoftMaskedImage(GfxState *state, Object *ref,
 }
 
 void PreScanOutputDev::beginTransparencyGroup(
-			   GfxState *state, double *bbox,
-			   GfxColorSpace *blendingColorSpace,
-			   GBool isolated, GBool knockout,
-			   GBool forSoftMask) {
+               GfxState *state, double *bbox,
+               GfxColorSpace *blendingColorSpace,
+               GBool isolated, GBool knockout,
+               GBool forSoftMask) {
   transparency = gTrue;
   gdi = gFalse;
 }
 
 void PreScanOutputDev::check(GfxColorSpace *colorSpace, GfxColor *color,
-			     double opacity, GfxBlendMode blendMode) {
+                 double opacity, GfxBlendMode blendMode) {
   GfxRGB rgb;
 
   if (colorSpace->getMode() == csPattern) {
@@ -238,9 +238,9 @@ void PreScanOutputDev::check(GfxColorSpace *colorSpace, GfxColor *color,
       mono = gFalse;
       gray = gFalse;
     } else if (!((rgb.r == 0 && rgb.g == 0 && rgb.b == 0) ||
-		 (rgb.r == gfxColorComp1 &&
-		  rgb.g == gfxColorComp1 &&
-		  rgb.b == gfxColorComp1))) {
+         (rgb.r == gfxColorComp1 &&
+          rgb.g == gfxColorComp1 &&
+          rgb.b == gfxColorComp1))) {
       mono = gFalse;
     }
   }

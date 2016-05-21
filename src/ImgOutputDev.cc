@@ -123,7 +123,7 @@ HtmlString::~HtmlString() {
 }
 
 void HtmlString::addChar(GfxState *state, double x, double y,
-			 double dx, double dy, Unicode u) {
+             double dx, double dy, Unicode u) {
     
   if ( !showHidden && (state->getRender() & 3) == 3) {
     return;
@@ -215,15 +215,15 @@ void HtmlPage::updateFont(GfxState *state) {
     // subset that doesn't contain 'm').
     for (code = 0; code < 256; ++code) {
       if ((name = ((Gfx8BitFont *)font)->getCharName(code)) &&
-	  name[0] == 'm' && name[1] == '\0') {
-	break;
+      name[0] == 'm' && name[1] == '\0') {
+    break;
       }
     }
     if (code < 256) {
       w = ((Gfx8BitFont *)font)->getWidth(code);
       if (w != 0) {
-	// 600 is a generic average 'm' width -- yes, this is a hack
-	fontSize *= w / 0.6;
+    // 600 is a generic average 'm' width -- yes, this is a hack
+    fontSize *= w / 0.6;
       }
     }
     fm = font->getFontMatrix();
@@ -265,8 +265,8 @@ void HtmlPage::conv(){
 
 
 void HtmlPage::addChar(GfxState *state, double x, double y,
-		       double dx, double dy, 
-			double ox, double oy, Unicode *u, int uLen) {
+               double dx, double dy, 
+            double ox, double oy, Unicode *u, int uLen) {
 
   if ( !showHidden && (state->getRender() & 3) == 3) {
       return;
@@ -287,7 +287,7 @@ void HtmlPage::addChar(GfxState *state, double x, double y,
     beginString(state, NULL);
   }*/
   state->textTransformDelta(state->getCharSpace() * state->getHorizScaling(),
-			    0, &dx2, &dy2);
+                0, &dx2, &dy2);
   dx -= dx2;
   dy -= dy2;
   state->transformDelta(dx, dy, &w1, &h1);
@@ -305,14 +305,14 @@ void HtmlPage::addChar(GfxState *state, double x, double y,
 
   for (i = 0; i < uLen; ++i) 
   {
-	if (u[i] == ' ')
+    if (u[i] == ' ')
         {
-	    curStr->addChar(state, x1 + i*w1, y1 + i*h1, w1, h1, u[i]);
-	    endString();
-	    beginString(state, NULL);
-	}
+        curStr->addChar(state, x1 + i*w1, y1 + i*h1, w1, h1, u[i]);
+        endString();
+        beginString(state, NULL);
+    }
         else {
-	    curStr->addChar(state, x1 + i*w1, y1 + i*h1, w1, h1, u[i]); /* xyString  */
+        curStr->addChar(state, x1 + i*w1, y1 + i*h1, w1, h1, u[i]); /* xyString  */
         }
    }
 
@@ -397,8 +397,8 @@ void HtmlPage::coalesce() {
 #if 0 //~ for debugging
   for (str1 = yxStrings; str1; str1 = str1->yxNext) {
     printf("x=%f..%f  y=%f..%f  size=%2d '",
-	   str1->xMin, str1->xMax, str1->yMin, str1->yMax,
-	   (int)(str1->yMax - str1->yMin));
+       str1->xMin, str1->xMax, str1->yMin, str1->yMax,
+       (int)(str1->yMax - str1->yMin));
     for (i = 0; i < str1->len; ++i) {
       fputc(str1->text[i] & 0xff, stdout);
     }
@@ -476,9 +476,9 @@ void HtmlPage::coalesce() {
               
         str1->size = (n + 15) & ~15;
         str1->text = (Unicode *)grealloc(str1->text,
-				       str1->size * sizeof(Unicode));   
+                       str1->size * sizeof(Unicode));   
         str1->xRight = (double *)grealloc(str1->xRight,
-					str1->size * sizeof(double));
+                    str1->size * sizeof(double));
         
         if (addSpace) {
             str1->text[str1->len] = 0x20;
@@ -489,73 +489,73 @@ void HtmlPage::coalesce() {
             ++str1->strSize;
             
             str1->xMin = curX; str1->yMin = curY; 
-	        str1 = str2;
-	        curX = str1->xMin; curY = str1->yMin;
-	        hfont1 = hfont2;
-	
-	        if( str1->getLink() != NULL ) {
-	            GString *ls = str1->getLink()->getLinkStart();
-	            str1->htext->insert(0, ls);
-	            delete ls;
-	        }
+            str1 = str2;
+            curX = str1->xMin; curY = str1->yMin;
+            hfont1 = hfont2;
+    
+            if( str1->getLink() != NULL ) {
+                GString *ls = str1->getLink()->getLinkStart();
+                str1->htext->insert(0, ls);
+                delete ls;
+            }
         }else{
-	        str1->htext2->append(str2->htext2);
-	
-	        XmlLink *hlink1 = str1->getLink();
-	        XmlLink *hlink2 = str2->getLink();
-	
-	        for (i = 0; i < str2->len; ++i) {
-	            str1->text[str1->len] = str2->text[i];
-	            str1->xRight[str1->len] = str2->xRight[i];
-	            ++str1->len;
-	        }
-	
-	        if( !hlink1 || !hlink2 || !hlink1->isEqualDest(*hlink2) ) {
-	            
-	            if(hlink1 != NULL ){
-	                //str1->htext->append("\"]");
-	            }
-	            if(hlink2 != NULL ) {
-	                GString *ls = hlink2->getLinkStart();
-	                str1->htext->append(ls);
-	                delete ls;
-	            }
-	        }
-	
-	        str1->htext->append(str2->htext);
-	        sSize = str1->htext2->getLength();      
-	        pxSize = xoutRoundLower(hfont1->getSize()/scale);
-	        strSize = (pxSize*(sSize-2));   
-	        cspace = (diff / strSize);//(strSize-pxSize));
-	        // we check if the fonts are the same and create a new font to ajust the text
-	        //      double diff = str2->xMin - str1->xMin;
-	        //      printf("%s\n",str1->htext2->getCString());
-	        // str1 now contains href for link of str2 (if it is defined)
-	        str1->link = str2->link; 
-	
-	        //XmlFont *newfnt = new XmlFont(*hfont1);
-	        //newfnt->setCharSpace(cspace);
-	        //newfnt->setLineSize(curLineSize);
-	        //str1->fontpos = fonts->AddFont(*newfnt);
-	        //delete newfnt;
-	        hfont1 = getFont(str1);
-	        // we have to reget hfont2 because it's location could have
-	        // changed on resize  GStri;ng *iStr=GString::fromInt(i);
-	        hfont2 = getFont(str2); 
-	
-	        hfont1 = hfont2;
-	
-	        if (str2->xMax > str1->xMax) {
-	            str1->xMax = str2->xMax;
-	        }
-	        
-	        if (str2->yMax > str1->yMax) {
-	            str1->yMax = str2->yMax;
-	        }
-	
-	        str1->yxNext = str2->yxNext;
-	
-	        delete str2;
+            str1->htext2->append(str2->htext2);
+    
+            XmlLink *hlink1 = str1->getLink();
+            XmlLink *hlink2 = str2->getLink();
+    
+            for (i = 0; i < str2->len; ++i) {
+                str1->text[str1->len] = str2->text[i];
+                str1->xRight[str1->len] = str2->xRight[i];
+                ++str1->len;
+            }
+    
+            if( !hlink1 || !hlink2 || !hlink1->isEqualDest(*hlink2) ) {
+                
+                if(hlink1 != NULL ){
+                    //str1->htext->append("\"]");
+                }
+                if(hlink2 != NULL ) {
+                    GString *ls = hlink2->getLinkStart();
+                    str1->htext->append(ls);
+                    delete ls;
+                }
+            }
+    
+            str1->htext->append(str2->htext);
+            sSize = str1->htext2->getLength();      
+            pxSize = xoutRoundLower(hfont1->getSize()/scale);
+            strSize = (pxSize*(sSize-2));   
+            cspace = (diff / strSize);//(strSize-pxSize));
+            // we check if the fonts are the same and create a new font to ajust the text
+            //      double diff = str2->xMin - str1->xMin;
+            //      printf("%s\n",str1->htext2->getCString());
+            // str1 now contains href for link of str2 (if it is defined)
+            str1->link = str2->link; 
+    
+            //XmlFont *newfnt = new XmlFont(*hfont1);
+            //newfnt->setCharSpace(cspace);
+            //newfnt->setLineSize(curLineSize);
+            //str1->fontpos = fonts->AddFont(*newfnt);
+            //delete newfnt;
+            hfont1 = getFont(str1);
+            // we have to reget hfont2 because it's location could have
+            // changed on resize  GStri;ng *iStr=GString::fromInt(i);
+            hfont2 = getFont(str2); 
+    
+            hfont1 = hfont2;
+    
+            if (str2->xMax > str1->xMax) {
+                str1->xMax = str2->xMax;
+            }
+            
+            if (str2->yMax > str1->yMax) {
+                str1->yMax = str2->yMax;
+            }
+    
+            str1->yxNext = str2->yxNext;
+    
+            delete str2;
         }
     } else { 
 
@@ -587,8 +587,8 @@ void HtmlPage::coalesce() {
 #if 0 //~ for debugging
   for (str1 = yxStrings; str1; str1 = str1->yxNext) {
     printf("x=%3d..%3d  y=%3d..%3d  size=%2d ",
-	   (int)str1->xMin, (int)str1->xMax, (int)str1->yMin, (int)str1->yMax,
-	   (int)(str1->yMax - str1->yMin));
+       (int)str1->xMin, (int)str1->xMax, (int)str1->yMin, (int)str1->yMax,
+       (int)(str1->yMax - str1->yMin));
     printf("'%s'\n", str1->htext->getCString());  
   }
   printf("\n-end--------------------------------------------------------\n\n");
@@ -602,7 +602,7 @@ void HtmlPage::dumpAsXML(FILE* f,int page, GBool passedFirstPage, int totalPages
     printf("");
   if(textAsJSON){
     if(passedFirstPage){
-	fprintf(f, ",");
+    fprintf(f, ",");
     }
     fprintf(f, "{\"number\":%d,\"pages\":%d,\"height\":%d,\"width\":%d,", page,totalPages,pageHeight,pageWidth);
   }else{ 
@@ -636,11 +636,11 @@ void HtmlPage::dumpAsXML(FILE* f,int page, GBool passedFirstPage, int totalPages
       str=new GString(tmp->htext);
       
       if(!compressData){
-	      if(textAsJSON){      
+          if(textAsJSON){      
               if(passedFirst){
                   fprintf(f,",");
               }
-              fprintf(f,"{\"top\":%d,\"left\":%d,",xoutRound(tmp->yMin+this->movey),xoutRound(tmp->xMin+this->movex));	
+              fprintf(f,"{\"top\":%d,\"left\":%d,",xoutRound(tmp->yMin+this->movey),xoutRound(tmp->xMin+this->movex));    
               fprintf(f,"\"width\":%d,\"height\":%d,",xoutRound(tmp->xMax-tmp->xMin),xoutRound(tmp->yMax-tmp->yMin));
               fprintf(f,"\"font\":%d,\"data\":\"", tmp->fontpos);
               if (tmp->fontpos!=-1){
@@ -650,7 +650,7 @@ void HtmlPage::dumpAsXML(FILE* f,int page, GBool passedFirstPage, int totalPages
               fprintf(f,"\"}");
               //fprintf(f,"\"}");
               passedFirst = true;
-	      }else{
+          }else{
               fprintf(f,"<text top=\"%d\" left=\"%d\" ",xoutRound(tmp->yMin+this->movey),xoutRound(tmp->xMin+this->movey));
               fprintf(f,"width=\"%d\" height=\"%d\" ",xoutRound(tmp->xMax-tmp->xMin),xoutRound(tmp->yMax-tmp->yMin));
               fprintf(f,"font=\"%d\">", tmp->fontpos);
@@ -661,20 +661,20 @@ void HtmlPage::dumpAsXML(FILE* f,int page, GBool passedFirstPage, int totalPages
               delete str;
               delete str1;
               fputs("</text>\n",f);
-	      }
+          }
       }else{
-		if(textAsJSON){      
+        if(textAsJSON){      
             if(passedFirst){
               fprintf(f,",");
             }
           
-            //fprintf(f,"{\"t\":%d,\"l\":%d,",xoutRound(tmp->yMin),xoutRound(tmp->xMin));	
+            //fprintf(f,"{\"t\":%d,\"l\":%d,",xoutRound(tmp->yMin),xoutRound(tmp->xMin));    
             //fprintf(f,"\"w\":%d,\"h\":%d,",xoutRound(tmp->xMax-tmp->xMin),xoutRound(tmp->yMax-tmp->yMin));
             //fprintf(f,"\"f\":%d,\"d\":\"", tmp->fontpos);
-            fprintf(f,"[%d,%d,",xoutRound(tmp->yMin+this->movey),xoutRound(tmp->xMin+this->movex));	
+            fprintf(f,"[%d,%d,",xoutRound(tmp->yMin+this->movey),xoutRound(tmp->xMin+this->movex));    
             fprintf(f,"%d,%d,",xoutRound(tmp->xMax-tmp->xMin),xoutRound(tmp->yMax-tmp->yMin));
             fprintf(f,"%d,\"", tmp->fontpos);
-		  
+          
             if (tmp->fontpos!=-1){
                 str1=fonts->getCSStyle(tmp->fontpos, str);
             }
@@ -693,15 +693,15 @@ void HtmlPage::dumpAsXML(FILE* f,int page, GBool passedFirstPage, int totalPages
               delete str;
               delete str1;
               fputs("</t>\n",f);
-	      }
+          }
       }
     }
   }
 
   if(textAsJSON){
-  	fputs("]}",f);
+      fputs("]}",f);
   }else{
-  	fputs("</page>",f);
+      fputs("</page>",f);
   }
 }
 
@@ -751,7 +751,7 @@ void HtmlPage::setDocName(char *fname){
 
 void HtmlPage::updateCharSpace(GfxState *state)
 {
-	charspace = state->getCharSpace();
+    charspace = state->getCharSpace();
 }
 
 //------------------------------------------------------------------------
@@ -770,7 +770,7 @@ HtmlMetaVar::~HtmlMetaVar()
    delete content;
 } 
     
-GString* HtmlMetaVar::toString()	
+GString* HtmlMetaVar::toString()    
 {
     GString *result = new GString("<META name=\"");
     result->append(name);
@@ -795,18 +795,18 @@ char* ImgOutputDev::mapEncodingToHtml(GString* encoding)
     char* enc = encoding->getCString();
     for(int i = 0; HtmlEncodings[i][0] != NULL; i++)
     {
-	if( strcmp(enc, HtmlEncodings[i][0]) == 0 )
-	{
-	    return HtmlEncodings[i][1];
-	}
+    if( strcmp(enc, HtmlEncodings[i][0]) == 0 )
+    {
+        return HtmlEncodings[i][1];
+    }
     }
     return enc; 
 }
 
 ImgOutputDev::ImgOutputDev(char *fileName, char *title, 
-	char *author, char *keywords, char *subject, char *date,
-	char *extension,
-	GBool rawOrder, GBool textAsJSON, GBool compressData, int split, int firstPage, GBool outline, int numPages) 
+    char *author, char *keywords, char *subject, char *date,
+    char *extension,
+    GBool rawOrder, GBool textAsJSON, GBool compressData, int split, int firstPage, GBool outline, int numPages) 
 {
   char *htmlEncoding;
   this->numPages = numPages;
@@ -911,11 +911,11 @@ void ImgOutputDev::startPage(int pageNum, GfxState *state,double crop_x1, double
   if(!noframes)
   {
     if (fContentsFrame)
-	{
+    {
       if (complexMode)
-		fprintf(fContentsFrame,"<A href=\"%s-%d.html\"",str->getCString(),pageNum);
+        fprintf(fContentsFrame,"<A href=\"%s-%d.html\"",str->getCString(),pageNum);
       else 
-		fprintf(fContentsFrame,"<A href=\"%ss.html#%d\"",str->getCString(),pageNum);
+        fprintf(fContentsFrame,"<A href=\"%ss.html#%d\"",str->getCString(),pageNum);
       fprintf(fContentsFrame," target=\"contents\" >Page %d</a><br>\n",pageNum);
     }
   }
@@ -1052,9 +1052,9 @@ void ImgOutputDev::endString(GfxState *state) {
 }
 
 void ImgOutputDev::drawChar(GfxState *state, double x, double y,
-	      double dx, double dy,
-	      double originX, double originY,
-	      CharCode code, int nBytes, Unicode *u, int uLen) 
+          double dx, double dy,
+          double originX, double originY,
+          CharCode code, int nBytes, Unicode *u, int uLen) 
 {
   if ( !showHidden && (state->getRender() & 3) == 3) {
     return;
@@ -1064,8 +1064,8 @@ void ImgOutputDev::drawChar(GfxState *state, double x, double y,
 }
 
 void ImgOutputDev::drawImageMask(GfxState *state, Object *ref, Stream *str,
-			      int width, int height, GBool invert,
-			      GBool inlineImg) {
+                  int width, int height, GBool invert,
+                  GBool inlineImg) {
 
   int i, j;
 
@@ -1077,8 +1077,8 @@ void ImgOutputDev::drawImageMask(GfxState *state, Object *ref, Stream *str,
   FILE *f1;
   int c;
   
-  int x0, y0;			// top left corner of image
-  int w0, h0, w1, h1;		// size of image
+  int x0, y0;            // top left corner of image
+  int w0, h0, w1, h1;        // size of image
   double xt, yt, wt, ht;
   GBool rotate, xFlip, yFlip;
   GBool dither;
@@ -1155,14 +1155,14 @@ void ImgOutputDev::drawImageMask(GfxState *state, Object *ref, Stream *str,
 }
 
 void ImgOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
-			  int width, int height, GfxImageColorMap *colorMap,
-			  int *maskColors, GBool inlineImg) {
+              int width, int height, GfxImageColorMap *colorMap,
+              int *maskColors, GBool inlineImg) {
 
   int i, j;
 
   if (ignore||complexMode) {
     OutputDev::drawImage(state, ref, str, width, height, colorMap, 
-			 maskColors, inlineImg);
+             maskColors, inlineImg);
     return;
   }
 
@@ -1172,8 +1172,8 @@ void ImgOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
   GfxColor color;
   int c;
   
-  int x0, y0;			// top left corner of image
-  int w0, h0, w1, h1;		// size of image
+  int x0, y0;            // top left corner of image
+  int w0, h0, w1, h1;        // size of image
   double xt, yt, wt, ht;
   GBool rotate, xFlip, yFlip;
   GBool dither;
@@ -1250,7 +1250,7 @@ void ImgOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
   }
   else {
     OutputDev::drawImage(state, ref, str, width, height, colorMap,
-			 maskColors, inlineImg);
+             maskColors, inlineImg);
   }
 }
 
@@ -1275,7 +1275,7 @@ GString* ImgOutputDev::getLinkDest(Link *link,Catalog* catalog){
   switch(link->getAction()->getKind()) 
   {
       case actionGoTo:
-	  { 
+      { 
           GString* file=new GString("actionGoTo:");
           int page=1;
           LinkGoTo *ha=(LinkGoTo *)link->getAction();
@@ -1283,22 +1283,22 @@ GString* ImgOutputDev::getLinkDest(Link *link,Catalog* catalog){
           if (ha->getDest()==NULL) 
               dest=catalog->findDest(ha->getNamedDest());
           else if (ha->getNamedDest()!=NULL)
-          	  dest=catalog->findDest(ha->getNamedDest());
+                dest=catalog->findDest(ha->getNamedDest());
           else
-	      	  dest=ha->getDest()->copy();
-	      
+                dest=ha->getDest()->copy();
+          
           if (dest){ 
               if (dest->isPageRef()){
                   Ref pageref=dest->getPageRef();
                   page=catalog->findPage(pageref.num,pageref.gen);
               }
-	      else {
+          else {
               page=dest->getPageNum();
-	      }
+          }
 
-	      delete dest;
+          delete dest;
 
-	      GString *str=GString::fromInt(page);
+          GString *str=GString::fromInt(page);
           file->append(str);
           file->append(",");
               
@@ -1310,9 +1310,9 @@ GString* ImgOutputDev::getLinkDest(Link *link,Catalog* catalog){
           {
               return new GString();
           }
-	  }
+      }
       case actionGoToR:
-	  {
+      {
           LinkGoToR *ha=(LinkGoToR *) link->getAction();
           LinkDest *dest=NULL;
           int page=1;
@@ -1335,7 +1335,7 @@ GString* ImgOutputDev::getLinkDest(Link *link,Catalog* catalog){
             return file;
       }
       case actionURI:
-	  { 
+      { 
           LinkURI *ha=(LinkURI *) link->getAction();
           //GString* file=new GString(ha->getURI()->getCString());
           GString *file=new GString("actionURI");
@@ -1343,9 +1343,9 @@ GString* ImgOutputDev::getLinkDest(Link *link,Catalog* catalog){
           //file->append(ha->getURI()->getCString());
           // printf("uri : %s\n",file->getCString());
           return file;
-	  }
+      }
       case actionLaunch:
-	  {
+      {
           LinkLaunch *ha=(LinkLaunch *) link->getAction();
           GString* file=new GString(ha->getFileName()->getCString());
           if (printHtml) { 
@@ -1358,9 +1358,9 @@ GString* ImgOutputDev::getLinkDest(Link *link,Catalog* catalog){
     
               return file;     
           }
-	  }
+      }
       default:
-	  return new GString();
+      return new GString();
   }
 }
 
@@ -1379,14 +1379,14 @@ void ImgOutputDev::dumpMetaVars(FILE *file)
 
 GBool ImgOutputDev::dumpDocOutline(Catalog* catalog)
 { 
-	FILE * output;
-	GBool bClose = gFalse;
+    FILE * output;
+    GBool bClose = gFalse;
 
-	if (!ok || xml)
-    	return gFalse;
+    if (!ok || xml)
+        return gFalse;
 }
 
 void ImgOutputDev::updateCharSpace(GfxState *state)
 {
-	pages->updateCharSpace(state);
+    pages->updateCharSpace(state);
 }

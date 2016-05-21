@@ -749,8 +749,8 @@ static char *cmapProlog[] = {
 //------------------------------------------------------------------------
 
 struct PSSubstFont {
-  char *psName;			// PostScript name
-  double mWidth;		// width of 'm' character
+  char *psName;            // PostScript name
+  double mWidth;        // width of 'm' character
 };
 
 static char *psFonts[] = {
@@ -789,7 +789,7 @@ static PSSubstFont psSubstFonts[] = {
 // Info for 8-bit fonts
 struct PSFont8Info {
   Ref fontID;
-  Gushort *codeToGID;		// code-to-GID mapping for TrueType fonts
+  Gushort *codeToGID;        // code-to-GID mapping for TrueType fonts
 };
 
 // Encoding info for substitute 16-bit font
@@ -816,7 +816,7 @@ class PSOutCustomColor {
 public:
 
   PSOutCustomColor(double cA, double mA,
-		   double yA, double kA, GString *nameA);
+           double yA, double kA, GString *nameA);
   ~PSOutCustomColor();
 
   double c, m, y, k;
@@ -825,7 +825,7 @@ public:
 };
 
 PSOutCustomColor::PSOutCustomColor(double cA, double mA,
-				   double yA, double kA, GString *nameA) {
+                   double yA, double kA, GString *nameA) {
   c = cA;
   m = mA;
   y = yA;
@@ -852,7 +852,7 @@ class DeviceNRecoder: public FilterStream {
 public:
 
   DeviceNRecoder(Stream *strA, int widthA, int heightA,
-		 GfxImageColorMap *colorMapA);
+         GfxImageColorMap *colorMapA);
   virtual ~DeviceNRecoder();
   virtual StreamKind getKind() { return strWeird; }
   virtual void reset();
@@ -879,7 +879,7 @@ private:
 };
 
 DeviceNRecoder::DeviceNRecoder(Stream *strA, int widthA, int heightA,
-			       GfxImageColorMap *colorMapA):
+                   GfxImageColorMap *colorMapA):
     FilterStream(strA) {
   width = widthA;
   height = heightA;
@@ -901,7 +901,7 @@ DeviceNRecoder::~DeviceNRecoder() {
 
 void DeviceNRecoder::reset() {
   imgStr = new ImageStream(str, width, colorMap->getNumPixelComps(),
-			   colorMap->getBits());
+               colorMap->getBits());
   imgStr->reset();
 }
 
@@ -943,9 +943,9 @@ static void outputToFile(void *stream, char *data, int len) {
 }
 
 PSOutputDev::PSOutputDev(char *fileName, XRef *xrefA, Catalog *catalog,
-			 int firstPage, int lastPage, PSOutMode modeA,
-			 int imgLLXA, int imgLLYA, int imgURXA, int imgURYA,
-			 GBool manualCtrlA) {
+             int firstPage, int lastPage, PSOutMode modeA,
+             int imgLLXA, int imgLLYA, int imgURXA, int imgURYA,
+             GBool manualCtrlA) {
   FILE *f;
   PSFileType fileTypeA;
 
@@ -1002,10 +1002,10 @@ PSOutputDev::PSOutputDev(char *fileName, XRef *xrefA, Catalog *catalog,
 }
 
 PSOutputDev::PSOutputDev(PSOutputFunc outputFuncA, void *outputStreamA,
-			 XRef *xrefA, Catalog *catalog,
-			 int firstPage, int lastPage, PSOutMode modeA,
-			 int imgLLXA, int imgLLYA, int imgURXA, int imgURYA,
-			 GBool manualCtrlA) {
+             XRef *xrefA, Catalog *catalog,
+             int firstPage, int lastPage, PSOutMode modeA,
+             int imgLLXA, int imgLLYA, int imgURXA, int imgURYA,
+             GBool manualCtrlA) {
   underlayCbk = NULL;
   underlayCbkData = NULL;
   overlayCbk = NULL;
@@ -1030,10 +1030,10 @@ PSOutputDev::PSOutputDev(PSOutputFunc outputFuncA, void *outputStreamA,
 }
 
 void PSOutputDev::init(PSOutputFunc outputFuncA, void *outputStreamA,
-		       PSFileType fileTypeA, XRef *xrefA, Catalog *catalog,
-		       int firstPage, int lastPage, PSOutMode modeA,
-		       int imgLLXA, int imgLLYA, int imgURXA, int imgURYA,
-		       GBool manualCtrlA) {
+               PSFileType fileTypeA, XRef *xrefA, Catalog *catalog,
+               int firstPage, int lastPage, PSOutMode modeA,
+               int imgLLXA, int imgLLYA, int imgURXA, int imgURYA,
+               GBool manualCtrlA) {
   Page *page;
   PDFRectangle *box;
 
@@ -1120,9 +1120,9 @@ void PSOutputDev::init(PSOutputFunc outputFuncA, void *outputStreamA,
     // this check is needed in case the document has zero pages
     if (firstPage > 0 && firstPage <= catalog->getNumPages()) {
       writeHeader(firstPage, lastPage,
-		  catalog->getPage(firstPage)->getMediaBox(),
-		  catalog->getPage(firstPage)->getCropBox(),
-		  catalog->getPage(firstPage)->getRotate());
+          catalog->getPage(firstPage)->getMediaBox(),
+          catalog->getPage(firstPage)->getCropBox(),
+          catalog->getPage(firstPage)->getRotate());
     } else {
       box = new PDFRectangle(0, 0, 1, 1);
       writeHeader(firstPage, lastPage, box, box, 0);
@@ -1155,7 +1155,7 @@ PSOutputDev::~PSOutputDev() {
       writePS("%%Trailer\n");
       writeTrailer();
       if (mode != psModeForm) {
-	writePS("%%EOF\n");
+    writePS("%%EOF\n");
       }
     }
     if (fileType == psFile) {
@@ -1213,8 +1213,8 @@ PSOutputDev::~PSOutputDev() {
 }
 
 void PSOutputDev::writeHeader(int firstPage, int lastPage,
-			      PDFRectangle *mediaBox, PDFRectangle *cropBox,
-			      int pageRotate) {
+                  PDFRectangle *mediaBox, PDFRectangle *cropBox,
+                  int pageRotate) {
   Object info, obj1;
   double x1, y1, x2, y2;
 
@@ -1244,8 +1244,8 @@ void PSOutputDev::writeHeader(int firstPage, int lastPage,
   obj1.free();
   info.free();
   writePSFmt("%%LanguageLevel: {0:d}\n",
-	     (level == psLevel1 || level == psLevel1Sep) ? 1 :
-	     (level == psLevel2 || level == psLevel2Sep) ? 2 : 3);
+         (level == psLevel1 || level == psLevel1Sep) ? 1 :
+         (level == psLevel2 || level == psLevel2Sep) ? 2 : 3);
   if (level == psLevel1Sep || level == psLevel2Sep || level == psLevel3Sep) {
     writePS("%%DocumentProcessColors: (atend)\n");
     writePS("%%DocumentCustomColors: (atend)\n");
@@ -1255,7 +1255,7 @@ void PSOutputDev::writeHeader(int firstPage, int lastPage,
   switch (mode) {
   case psModePS:
     writePSFmt("%%DocumentMedia: plain {0:d} {1:d} 0 () ()\n",
-	       paperWidth, paperHeight);
+           paperWidth, paperHeight);
     writePSFmt("%%BoundingBox: 0 0 {0:d} {1:d}\n", paperWidth, paperHeight);
     writePSFmt("%%Pages: {0:d}\n", lastPage - firstPage + 1);
     writePS("%%EndComments\n");
@@ -1280,11 +1280,11 @@ void PSOutputDev::writeHeader(int firstPage, int lastPage,
       y2 = epsX2 - epsX1;
     }
     writePSFmt("%%BoundingBox: {0:d} {1:d} {2:d} {3:d}\n",
-	       (int)floor(x1), (int)floor(y1), (int)ceil(x2), (int)ceil(y2));
+           (int)floor(x1), (int)floor(y1), (int)ceil(x2), (int)ceil(y2));
     if (floor(x1) != ceil(x1) || floor(y1) != ceil(y1) ||
-	floor(x2) != ceil(x2) || floor(y2) != ceil(y2)) {
+    floor(x2) != ceil(x2) || floor(y2) != ceil(y2)) {
       writePSFmt("%%HiResBoundingBox: {0:.4g} {1:.4g} {2:.4g} {3:.4g}\n",
-		 x1, y1, x2, y2);
+         x1, y1, x2, y2);
     }
     writePS("%%EndComments\n");
     break;
@@ -1292,8 +1292,8 @@ void PSOutputDev::writeHeader(int firstPage, int lastPage,
     writePS("%%EndComments\n");
     writePS("32 dict dup begin\n");
     writePSFmt("/BBox [{0:d} {1:d} {2:d} {3:d}] def\n",
-	       (int)floor(mediaBox->x1), (int)floor(mediaBox->y1),
-	       (int)ceil(mediaBox->x2), (int)ceil(mediaBox->y2));
+           (int)floor(mediaBox->x1), (int)floor(mediaBox->y1),
+           (int)ceil(mediaBox->x2), (int)ceil(mediaBox->y2));
     writePS("/FormType 1 def\n");
     writePS("/Matrix [1 0 0 1 0 0] def\n");
     break;
@@ -1312,20 +1312,20 @@ void PSOutputDev::writeXpdfProcset() {
     if ((*p)[0] == '~') {
       lev1 = lev2 = lev3 = sep = nonSep = gFalse;
       for (q = *p + 1; *q; ++q) {
-	switch (*q) {
-	case '1': lev1 = gTrue; break;
-	case '2': lev2 = gTrue; break;
-	case '3': lev3 = gTrue; break;
-	case 's': sep = gTrue; break;
-	case 'n': nonSep = gTrue; break;
-	}
+    switch (*q) {
+    case '1': lev1 = gTrue; break;
+    case '2': lev2 = gTrue; break;
+    case '3': lev3 = gTrue; break;
+    case 's': sep = gTrue; break;
+    case 'n': nonSep = gTrue; break;
+    }
       }
     } else if ((level == psLevel1 && lev1 && nonSep) ||
-	       (level == psLevel1Sep && lev1 && sep) ||
-	       (level == psLevel2 && lev2 && nonSep) ||
-	       (level == psLevel2Sep && lev2 && sep) ||
-	       (level == psLevel3 && lev3 && nonSep) ||
-	       (level == psLevel3Sep && lev3 && sep)) {
+           (level == psLevel1Sep && lev1 && sep) ||
+           (level == psLevel2 && lev2 && nonSep) ||
+           (level == psLevel2Sep && lev2 && sep) ||
+           (level == psLevel3 && lev3 && nonSep) ||
+           (level == psLevel3Sep && lev3 && sep)) {
       writePSFmt("{0:s}\n", *p);
     }
   }
@@ -1339,7 +1339,7 @@ void PSOutputDev::writeXpdfProcset() {
 }
 
 void PSOutputDev::writeDocSetup(Catalog *catalog,
-				int firstPage, int lastPage) {
+                int firstPage, int lastPage) {
   Page *page;
   Dict *resDict;
   Annots *annots;
@@ -1361,11 +1361,11 @@ void PSOutputDev::writeDocSetup(Catalog *catalog,
     obj1.free();
     for (i = 0; i < annots->getNumAnnots(); ++i) {
       if (annots->getAnnot(i)->getAppearance(&obj1)->isStream()) {
-	obj1.streamGetDict()->lookup("Resources", &obj2);
-	if (obj2.isDict()) {
-	  setupResources(obj2.getDict());
-	}
-	obj2.free();
+    obj1.streamGetDict()->lookup("Resources", &obj2);
+    if (obj2.isDict()) {
+      setupResources(obj2.getDict());
+    }
+    obj2.free();
       }
       obj1.free();
     }
@@ -1374,8 +1374,8 @@ void PSOutputDev::writeDocSetup(Catalog *catalog,
   if (mode != psModeForm) {
     if (mode != psModeEPS && !manualCtrl) {
       writePSFmt("{0:d} {1:d} {2:s} pdfSetup\n",
-		 paperWidth, paperHeight,
-		 globalParams->getPSDuplex() ? "true" : "false");
+         paperWidth, paperHeight,
+         globalParams->getPSDuplex() ? "true" : "false");
     }
 #if OPI_SUPPORT
     if (globalParams->getPSOPI()) {
@@ -1401,30 +1401,30 @@ void PSOutputDev::writeTrailer() {
     writePS("%%DocumentSuppliedResources:\n");
     writePS(embFontList->getCString());
     if (level == psLevel1Sep || level == psLevel2Sep ||
-	level == psLevel3Sep) {
+    level == psLevel3Sep) {
       writePS("%%DocumentProcessColors:");
       if (processColors & psProcessCyan) {
-	writePS(" Cyan");
-	 }
+    writePS(" Cyan");
+     }
       if (processColors & psProcessMagenta) {
-	writePS(" Magenta");
+    writePS(" Magenta");
       }
       if (processColors & psProcessYellow) {
-	writePS(" Yellow");
+    writePS(" Yellow");
       }
       if (processColors & psProcessBlack) {
-	writePS(" Black");
+    writePS(" Black");
       }
       writePS("\n");
       writePS("%%DocumentCustomColors:");
       for (cc = customColors; cc; cc = cc->next) {
-	writePSFmt(" ({0:s})", cc->name->getCString());
+    writePSFmt(" ({0:s})", cc->name->getCString());
       }
       writePS("\n");
       writePS("%%CMYKCustomColor:\n");
       for (cc = customColors; cc; cc = cc->next) {
-	writePSFmt("%%+ {0:.4g} {1:.4g} {2:.4g} {3:.4g} ({4:t})\n",
-		   cc->c, cc->m, cc->y, cc->k, cc->name);
+    writePSFmt("%%+ {0:.4g} {1:.4g} {2:.4g} {3:.4g} ({4:t})\n",
+           cc->c, cc->m, cc->y, cc->k, cc->name);
       }
     }
   }
@@ -1448,34 +1448,34 @@ void PSOutputDev::setupResources(Dict *resDict) {
       // avoid infinite recursion on XObjects
       skip = gFalse;
       if ((xObjDict.dictGetValNF(i, &xObjRef)->isRef())) {
-	ref0 = xObjRef.getRef();
-	for (j = 0; j < xobjStack->getLength(); ++j) {
-	  ref1 = *(Ref *)xobjStack->get(j);
-	  if (ref1.num == ref0.num && ref1.gen == ref0.gen) {
-	    skip = gTrue;
-	    break;
-	  }
-	}
-	if (!skip) {
-	  xobjStack->append(&ref0);
-	}
+    ref0 = xObjRef.getRef();
+    for (j = 0; j < xobjStack->getLength(); ++j) {
+      ref1 = *(Ref *)xobjStack->get(j);
+      if (ref1.num == ref0.num && ref1.gen == ref0.gen) {
+        skip = gTrue;
+        break;
+      }
+    }
+    if (!skip) {
+      xobjStack->append(&ref0);
+    }
       }
       if (!skip) {
 
-	// process the XObject's resource dictionary
-	xObjDict.dictGetVal(i, &xObj);
-	if (xObj.isStream()) {
-	  xObj.streamGetDict()->lookup("Resources", &resObj);
-	  if (resObj.isDict()) {
-	    setupResources(resObj.getDict());
-	  }
-	  resObj.free();
-	}
-	xObj.free();
+    // process the XObject's resource dictionary
+    xObjDict.dictGetVal(i, &xObj);
+    if (xObj.isStream()) {
+      xObj.streamGetDict()->lookup("Resources", &resObj);
+      if (resObj.isDict()) {
+        setupResources(resObj.getDict());
+      }
+      resObj.free();
+    }
+    xObj.free();
       }
 
       if (xObjRef.isRef() && !skip) {
-	xobjStack->del(xobjStack->getLength() - 1);
+    xobjStack->del(xobjStack->getLength() - 1);
       }
       xObjRef.free();
     }
@@ -1491,34 +1491,34 @@ void PSOutputDev::setupResources(Dict *resDict) {
       // avoid infinite recursion on Patterns
       skip = gFalse;
       if ((patDict.dictGetValNF(i, &patRef)->isRef())) {
-	ref0 = patRef.getRef();
-	for (j = 0; j < xobjStack->getLength(); ++j) {
-	  ref1 = *(Ref *)xobjStack->get(j);
-	  if (ref1.num == ref0.num && ref1.gen == ref0.gen) {
-	    skip = gTrue;
-	    break;
-	  }
-	}
-	if (!skip) {
-	  xobjStack->append(&ref0);
-	}
+    ref0 = patRef.getRef();
+    for (j = 0; j < xobjStack->getLength(); ++j) {
+      ref1 = *(Ref *)xobjStack->get(j);
+      if (ref1.num == ref0.num && ref1.gen == ref0.gen) {
+        skip = gTrue;
+        break;
+      }
+    }
+    if (!skip) {
+      xobjStack->append(&ref0);
+    }
       }
       if (!skip) {
 
-	// process the Pattern's resource dictionary
-	patDict.dictGetVal(i, &pat);
-	if (pat.isStream()) {
-	  pat.streamGetDict()->lookup("Resources", &resObj);
-	  if (resObj.isDict()) {
-	    setupResources(resObj.getDict());
-	  }
-	  resObj.free();
-	}
-	pat.free();
+    // process the Pattern's resource dictionary
+    patDict.dictGetVal(i, &pat);
+    if (pat.isStream()) {
+      pat.streamGetDict()->lookup("Resources", &resObj);
+      if (resObj.isDict()) {
+        setupResources(resObj.getDict());
+      }
+      resObj.free();
+    }
+    pat.free();
       }
 
       if (patRef.isRef() && !skip) {
-	xobjStack->del(xobjStack->getLength() - 1);
+    xobjStack->del(xobjStack->getLength() - 1);
       }
       patRef.free();
     }
@@ -1549,7 +1549,7 @@ void PSOutputDev::setupFonts(Dict *resDict) {
   if (gfxFontDict) {
     for (i = 0; i < gfxFontDict->getNumFonts(); ++i) {
       if ((font = gfxFontDict->getFont(i))) {
-	setupFont(font, resDict);
+    setupFont(font, resDict);
       }
     }
     delete gfxFontDict;
@@ -1575,7 +1575,7 @@ void PSOutputDev::setupFont(GfxFont *font, Dict *parentResDict) {
   // check if font is already set up
   for (i = 0; i < fontIDLen; ++i) {
     if (fontIDs[i].num == font->getID()->num &&
-	fontIDs[i].gen == font->getID()->gen) {
+    fontIDs[i].gen == font->getID()->gen) {
       return;
     }
   }
@@ -1597,15 +1597,15 @@ void PSOutputDev::setupFont(GfxFont *font, Dict *parentResDict) {
 
   // check for embedded Type 1 font
   } else if (globalParams->getPSEmbedType1() &&
-	     font->getType() == fontType1 &&
-	     font->getEmbeddedFontID(&fontFileID)) {
+         font->getType() == fontType1 &&
+         font->getEmbeddedFontID(&fontFileID)) {
     psName = filterPSName(font->getEmbeddedFontName());
     setupEmbeddedType1Font(&fontFileID, psName);
 
   // check for embedded Type 1C font
   } else if (globalParams->getPSEmbedType1() &&
-	     font->getType() == fontType1C &&
-	     font->getEmbeddedFontID(&fontFileID)) {
+         font->getType() == fontType1C &&
+         font->getEmbeddedFontID(&fontFileID)) {
     // use the PDF font name because the embedded font name might
     // not include the subset prefix
     psName = filterPSName(font->getOrigName());
@@ -1613,8 +1613,8 @@ void PSOutputDev::setupFont(GfxFont *font, Dict *parentResDict) {
 
   // check for embedded OpenType - Type 1C font
   } else if (globalParams->getPSEmbedType1() &&
-	     font->getType() == fontType1COT &&
-	     font->getEmbeddedFontID(&fontFileID)) {
+         font->getType() == fontType1COT &&
+         font->getEmbeddedFontID(&fontFileID)) {
     // use the PDF font name because the embedded font name might
     // not include the subset prefix
     psName = filterPSName(font->getOrigName());
@@ -1622,54 +1622,54 @@ void PSOutputDev::setupFont(GfxFont *font, Dict *parentResDict) {
 
   // check for external Type 1 font file
   } else if (globalParams->getPSEmbedType1() &&
-	     font->getType() == fontType1 &&
-	     font->getExtFontFile()) {
+         font->getType() == fontType1 &&
+         font->getExtFontFile()) {
     // this assumes that the PS font name matches the PDF font name
     psName = font->getName()->copy();
     setupExternalType1Font(font->getExtFontFile(), psName);
 
   // check for embedded TrueType font
   } else if (globalParams->getPSEmbedTrueType() &&
-	     (font->getType() == fontTrueType ||
-	      font->getType() == fontTrueTypeOT) &&
-	     font->getEmbeddedFontID(&fontFileID)) {
+         (font->getType() == fontTrueType ||
+          font->getType() == fontTrueTypeOT) &&
+         font->getEmbeddedFontID(&fontFileID)) {
     psName = filterPSName(font->getEmbeddedFontName());
     setupEmbeddedTrueTypeFont(font, &fontFileID, psName);
 
   // check for external TrueType font file
   } else if (globalParams->getPSEmbedTrueType() &&
-	     font->getType() == fontTrueType &&
-	     font->getExtFontFile()) {
+         font->getType() == fontTrueType &&
+         font->getExtFontFile()) {
     psName = filterPSName(font->getName());
     setupExternalTrueTypeFont(font, psName);
 
   // check for embedded CID PostScript font
   } else if (globalParams->getPSEmbedCIDPostScript() &&
-	     font->getType() == fontCIDType0C &&
-	     font->getEmbeddedFontID(&fontFileID)) {
+         font->getType() == fontCIDType0C &&
+         font->getEmbeddedFontID(&fontFileID)) {
     psName = filterPSName(font->getEmbeddedFontName());
     setupEmbeddedCIDType0Font(font, &fontFileID, psName);
 
   // check for embedded CID TrueType font
   } else if (globalParams->getPSEmbedCIDTrueType() &&
-	     (font->getType() == fontCIDType2 ||
-	      font->getType() == fontCIDType2OT) &&
-	     font->getEmbeddedFontID(&fontFileID)) {
+         (font->getType() == fontCIDType2 ||
+          font->getType() == fontCIDType2OT) &&
+         font->getEmbeddedFontID(&fontFileID)) {
     psName = filterPSName(font->getEmbeddedFontName());
     //~ should check to see if font actually uses vertical mode
     setupEmbeddedCIDTrueTypeFont(font, &fontFileID, psName, gTrue);
 
   // check for embedded OpenType - CID CFF font
   } else if (globalParams->getPSEmbedCIDPostScript() &&
-	     font->getType() == fontCIDType0COT &&
-	     font->getEmbeddedFontID(&fontFileID)) {
+         font->getType() == fontCIDType0COT &&
+         font->getEmbeddedFontID(&fontFileID)) {
     psName = filterPSName(font->getEmbeddedFontName());
     setupEmbeddedOpenTypeCFFFont(font, &fontFileID, psName);
 
   // check for Type 3 font
   } else if (font->getType() == fontType3) {
     psName = GString::format("T3_{0:d}_{1:d}",
-			     font->getID()->num, font->getID()->gen);
+                 font->getID()->num, font->getID()->gen);
     setupType3Font(font, psName, parentResDict);
 
   // do 8-bit font substitution
@@ -1679,69 +1679,69 @@ void PSOutputDev::setupFont(GfxFont *font, Dict *parentResDict) {
     psName = NULL;
     if (name) {
       for (i = 0; psFonts[i]; ++i) {
-	if (name->cmp(psFonts[i]) == 0) {
-	  psName = new GString(psFonts[i]);
-	  break;
-	}
+    if (name->cmp(psFonts[i]) == 0) {
+      psName = new GString(psFonts[i]);
+      break;
+    }
       }
     }
     if (!psName) {
       if (font->isFixedWidth()) {
-	i = 8;
+    i = 8;
       } else if (font->isSerif()) {
-	i = 4;
+    i = 4;
       } else {
-	i = 0;
+    i = 0;
       }
       if (font->isBold()) {
-	i += 2;
+    i += 2;
       }
       if (font->isItalic()) {
-	i += 1;
+    i += 1;
       }
       psName = new GString(psSubstFonts[i].psName);
       for (code = 0; code < 256; ++code) {
-	if ((charName = ((Gfx8BitFont *)font)->getCharName(code)) &&
-	    charName[0] == 'm' && charName[1] == '\0') {
-	  break;
-	}
+    if ((charName = ((Gfx8BitFont *)font)->getCharName(code)) &&
+        charName[0] == 'm' && charName[1] == '\0') {
+      break;
+    }
       }
       if (code < 256) {
-	w1 = ((Gfx8BitFont *)font)->getWidth(code);
+    w1 = ((Gfx8BitFont *)font)->getWidth(code);
       } else {
-	w1 = 0;
+    w1 = 0;
       }
       w2 = psSubstFonts[i].mWidth;
       xs = w1 / w2;
       if (xs < 0.1) {
-	xs = 1;
+    xs = 1;
       }
       if (font->getType() == fontType3) {
-	// This is a hack which makes it possible to substitute for some
-	// Type 3 fonts.  The problem is that it's impossible to know what
-	// the base coordinate system used in the font is without actually
-	// rendering the font.
-	ys = xs;
-	fm = font->getFontMatrix();
-	if (fm[0] != 0) {
-	  ys *= fm[3] / fm[0];
-	}
+    // This is a hack which makes it possible to substitute for some
+    // Type 3 fonts.  The problem is that it's impossible to know what
+    // the base coordinate system used in the font is without actually
+    // rendering the font.
+    ys = xs;
+    fm = font->getFontMatrix();
+    if (fm[0] != 0) {
+      ys *= fm[3] / fm[0];
+    }
       } else {
-	ys = 1;
+    ys = 1;
       }
     }
 
   // do 16-bit font substitution
   } else if ((fontParam = globalParams->
-	        getPSFont16(font->getName(),
-			    ((GfxCIDFont *)font)->getCollection(),
-			    font->getWMode()))) {
+            getPSFont16(font->getName(),
+                ((GfxCIDFont *)font)->getCollection(),
+                font->getWMode()))) {
     subst = gTrue;
     psName = fontParam->psFontName->copy();
     if (font16EncLen >= font16EncSize) {
       font16EncSize += 16;
       font16Enc = (PSFont16Enc *)greallocn(font16Enc,
-					   font16EncSize, sizeof(PSFont16Enc));
+                       font16EncSize, sizeof(PSFont16Enc));
     }
     font16Enc[font16EncLen].fontID = *font->getID();
     font16Enc[font16EncLen].enc = fontParam->encoding->copy();
@@ -1750,16 +1750,16 @@ void PSOutputDev::setupFont(GfxFont *font, Dict *parentResDict) {
       ++font16EncLen;
     } else {
       error(-1, "Couldn't find Unicode map for 16-bit font encoding '%s'",
-	    font16Enc[font16EncLen].enc->getCString());
+        font16Enc[font16EncLen].enc->getCString());
     }
 
   // give up - can't do anything with this font
   } else {
     error(-1, "Couldn't find a font to substitute for '%s' ('%s' character collection)",
-	  font->getName() ? font->getName()->getCString() : "(unnamed)",
-	  ((GfxCIDFont *)font)->getCollection()
-	    ? ((GfxCIDFont *)font)->getCollection()->getCString()
-	    : "(unknown)");
+      font->getName() ? font->getName()->getCString() : "(unnamed)",
+      ((GfxCIDFont *)font)->getCollection()
+        ? ((GfxCIDFont *)font)->getCollection()->getCString()
+        : "(unknown)");
     return;
   }
 
@@ -1767,40 +1767,40 @@ void PSOutputDev::setupFont(GfxFont *font, Dict *parentResDict) {
   if (font->isCIDFont()) {
     if (level == psLevel3 || level == psLevel3Sep) {
       writePSFmt("/F{0:d}_{1:d} /{2:t} {3:d} pdfMakeFont16L3\n",
-		 font->getID()->num, font->getID()->gen, psName,
-		 font->getWMode());
+         font->getID()->num, font->getID()->gen, psName,
+         font->getWMode());
     } else {
       writePSFmt("/F{0:d}_{1:d} /{2:t} {3:d} pdfMakeFont16\n",
-		 font->getID()->num, font->getID()->gen, psName,
-		 font->getWMode());
+         font->getID()->num, font->getID()->gen, psName,
+         font->getWMode());
     }
   } else {
     writePSFmt("/F{0:d}_{1:d} /{2:t} {3:.4g} {4:.4g}\n",
-	       font->getID()->num, font->getID()->gen, psName, xs, ys);
+           font->getID()->num, font->getID()->gen, psName, xs, ys);
     for (i = 0; i < 256; i += 8) {
       writePS((char *)((i == 0) ? "[ " : "  "));
       for (j = 0; j < 8; ++j) {
-	if (font->getType() == fontTrueType &&
-	    !subst &&
-	    !((Gfx8BitFont *)font)->getHasEncoding()) {
-	  sprintf(buf, "c%02x", i+j);
-	  charName = buf;
-	} else {
-	  charName = ((Gfx8BitFont *)font)->getCharName(i+j);
-	  // this is a kludge for broken PDF files that encode char 32
-	  // as .notdef
-	  if (i+j == 32 && charName && !strcmp(charName, ".notdef")) {
-	    charName = "space";
-	  }
-	}
-	writePS("/");
-	writePSName(charName ? charName : (char *)".notdef");
-	// the empty name is legal in PDF and PostScript, but PostScript
-	// uses a double-slash (//...) for "immediately evaluated names",
-	// so we need to add a space character here
-	if (charName && !charName[0]) {
-	  writePS(" ");
-	}
+    if (font->getType() == fontTrueType &&
+        !subst &&
+        !((Gfx8BitFont *)font)->getHasEncoding()) {
+      sprintf(buf, "c%02x", i+j);
+      charName = buf;
+    } else {
+      charName = ((Gfx8BitFont *)font)->getCharName(i+j);
+      // this is a kludge for broken PDF files that encode char 32
+      // as .notdef
+      if (i+j == 32 && charName && !strcmp(charName, ".notdef")) {
+        charName = "space";
+      }
+    }
+    writePS("/");
+    writePSName(charName ? charName : (char *)".notdef");
+    // the empty name is legal in PDF and PostScript, but PostScript
+    // uses a double-slash (//...) for "immediately evaluated names",
+    // so we need to add a space character here
+    if (charName && !charName[0]) {
+      writePS(" ");
+    }
       }
       writePS((i == 256-8) ? (char *)"]\n" : (char *)"\n");
     }
@@ -1823,7 +1823,7 @@ void PSOutputDev::setupEmbeddedType1Font(Ref *id, GString *psName) {
   // check if font is already embedded
   for (i = 0; i < fontFileIDLen; ++i) {
     if (fontFileIDs[i].num == id->num &&
-	fontFileIDs[i].gen == id->gen)
+    fontFileIDs[i].gen == id->gen)
       return;
   }
 
@@ -1884,8 +1884,8 @@ void PSOutputDev::setupEmbeddedType1Font(Ref *id, GString *psName) {
       goto err1;
     }
     if (!((start[i] >= '0' && start[i] <= '9') ||
-	  (start[i] >= 'A' && start[i] <= 'F') ||
-	  (start[i] >= 'a' && start[i] <= 'f')))
+      (start[i] >= 'A' && start[i] <= 'F') ||
+      (start[i] >= 'a' && start[i] <= 'f')))
       binMode = gTrue;
   }
 
@@ -1902,12 +1902,12 @@ void PSOutputDev::setupEmbeddedType1Font(Ref *id, GString *psName) {
 #endif
     while (i < length2) {
       if ((c = strObj.streamGetChar()) == EOF) {
-	break;
+    break;
       }
       writePSChar(hexChar[(c >> 4) & 0x0f]);
       writePSChar(hexChar[c & 0x0f]);
       if (++i % 32 == 0) {
-	writePSChar('\n');
+    writePSChar('\n');
       }
     }
     if (i % 32 > 0) {
@@ -1921,7 +1921,7 @@ void PSOutputDev::setupEmbeddedType1Font(Ref *id, GString *psName) {
     }
     for (i = 4; i < length2; ++i) {
       if ((c = strObj.streamGetChar()) == EOF) {
-	break;
+    break;
       }
       writePSChar(c);
     }
@@ -1930,7 +1930,7 @@ void PSOutputDev::setupEmbeddedType1Font(Ref *id, GString *psName) {
   // write padding and "cleartomark"
   for (i = 0; i < 8; ++i) {
     writePS("00000000000000000000000000000000"
-	    "00000000000000000000000000000000\n");
+        "00000000000000000000000000000000\n");
   }
   writePS("cleartomark\n");
 
@@ -1960,7 +1960,7 @@ void PSOutputDev::setupExternalType1Font(GString *fileName, GString *psName) {
   if (fontFileNameLen >= fontFileNameSize) {
     fontFileNameSize += 64;
     fontFileNames = (GString **)greallocn(fontFileNames,
-					  fontFileNameSize, sizeof(GString *));
+                      fontFileNameSize, sizeof(GString *));
   }
   fontFileNames[fontFileNameLen++] = fileName->copy();
 
@@ -1985,7 +1985,7 @@ void PSOutputDev::setupExternalType1Font(GString *fileName, GString *psName) {
 }
 
 void PSOutputDev::setupEmbeddedType1CFont(GfxFont *font, Ref *id,
-					  GString *psName) {
+                      GString *psName) {
   char *fontBuf;
   int fontLen;
   FoFiType1C *ffT1C;
@@ -1994,7 +1994,7 @@ void PSOutputDev::setupEmbeddedType1CFont(GfxFont *font, Ref *id,
   // check if font is already embedded
   for (i = 0; i < fontFileIDLen; ++i) {
     if (fontFileIDs[i].num == id->num &&
-	fontFileIDs[i].gen == id->gen)
+    fontFileIDs[i].gen == id->gen)
       return;
   }
 
@@ -2015,7 +2015,7 @@ void PSOutputDev::setupEmbeddedType1CFont(GfxFont *font, Ref *id,
   fontBuf = font->readEmbFontFile(xref, &fontLen);
   if ((ffT1C = FoFiType1C::make(fontBuf, fontLen))) {
     ffT1C->convertToType1(psName->getCString(), NULL, gTrue,
-			  outputFunc, outputStream);
+              outputFunc, outputStream);
     delete ffT1C;
   }
   gfree(fontBuf);
@@ -2025,7 +2025,7 @@ void PSOutputDev::setupEmbeddedType1CFont(GfxFont *font, Ref *id,
 }
 
 void PSOutputDev::setupEmbeddedOpenTypeT1CFont(GfxFont *font, Ref *id,
-					       GString *psName) {
+                           GString *psName) {
   char *fontBuf;
   int fontLen;
   FoFiTrueType *ffTT;
@@ -2034,7 +2034,7 @@ void PSOutputDev::setupEmbeddedOpenTypeT1CFont(GfxFont *font, Ref *id,
   // check if font is already embedded
   for (i = 0; i < fontFileIDLen; ++i) {
     if (fontFileIDs[i].num == id->num &&
-	fontFileIDs[i].gen == id->gen)
+    fontFileIDs[i].gen == id->gen)
       return;
   }
 
@@ -2056,7 +2056,7 @@ void PSOutputDev::setupEmbeddedOpenTypeT1CFont(GfxFont *font, Ref *id,
   if ((ffTT = FoFiTrueType::make(fontBuf, fontLen))) {
     if (ffTT->isOpenTypeCFF()) {
       ffTT->convertToType1(psName->getCString(), NULL, gTrue,
-			   outputFunc, outputStream);
+               outputFunc, outputStream);
     }
     delete ffTT;
   }
@@ -2067,7 +2067,7 @@ void PSOutputDev::setupEmbeddedOpenTypeT1CFont(GfxFont *font, Ref *id,
 }
 
 void PSOutputDev::setupEmbeddedTrueTypeFont(GfxFont *font, Ref *id,
-					    GString *psName) {
+                        GString *psName) {
   char *fontBuf;
   int fontLen;
   FoFiTrueType *ffTT;
@@ -2077,7 +2077,7 @@ void PSOutputDev::setupEmbeddedTrueTypeFont(GfxFont *font, Ref *id,
   // check if font is already embedded
   for (i = 0; i < fontFileIDLen; ++i) {
     if (fontFileIDs[i].num == id->num &&
-	fontFileIDs[i].gen == id->gen) {
+    fontFileIDs[i].gen == id->gen) {
       psName->appendf("_{0:d}", nextTrueTypeNum++);
       break;
     }
@@ -2103,16 +2103,16 @@ void PSOutputDev::setupEmbeddedTrueTypeFont(GfxFont *font, Ref *id,
   if ((ffTT = FoFiTrueType::make(fontBuf, fontLen))) {
     codeToGID = ((Gfx8BitFont *)font)->getCodeToGIDMap(ffTT);
     ffTT->convertToType42(psName->getCString(),
-			  ((Gfx8BitFont *)font)->getHasEncoding()
-			    ? ((Gfx8BitFont *)font)->getEncoding()
-			    : (char **)NULL,
-			  codeToGID, outputFunc, outputStream);
+              ((Gfx8BitFont *)font)->getHasEncoding()
+                ? ((Gfx8BitFont *)font)->getEncoding()
+                : (char **)NULL,
+              codeToGID, outputFunc, outputStream);
     if (codeToGID) {
       if (font8InfoLen >= font8InfoSize) {
-	font8InfoSize += 16;
-	font8Info = (PSFont8Info *)greallocn(font8Info,
-					     font8InfoSize,
-					     sizeof(PSFont8Info));
+    font8InfoSize += 16;
+    font8Info = (PSFont8Info *)greallocn(font8Info,
+                         font8InfoSize,
+                         sizeof(PSFont8Info));
       }
       font8Info[font8InfoLen].fontID = *font->getID();
       font8Info[font8InfoLen].codeToGID = codeToGID;
@@ -2148,8 +2148,8 @@ void PSOutputDev::setupExternalTrueTypeFont(GfxFont *font, GString *psName) {
     if (fontFileNameLen >= fontFileNameSize) {
       fontFileNameSize += 64;
       fontFileNames =
-	(GString **)greallocn(fontFileNames,
-			      fontFileNameSize, sizeof(GString *));
+    (GString **)greallocn(fontFileNames,
+                  fontFileNameSize, sizeof(GString *));
     }
     fontFileNames[fontFileNameLen++] = fileName->copy();
   }
@@ -2165,16 +2165,16 @@ void PSOutputDev::setupExternalTrueTypeFont(GfxFont *font, GString *psName) {
   if ((ffTT = FoFiTrueType::make(fontBuf, fontLen))) {
     codeToGID = ((Gfx8BitFont *)font)->getCodeToGIDMap(ffTT);
     ffTT->convertToType42(psName->getCString(),
-			  ((Gfx8BitFont *)font)->getHasEncoding()
-			    ? ((Gfx8BitFont *)font)->getEncoding()
-			    : (char **)NULL,
-			  codeToGID, outputFunc, outputStream);
+              ((Gfx8BitFont *)font)->getHasEncoding()
+                ? ((Gfx8BitFont *)font)->getEncoding()
+                : (char **)NULL,
+              codeToGID, outputFunc, outputStream);
     if (codeToGID) {
       if (font8InfoLen >= font8InfoSize) {
-	font8InfoSize += 16;
-	font8Info = (PSFont8Info *)greallocn(font8Info,
-					     font8InfoSize,
-					     sizeof(PSFont8Info));
+    font8InfoSize += 16;
+    font8Info = (PSFont8Info *)greallocn(font8Info,
+                         font8InfoSize,
+                         sizeof(PSFont8Info));
       }
       font8Info[font8InfoLen].fontID = *font->getID();
       font8Info[font8InfoLen].codeToGID = codeToGID;
@@ -2189,7 +2189,7 @@ void PSOutputDev::setupExternalTrueTypeFont(GfxFont *font, GString *psName) {
 }
 
 void PSOutputDev::setupEmbeddedCIDType0Font(GfxFont *font, Ref *id,
-					    GString *psName) {
+                        GString *psName) {
   char *fontBuf;
   int fontLen;
   FoFiType1C *ffT1C;
@@ -2198,7 +2198,7 @@ void PSOutputDev::setupEmbeddedCIDType0Font(GfxFont *font, Ref *id,
   // check if font is already embedded
   for (i = 0; i < fontFileIDLen; ++i) {
     if (fontFileIDs[i].num == id->num &&
-	fontFileIDs[i].gen == id->gen)
+    fontFileIDs[i].gen == id->gen)
       return;
   }
 
@@ -2234,8 +2234,8 @@ void PSOutputDev::setupEmbeddedCIDType0Font(GfxFont *font, Ref *id,
 }
 
 void PSOutputDev::setupEmbeddedCIDTrueTypeFont(GfxFont *font, Ref *id,
-					       GString *psName,
-					       GBool needVerticalMetrics) {
+                           GString *psName,
+                           GBool needVerticalMetrics) {
   char *fontBuf;
   int fontLen;
   FoFiTrueType *ffTT;
@@ -2244,7 +2244,7 @@ void PSOutputDev::setupEmbeddedCIDTrueTypeFont(GfxFont *font, Ref *id,
   // check if font is already embedded
   for (i = 0; i < fontFileIDLen; ++i) {
     if (fontFileIDs[i].num == id->num &&
-	fontFileIDs[i].gen == id->gen) {
+    fontFileIDs[i].gen == id->gen) {
       psName->appendf("_{0:d}", nextTrueTypeNum++);
       break;
     }
@@ -2269,17 +2269,17 @@ void PSOutputDev::setupEmbeddedCIDTrueTypeFont(GfxFont *font, Ref *id,
     if (globalParams->getPSLevel() >= psLevel3) {
       // Level 3: use a CID font
       ffTT->convertToCIDType2(psName->getCString(),
-			      ((GfxCIDFont *)font)->getCIDToGID(),
-			      ((GfxCIDFont *)font)->getCIDToGIDLen(),
-			      needVerticalMetrics,
-			      outputFunc, outputStream);
+                  ((GfxCIDFont *)font)->getCIDToGID(),
+                  ((GfxCIDFont *)font)->getCIDToGIDLen(),
+                  needVerticalMetrics,
+                  outputFunc, outputStream);
     } else {
       // otherwise: use a non-CID composite font
       ffTT->convertToType0(psName->getCString(),
-			   ((GfxCIDFont *)font)->getCIDToGID(),
-			   ((GfxCIDFont *)font)->getCIDToGIDLen(),
-			   needVerticalMetrics,
-			   outputFunc, outputStream);
+               ((GfxCIDFont *)font)->getCIDToGID(),
+               ((GfxCIDFont *)font)->getCIDToGIDLen(),
+               needVerticalMetrics,
+               outputFunc, outputStream);
     }
     delete ffTT;
   }
@@ -2290,7 +2290,7 @@ void PSOutputDev::setupEmbeddedCIDTrueTypeFont(GfxFont *font, Ref *id,
 }
 
 void PSOutputDev::setupEmbeddedOpenTypeCFFFont(GfxFont *font, Ref *id,
-					       GString *psName) {
+                           GString *psName) {
   char *fontBuf;
   int fontLen;
   FoFiTrueType *ffTT;
@@ -2299,7 +2299,7 @@ void PSOutputDev::setupEmbeddedOpenTypeCFFFont(GfxFont *font, Ref *id,
   // check if font is already embedded
   for (i = 0; i < fontFileIDLen; ++i) {
     if (fontFileIDs[i].num == id->num &&
-	fontFileIDs[i].gen == id->gen)
+    fontFileIDs[i].gen == id->gen)
       return;
   }
 
@@ -2321,12 +2321,12 @@ void PSOutputDev::setupEmbeddedOpenTypeCFFFont(GfxFont *font, Ref *id,
   if ((ffTT = FoFiTrueType::make(fontBuf, fontLen))) {
     if (ffTT->isOpenTypeCFF()) {
       if (globalParams->getPSLevel() >= psLevel3) {
-	// Level 3: use a CID font
-	ffTT->convertToCIDType0(psName->getCString(),
-				outputFunc, outputStream);
+    // Level 3: use a CID font
+    ffTT->convertToCIDType0(psName->getCString(),
+                outputFunc, outputStream);
       } else {
-	// otherwise: use a non-CID composite font
-	ffTT->convertToType0(psName->getCString(), outputFunc, outputStream);
+    // otherwise: use a non-CID composite font
+    ffTT->convertToType0(psName->getCString(), outputFunc, outputStream);
       }
     }
     delete ffTT;
@@ -2338,7 +2338,7 @@ void PSOutputDev::setupEmbeddedOpenTypeCFFFont(GfxFont *font, Ref *id,
 }
 
 void PSOutputDev::setupType3Font(GfxFont *font, GString *psName,
-				 Dict *parentResDict) {
+                 Dict *parentResDict) {
   Dict *resDict;
   Dict *charProcs;
   Object charProc;
@@ -2368,10 +2368,10 @@ void PSOutputDev::setupType3Font(GfxFont *font, GString *psName,
   writePS("/FontType 3 def\n");
   m = font->getFontMatrix();
   writePSFmt("/FontMatrix [{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g}] def\n",
-	     m[0], m[1], m[2], m[3], m[4], m[5]);
+         m[0], m[1], m[2], m[3], m[4], m[5]);
   m = font->getFontBBox();
   writePSFmt("/FontBBox [{0:.4g} {1:.4g} {2:.4g} {3:.4g}] def\n",
-	     m[0], m[1], m[2], m[3]);
+         m[0], m[1], m[2], m[3]);
   writePS("/Encoding 256 array def\n");
   writePS("  0 1 255 { Encoding exch /.notdef put } for\n");
   writePS("/BuildGlyph {\n");
@@ -2401,21 +2401,21 @@ void PSOutputDev::setupType3Font(GfxFont *font, GString *psName,
       gfx->display(charProcs->getVal(i, &charProc));
       charProc.free();
       if (t3String) {
-	if (t3Cacheable) {
-	  buf = GString::format("{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g} setcachedevice\n",
-				t3WX, t3WY, t3LLX, t3LLY, t3URX, t3URY);
-	} else {
-	  buf = GString::format("{0:.4g} {1:.4g} setcharwidth\n", t3WX, t3WY);
-	}
-	(*outputFunc)(outputStream, buf->getCString(), buf->getLength());
-	delete buf;
-	(*outputFunc)(outputStream, t3String->getCString(),
-		      t3String->getLength());
-	delete t3String;
-	t3String = NULL;
+    if (t3Cacheable) {
+      buf = GString::format("{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g} setcachedevice\n",
+                t3WX, t3WY, t3LLX, t3LLY, t3URX, t3URY);
+    } else {
+      buf = GString::format("{0:.4g} {1:.4g} setcharwidth\n", t3WX, t3WY);
+    }
+    (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
+    delete buf;
+    (*outputFunc)(outputStream, t3String->getCString(),
+              t3String->getLength());
+    delete t3String;
+    t3String = NULL;
       }
       if (t3NeedsRestore) {
-	(*outputFunc)(outputStream, "Q\n", 2);
+    (*outputFunc)(outputStream, "Q\n", 2);
       }
       writePS("} def\n");
     }
@@ -2444,15 +2444,15 @@ void PSOutputDev::setupImages(Dict *resDict) {
       xObjDict.dictGetValNF(i, &xObjRef);
       xObjDict.dictGetVal(i, &xObj);
       if (xObj.isStream()) {
-	xObj.streamGetDict()->lookup("Subtype", &subtypeObj);
-	if (subtypeObj.isName("Image")) {
-	  if (xObjRef.isRef()) {
-	    setupImage(xObjRef.getRef(), xObj.getStream());
-	  } else {
-	    error(-1, "Image in resource dict is not an indirect reference");
-	  }
-	}
-	subtypeObj.free();
+    xObj.streamGetDict()->lookup("Subtype", &subtypeObj);
+    if (subtypeObj.isName("Image")) {
+      if (xObjRef.isRef()) {
+        setupImage(xObjRef.getRef(), xObj.getStream());
+      } else {
+        error(-1, "Image in resource dict is not an indirect reference");
+      }
+    }
+    subtypeObj.free();
       }
       xObj.free();
       xObjRef.free();
@@ -2532,13 +2532,13 @@ void PSOutputDev::setupImage(Ref id, Stream *str) {
     } else {
       ++col;
       for (i = 1; i <= (useASCIIHex ? 1 : 4); ++i) {
-	do {
-	  c = str->getChar();
-	} while (c == '\n' || c == '\r');
-	if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
-	  break;
-	}
-	++col;
+    do {
+      c = str->getChar();
+    } while (c == '\n' || c == '\r');
+    if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
+      break;
+    }
+    ++col;
       }
     }
     if (col > 225) {
@@ -2553,7 +2553,7 @@ void PSOutputDev::setupImage(Ref id, Stream *str) {
     ++size;
   }
   writePSFmt("{0:d} array dup /ImData_{1:d}_{2:d} exch def\n",
-	     size, id.num, id.gen);
+         size, id.num, id.gen);
   str->close();
 
   // write the data into the array
@@ -2574,14 +2574,14 @@ void PSOutputDev::setupImage(Ref id, Stream *str) {
       writePSChar(c);
       ++col;
       for (i = 1; i <= (useASCIIHex ? 1 : 4); ++i) {
-	do {
-	  c = str->getChar();
-	} while (c == '\n' || c == '\r');
-	if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
-	  break;
-	}
-	writePSChar(c);
-	++col;
+    do {
+      c = str->getChar();
+    } while (c == '\n' || c == '\r');
+    if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
+      break;
+    }
+    writePSChar(c);
+    ++col;
       }
     }
     // each line is: "dup nnnnn <~...data...~> put<eol>"
@@ -2621,15 +2621,15 @@ void PSOutputDev::setupForms(Dict *resDict) {
       xObjDict.dictGetValNF(i, &xObjRef);
       xObjDict.dictGetVal(i, &xObj);
       if (xObj.isStream()) {
-	xObj.streamGetDict()->lookup("Subtype", &subtypeObj);
-	if (subtypeObj.isName("Form")) {
-	  if (xObjRef.isRef()) {
-	    setupForm(xObjRef.getRef(), &xObj);
-	  } else {
-	    error(-1, "Form in resource dict is not an indirect reference");
-	  }
-	}
-	subtypeObj.free();
+    xObj.streamGetDict()->lookup("Subtype", &subtypeObj);
+    if (subtypeObj.isName("Form")) {
+      if (xObjRef.isRef()) {
+        setupForm(xObjRef.getRef(), &xObj);
+      } else {
+        error(-1, "Form in resource dict is not an indirect reference");
+      }
+    }
+    subtypeObj.free();
       }
       xObj.free();
       xObjRef.free();
@@ -2702,7 +2702,7 @@ void PSOutputDev::setupForm(Ref id, Object *strObj) {
   writePSFmt("/f_{0:d}_{1:d} {{\n", id.num, id.gen);
   writePS("q\n");
   writePSFmt("[{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g}] cm\n",
-	     m[0], m[1], m[2], m[3], m[4], m[5]);
+         m[0], m[1], m[2], m[3], m[4], m[5]);
 
   box.x1 = bbox[0];
   box.y1 = bbox[1];
@@ -2719,12 +2719,12 @@ void PSOutputDev::setupForm(Ref id, Object *strObj) {
 }
 
 GBool PSOutputDev::checkPageSlice(Page *page, double hDPI, double vDPI,
-				  int rotateA, GBool useMediaBox, GBool crop,
-				  int sliceX, int sliceY,
-				  int sliceW, int sliceH,
-				  GBool printing, Catalog *catalog,
-				  GBool (*abortCheckCbk)(void *data),
-				  void *abortCheckCbkData) {
+                  int rotateA, GBool useMediaBox, GBool crop,
+                  int sliceX, int sliceY,
+                  int sliceW, int sliceH,
+                  GBool printing, Catalog *catalog,
+                  GBool (*abortCheckCbk)(void *data),
+                  void *abortCheckCbkData) {
 #if HAVE_SPLASH
   PreScanOutputDev *scan;
   GBool rasterize;
@@ -2742,8 +2742,8 @@ GBool PSOutputDev::checkPageSlice(Page *page, double hDPI, double vDPI,
 
   scan = new PreScanOutputDev();
   page->displaySlice(scan, 72, 72, rotateA, useMediaBox, crop,
-		     sliceX, sliceY, sliceW, sliceH,
-		     NULL, printing, catalog, abortCheckCbk, abortCheckCbkData);
+             sliceX, sliceY, sliceW, sliceH,
+             NULL, printing, catalog, abortCheckCbk, abortCheckCbkData);
   rasterize = scan->usesTransparency();
   delete scan;
 
@@ -2755,27 +2755,27 @@ GBool PSOutputDev::checkPageSlice(Page *page, double hDPI, double vDPI,
   if (level == psLevel1) {
     paperColor[0] = 0xff;
     splashOut = new SplashOutputDev(splashModeMono8, 1, gFalse,
-				    paperColor, gTrue, gFalse);
+                    paperColor, gTrue, gFalse);
 #if SPLASH_CMYK
   } else if (level == psLevel1Sep) {
     paperColor[0] = paperColor[1] = paperColor[2] = paperColor[3] = 0;
     splashOut = new SplashOutputDev(splashModeCMYK8, 1, gFalse,
-				    paperColor, gTrue, gFalse);
+                    paperColor, gTrue, gFalse);
 #endif
   } else {
     paperColor[0] = paperColor[1] = paperColor[2] = 0xff;
     splashOut = new SplashOutputDev(splashModeRGB8, 1, gFalse,
-				    paperColor, gTrue, gFalse);
+                    paperColor, gTrue, gFalse);
   }
   splashOut->startDoc(xref);
   page->displaySlice(splashOut, splashDPI, splashDPI, rotateA,
-		     useMediaBox, crop,
-		     sliceX, sliceY, sliceW, sliceH,
-		     NULL, printing, catalog, abortCheckCbk, abortCheckCbkData);
+             useMediaBox, crop,
+             sliceX, sliceY, sliceW, sliceH,
+             NULL, printing, catalog, abortCheckCbk, abortCheckCbkData);
 
   // start the PS page
   page->makeBox(splashDPI, splashDPI, rotateA, useMediaBox, gFalse,
-		sliceX, sliceY, sliceW, sliceH, &box, &crop);
+        sliceX, sliceY, sliceW, sliceH, &box, &crop);
   rotateA += page->getRotate();
   if (rotateA >= 360) {
     rotateA -= 360;
@@ -2829,20 +2829,20 @@ GBool PSOutputDev::checkPageSlice(Page *page, double hDPI, double vDPI,
   h = bitmap->getHeight();
   writePS("gsave\n");
   writePSFmt("[{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g}] concat\n",
-	     m0, m1, m2, m3, m4, m5);
+         m0, m1, m2, m3, m4, m5);
   switch (level) {
   case psLevel1:
     writePSFmt("{0:d} {1:d} 8 [{2:d} 0 0 {3:d} 0 {4:d}] pdfIm1\n",
-	       w, h, w, -h, h);
+           w, h, w, -h, h);
     p = bitmap->getDataPtr();
     i = 0;
     for (y = 0; y < h; ++y) {
       for (x = 0; x < w; ++x) {
-	writePSFmt("{0:02x}", *p++);
-	if (++i == 32) {
-	  writePSChar('\n');
-	  i = 0;
-	}
+    writePSFmt("{0:02x}", *p++);
+    if (++i == 32) {
+      writePSChar('\n');
+      i = 0;
+    }
       }
     }
     if (i != 0) {
@@ -2851,20 +2851,20 @@ GBool PSOutputDev::checkPageSlice(Page *page, double hDPI, double vDPI,
     break;
   case psLevel1Sep:
     writePSFmt("{0:d} {1:d} 8 [{2:d} 0 0 {3:d} 0 {4:d}] pdfIm1Sep\n",
-	       w, h, w, -h, h);
+           w, h, w, -h, h);
     p = bitmap->getDataPtr();
     i = 0;
     col[0] = col[1] = col[2] = col[3] = 0;
     for (y = 0; y < h; ++y) {
       for (comp = 0; comp < 4; ++comp) {
-	for (x = 0; x < w; ++x) {
-	  writePSFmt("{0:02x}", p[4*x + comp]);
-	  col[comp] |= p[4*x + comp];
-	  if (++i == 32) {
-	    writePSChar('\n');
-	    i = 0;
-	  }
-	}
+    for (x = 0; x < w; ++x) {
+      writePSFmt("{0:02x}", p[4*x + comp]);
+      col[comp] |= p[4*x + comp];
+      if (++i == 32) {
+        writePSChar('\n');
+        i = 0;
+      }
+    }
       }
       p += bitmap->getRowSize();
     }
@@ -2973,23 +2973,23 @@ void PSOutputDev::startPage(int pageNum, GfxState *state) {
     } else {
       rotate = (360 - state->getRotate()) % 360;
       if (rotate == 0 || rotate == 180) {
-	if (width > height && width > imgWidth) {
-	  rotate += 90;
-	  landscape = gTrue;
-	} else {
-	  landscape = gFalse;
-	}
+    if (width > height && width > imgWidth) {
+      rotate += 90;
+      landscape = gTrue;
+    } else {
+      landscape = gFalse;
+    }
       } else { // rotate == 90 || rotate == 270
-	if (height > width && height > imgWidth) {
-	  rotate = 270 - rotate;
-	  landscape = gTrue;
-	} else {
-	  landscape = gFalse;
-	}
+    if (height > width && height > imgWidth) {
+      rotate = 270 - rotate;
+      landscape = gTrue;
+    } else {
+      landscape = gFalse;
+    }
       }
     }
     writePSFmt("%%PageOrientation: {0:s}\n",
-	       landscape ? "Landscape" : "Portrait");
+           landscape ? "Landscape" : "Portrait");
     writePS("pdfStartPage\n");
     if (rotate == 0) {
       imgWidth2 = imgWidth;
@@ -3016,15 +3016,15 @@ void PSOutputDev::startPage(int pageNum, GfxState *state) {
       xScale = xScale0;
       yScale = yScale0;
     } else if ((globalParams->getPSShrinkLarger() &&
-	 (width > imgWidth2 || height > imgHeight2)) ||
-	(globalParams->getPSExpandSmaller() &&
-	 (width < imgWidth2 && height < imgHeight2))) {
+     (width > imgWidth2 || height > imgHeight2)) ||
+    (globalParams->getPSExpandSmaller() &&
+     (width < imgWidth2 && height < imgHeight2))) {
       xScale = (double)imgWidth2 / (double)width;
       yScale = (double)imgHeight2 / (double)height;
       if (yScale < xScale) {
-	xScale = yScale;
+    xScale = yScale;
       } else {
-	yScale = xScale;
+    yScale = xScale;
       }
     } else {
       xScale = yScale = 1;
@@ -3043,11 +3043,11 @@ void PSOutputDev::startPage(int pageNum, GfxState *state) {
       ty += rotate == 0 ? ty0 : -tx0;
     } else if (globalParams->getPSCenter()) {
       if (clipLLX0 < clipURX0 && clipLLY0 < clipURY0) {
-	tx += (imgWidth2 - xScale * (clipURX0 - clipLLX0)) / 2;
-	ty += (imgHeight2 - yScale * (clipURY0 - clipLLY0)) / 2;
+    tx += (imgWidth2 - xScale * (clipURX0 - clipLLX0)) / 2;
+    ty += (imgHeight2 - yScale * (clipURY0 - clipLLY0)) / 2;
       } else {
-	tx += (imgWidth2 - xScale * width) / 2;
-	ty += (imgHeight2 - yScale * height) / 2;
+    tx += (imgWidth2 - xScale * width) / 2;
+    ty += (imgHeight2 - yScale * height) / 2;
       }
     }
     tx += rotate == 0 ? imgLLX : imgLLY;
@@ -3060,7 +3060,7 @@ void PSOutputDev::startPage(int pageNum, GfxState *state) {
     }
     if (clipLLX0 < clipURX0 && clipLLY0 < clipURY0) {
       writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} re W\n",
-		 clipLLX0, clipLLY0, clipURX0 - clipLLX0, clipURY0 - clipLLY0);
+         clipLLX0, clipLLY0, clipURX0 - clipLLX0, clipURY0 - clipLLY0);
     } else {
       writePSFmt("{0:d} {1:d} {2:d} {3:d} re W\n", x1, y1, x2 - x1, y2 - y1);
     }
@@ -3136,9 +3136,9 @@ void PSOutputDev::restoreState(GfxState *state) {
 }
 
 void PSOutputDev::updateCTM(GfxState *state, double m11, double m12,
-			    double m21, double m22, double m31, double m32) {
+                double m21, double m22, double m31, double m32) {
   writePSFmt("[{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g}] cm\n",
-	     m11, m12, m21, m22, m31, m32);
+         m11, m12, m21, m22, m31, m32);
 }
 
 void PSOutputDev::updateLineDash(GfxState *state) {
@@ -3150,8 +3150,8 @@ void PSOutputDev::updateLineDash(GfxState *state) {
   writePS("[");
   for (i = 0; i < length; ++i) {
     writePSFmt("{0:.4g}{1:w}",
-	       dash[i] < 0 ? 0 : dash[i],
-	       (i == length-1) ? 0 : 1);
+           dash[i] < 0 ? 0 : dash[i],
+           (i == length-1) ? 0 : 1);
   }
   writePSFmt("] {0:.4g} d\n", start);
 }
@@ -3241,10 +3241,10 @@ void PSOutputDev::updateFillColor(GfxState *state) {
       colorPtr = state->getFillColor();
       writePS("[");
       for (i = 0; i < state->getFillColorSpace()->getNComps(); ++i) {
-	if (i > 0) {
-	  writePS(" ");
-	}
-	writePSFmt("{0:.4g}", colToDbl(colorPtr->c[i]));
+    if (i > 0) {
+      writePS(" ");
+    }
+    writePSFmt("{0:.4g}", colToDbl(colorPtr->c[i]));
       }
       writePS("] sc\n");
     }
@@ -3256,10 +3256,10 @@ void PSOutputDev::updateFillColor(GfxState *state) {
       color.c[0] = gfxColorComp1;
       sepCS->getCMYK(&color, &cmyk);
       writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} ({5:t}) ck\n",
-		 colToDbl(state->getFillColor()->c[0]),
-		 colToDbl(cmyk.c), colToDbl(cmyk.m),
-		 colToDbl(cmyk.y), colToDbl(cmyk.k),
-		 sepCS->getName());
+         colToDbl(state->getFillColor()->c[0]),
+         colToDbl(cmyk.c), colToDbl(cmyk.m),
+         colToDbl(cmyk.y), colToDbl(cmyk.k),
+         sepCS->getName());
       addCustomColor(sepCS);
     } else {
       state->getFillCMYK(&cmyk);
@@ -3304,10 +3304,10 @@ void PSOutputDev::updateStrokeColor(GfxState *state) {
       colorPtr = state->getStrokeColor();
       writePS("[");
       for (i = 0; i < state->getStrokeColorSpace()->getNComps(); ++i) {
-	if (i > 0) {
-	  writePS(" ");
-	}
-	writePSFmt("{0:.4g}", colToDbl(colorPtr->c[i]));
+    if (i > 0) {
+      writePS(" ");
+    }
+    writePSFmt("{0:.4g}", colToDbl(colorPtr->c[i]));
       }
       writePS("] SC\n");
     }
@@ -3319,10 +3319,10 @@ void PSOutputDev::updateStrokeColor(GfxState *state) {
       color.c[0] = gfxColorComp1;
       sepCS->getCMYK(&color, &cmyk);
       writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} ({5:t}) CK\n",
-		 colToDbl(state->getStrokeColor()->c[0]),
-		 colToDbl(cmyk.c), colToDbl(cmyk.m),
-		 colToDbl(cmyk.y), colToDbl(cmyk.k),
-		 sepCS->getName());
+         colToDbl(state->getStrokeColor()->c[0]),
+         colToDbl(cmyk.c), colToDbl(cmyk.m),
+         colToDbl(cmyk.y), colToDbl(cmyk.k),
+         sepCS->getName());
       addCustomColor(sepCS);
     } else {
       state->getStrokeCMYK(&cmyk);
@@ -3366,8 +3366,8 @@ void PSOutputDev::addCustomColor(GfxSeparationColorSpace *sepCS) {
   color.c[0] = gfxColorComp1;
   sepCS->getCMYK(&color, &cmyk);
   cc = new PSOutCustomColor(colToDbl(cmyk.c), colToDbl(cmyk.m),
-			    colToDbl(cmyk.y), colToDbl(cmyk.k),
-			    sepCS->getName()->copy());
+                colToDbl(cmyk.y), colToDbl(cmyk.k),
+                sepCS->getName()->copy());
   cc->next = customColors;
   customColors = cc;
 }
@@ -3392,7 +3392,7 @@ void PSOutputDev::updateTransfer(GfxState *state) {
   if (funcs[0] && funcs[1] && funcs[2] && funcs[3]) {
     if (level >= psLevel2) {
       for (i = 0; i < 4; ++i) {
-	cvtFunction(funcs[i]);
+    cvtFunction(funcs[i]);
       }
       writePS("setcolortransfer\n");
     } else {
@@ -3410,9 +3410,9 @@ void PSOutputDev::updateTransfer(GfxState *state) {
 void PSOutputDev::updateFont(GfxState *state) {
   if (state->getFont()) {
     writePSFmt("/F{0:d}_{1:d} {2:.4g} Tf\n",
-	       state->getFont()->getID()->num, state->getFont()->getID()->gen,
-	       fabs(state->getFontSize()) < 0.00001 ? 0.00001
-	                                            : state->getFontSize());
+           state->getFont()->getID()->num, state->getFont()->getID()->gen,
+           fabs(state->getFontSize()) < 0.00001 ? 0.00001
+                                                : state->getFontSize());
   }
 }
 
@@ -3425,7 +3425,7 @@ void PSOutputDev::updateTextMat(GfxState *state) {
     writePSFmt("[0.00001 0 0 0.00001 {0:.4g} {1:.4g}] Tm\n", mat[4], mat[5]);
   } else {
     writePSFmt("[{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g}] Tm\n",
-	       mat[0], mat[1], mat[2], mat[3], mat[4], mat[5]);
+           mat[0], mat[1], mat[2], mat[3], mat[4], mat[5]);
   }
 }
 
@@ -3496,10 +3496,10 @@ void PSOutputDev::eoFill(GfxState *state) {
 }
 
 void PSOutputDev::tilingPatternFill(GfxState *state, Object *str,
-				    int paintType, Dict *resDict,
-				    double *mat, double *bbox,
-				    int x0, int y0, int x1, int y1,
-				    double xStep, double yStep) {
+                    int paintType, Dict *resDict,
+                    double *mat, double *bbox,
+                    int x0, int y0, int x1, int y1,
+                    double xStep, double yStep) {
   PDFRectangle box;
   Gfx *gfx;
 
@@ -3508,7 +3508,7 @@ void PSOutputDev::tilingPatternFill(GfxState *state, Object *str,
   writePS("/FontType 3 def\n");
   writePS("/FontMatrix [1 0 0 1 0 0] def\n");
   writePSFmt("/FontBBox [{0:.4g} {1:.4g} {2:.4g} {3:.4g}] def\n",
-	     bbox[0], bbox[1], bbox[2], bbox[3]);
+         bbox[0], bbox[1], bbox[2], bbox[3]);
   writePS("/Encoding 256 array def\n");
   writePS("  0 1 255 { Encoding exch /.notdef put } for\n");
   writePS("  Encoding 120 /x put\n");
@@ -3531,7 +3531,7 @@ void PSOutputDev::tilingPatternFill(GfxState *state, Object *str,
   writePS("/x {\n");
   if (paintType == 2) {
     writePSFmt("{0:.4g} 0 {1:.4g} {2:.4g} {3:.4g} {4:.4g} setcachedevice\n",
-	       xStep, bbox[0], bbox[1], bbox[2], bbox[3]);
+           xStep, bbox[0], bbox[1], bbox[2], bbox[3]);
   } else {
     if (x1 - 1 <= x0) {
       writePS("1 0 setcharwidth\n");
@@ -3553,14 +3553,14 @@ void PSOutputDev::tilingPatternFill(GfxState *state, Object *str,
   // draw the tiles
   writePSFmt("/xpdfTile{0:d} findfont setfont\n", numTilingPatterns);
   writePSFmt("gsave [{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g}] concat\n",
-	     mat[0], mat[1], mat[2], mat[3], mat[4], mat[5]);
+         mat[0], mat[1], mat[2], mat[3], mat[4], mat[5]);
   writePSFmt("{0:d} 1 {1:d} {{ {2:.4g} exch {3:.4g} mul m {4:d} 1 {5:d} {{ pop (x) show }} for }} for\n",
-	     y0, y1 - 1, x0 * xStep, yStep, x0, x1 - 1);
+         y0, y1 - 1, x0 * xStep, yStep, x0, x1 - 1);
   writePS("grestore\n");
 }
 
 GBool PSOutputDev::functionShadedFill(GfxState *state,
-				      GfxFunctionShading *shading) {
+                      GfxFunctionShading *shading) {
   double x0, y0, x1, y1;
   double *mat;
   int i;
@@ -3575,7 +3575,7 @@ GBool PSOutputDev::functionShadedFill(GfxState *state,
   shading->getDomain(&x0, &y0, &x1, &y1);
   mat = shading->getMatrix();
   writePSFmt("/mat [{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g}] def\n",
-	     mat[0], mat[1], mat[2], mat[3], mat[4], mat[5]);
+         mat[0], mat[1], mat[2], mat[3], mat[4], mat[5]);
   writePSFmt("/n {0:d} def\n", shading->getColorSpace()->getNComps());
   if (shading->getNFuncs() == 1) {
     writePS("/func ");
@@ -3585,12 +3585,12 @@ GBool PSOutputDev::functionShadedFill(GfxState *state,
     writePS("/func {\n");
     for (i = 0; i < shading->getNFuncs(); ++i) {
       if (i < shading->getNFuncs() - 1) {
-	writePS("2 copy\n");
+    writePS("2 copy\n");
       }
       cvtFunction(shading->getFunc(i));
       writePS("exec\n");
       if (i < shading->getNFuncs() - 1) {
-	writePS("3 1 roll\n");
+    writePS("3 1 roll\n");
       }
     }
     writePS("} def\n");
@@ -3679,12 +3679,12 @@ GBool PSOutputDev::axialShadedFill(GfxState *state, GfxAxialShading *shading) {
     writePS("/func {\n");
     for (i = 0; i < shading->getNFuncs(); ++i) {
       if (i < shading->getNFuncs() - 1) {
-	writePS("dup\n");
+    writePS("dup\n");
       }
       cvtFunction(shading->getFunc(i));
       writePS("exec\n");
       if (i < shading->getNFuncs() - 1) {
-	writePS("exch\n");
+    writePS("exch\n");
       }
     }
     writePS("} def\n");
@@ -3695,7 +3695,7 @@ GBool PSOutputDev::axialShadedFill(GfxState *state, GfxAxialShading *shading) {
 }
 
 GBool PSOutputDev::radialShadedFill(GfxState *state,
-				    GfxRadialShading *shading) {
+                    GfxRadialShading *shading) {
   double xMin, yMin, xMax, yMax;
   double x0, y0, r0, x1, y1, r1, t0, t1;
   double xa, ya, ra;
@@ -3756,46 +3756,46 @@ GBool PSOutputDev::radialShadedFill(GfxState *state,
     if ((x1 + r1) - (x0 + r0) != 0) {
       sa = (xMin - (x0 + r0)) / ((x1 + r1) - (x0 + r0));
       if (sa < sMin) {
-	sMin = sa;
+    sMin = sa;
       } else if (sa > sMax) {
-	sMax = sa;
+    sMax = sa;
       }
     }
     // solve for x(s) - r(s) = xMax
     if ((x1 - r1) - (x0 - r0) != 0) {
       sa = (xMax - (x0 - r0)) / ((x1 - r1) - (x0 - r0));
       if (sa < sMin) {
-	sMin = sa;
+    sMin = sa;
       } else if (sa > sMax) {
-	sMax = sa;
+    sMax = sa;
       }
     }
     // solve for y(s) + r(s) = yMin
     if ((y1 + r1) - (y0 + r0) != 0) {
       sa = (yMin - (y0 + r0)) / ((y1 + r1) - (y0 + r0));
       if (sa < sMin) {
-	sMin = sa;
+    sMin = sa;
       } else if (sa > sMax) {
-	sMax = sa;
+    sMax = sa;
       }
     }
     // solve for y(s) - r(s) = yMax
     if ((y1 - r1) - (y0 - r0) != 0) {
       sa = (yMax - (y0 - r0)) / ((y1 - r1) - (y0 - r0));
       if (sa < sMin) {
-	sMin = sa;
+    sMin = sa;
       } else if (sa > sMax) {
-	sMax = sa;
+    sMax = sa;
       }
     }
     // check against sz
     if (r0 < r1) {
       if (sMin < sz) {
-	sMin = sz;
+    sMin = sz;
       }
     } else if (r0 > r1) {
       if (sMax > sz) {
-	sMax = sz;
+    sMax = sz;
       }
     }
     // check the 'extend' flags
@@ -3832,12 +3832,12 @@ GBool PSOutputDev::radialShadedFill(GfxState *state,
     writePS("/func {\n");
     for (i = 0; i < shading->getNFuncs(); ++i) {
       if (i < shading->getNFuncs() - 1) {
-	writePS("dup\n");
+    writePS("dup\n");
       }
       cvtFunction(shading->getFunc(i));
       writePS("exec\n");
       if (i < shading->getNFuncs() - 1) {
-	writePS("exch\n");
+    writePS("exch\n");
       }
     }
     writePS("} def\n");
@@ -3848,48 +3848,48 @@ GBool PSOutputDev::radialShadedFill(GfxState *state,
   if (enclosed) {
     // extend the smaller circle
     if ((shading->getExtend0() && r0 <= r1) ||
-	(shading->getExtend1() && r1 < r0)) {
+    (shading->getExtend1() && r1 < r0)) {
       if (r0 <= r1) {
-	ta = t0;
-	ra = r0;
-	xa = x0;
-	ya = y0;
+    ta = t0;
+    ra = r0;
+    xa = x0;
+    ya = y0;
       } else {
-	ta = t1;
-	ra = r1;
-	xa = x1;
-	ya = y1;
+    ta = t1;
+    ra = r1;
+    xa = x1;
+    ya = y1;
       }
       if (level == psLevel2Sep || level == psLevel3Sep) {
-	writePSFmt("{0:.4g} radialCol aload pop k\n", ta);
+    writePSFmt("{0:.4g} radialCol aload pop k\n", ta);
       } else {
-	writePSFmt("{0:.4g} radialCol sc\n", ta);
+    writePSFmt("{0:.4g} radialCol sc\n", ta);
       }
       writePSFmt("{0:.4g} {1:.4g} {2:.4g} 0 360 arc h f*\n", xa, ya, ra);
     }
 
     // extend the larger circle
     if ((shading->getExtend0() && r0 > r1) ||
-	(shading->getExtend1() && r1 >= r0)) {
+    (shading->getExtend1() && r1 >= r0)) {
       if (r0 > r1) {
-	ta = t0;
-	ra = r0;
-	xa = x0;
-	ya = y0;
+    ta = t0;
+    ra = r0;
+    xa = x0;
+    ya = y0;
       } else {
-	ta = t1;
-	ra = r1;
-	xa = x1;
-	ya = y1;
+    ta = t1;
+    ra = r1;
+    xa = x1;
+    ya = y1;
       }
       if (level == psLevel2Sep || level == psLevel3Sep) {
-	writePSFmt("{0:.4g} radialCol aload pop k\n", ta);
+    writePSFmt("{0:.4g} radialCol aload pop k\n", ta);
       } else {
-	writePSFmt("{0:.4g} radialCol sc\n", ta);
+    writePSFmt("{0:.4g} radialCol sc\n", ta);
       }
       writePSFmt("{0:.4g} {1:.4g} {2:.4g} 0 360 arc h\n", xa, ya, ra);
       writePSFmt("{0:.4g} {1:.4g} m {2:.4g} {3:.4g} l {4:.4g} {5:.4g} l {6:.4g} {7:.4g} l h f*\n",
-		 xMin, yMin, xMin, yMax, xMax, yMax, xMax, yMin);
+         xMin, yMin, xMin, yMax, xMax, yMax, xMax, yMin);
     }
   }
 
@@ -3932,15 +3932,15 @@ void PSOutputDev::doPath(GfxPath *path) {
       x3 = subpath->getX(3);
       y3 = subpath->getY(3);
       if (x0 == x1 && x2 == x3 && y0 == y3 && y1 == y2) {
-	writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} re\n",
-		   x0 < x2 ? x0 : x2, y0 < y1 ? y0 : y1,
-		   fabs(x2 - x0), fabs(y1 - y0));
-	return;
+    writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} re\n",
+           x0 < x2 ? x0 : x2, y0 < y1 ? y0 : y1,
+           fabs(x2 - x0), fabs(y1 - y0));
+    return;
       } else if (x0 == x3 && x1 == x2 && y0 == y1 && y2 == y3) {
-	writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} re\n",
-		   x0 < x1 ? x0 : x1, y0 < y2 ? y0 : y2,
-		   fabs(x1 - x0), fabs(y2 - y0));
-	return;
+    writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} re\n",
+           x0 < x1 ? x0 : x1, y0 < y2 ? y0 : y2,
+           fabs(x1 - x0), fabs(y2 - y0));
+    return;
       }
     }
   }
@@ -3952,14 +3952,14 @@ void PSOutputDev::doPath(GfxPath *path) {
     j = 1;
     while (j < m) {
       if (subpath->getCurve(j)) {
-	writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g} c\n",
-		   subpath->getX(j), subpath->getY(j),
-		   subpath->getX(j+1), subpath->getY(j+1),
-		   subpath->getX(j+2), subpath->getY(j+2));
-	j += 3;
+    writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g} c\n",
+           subpath->getX(j), subpath->getY(j),
+           subpath->getX(j+1), subpath->getY(j+1),
+           subpath->getX(j+2), subpath->getY(j+2));
+    j += 3;
       } else {
-	writePSFmt("{0:.4g} {1:.4g} l\n", subpath->getX(j), subpath->getY(j));
-	++j;
+    writePSFmt("{0:.4g} {1:.4g} l\n", subpath->getX(j), subpath->getY(j));
+    ++j;
       }
     }
     if (subpath->isClosed()) {
@@ -4003,9 +4003,9 @@ void PSOutputDev::drawString(GfxState *state, GString *s) {
   if (font->isCIDFont()) {
     for (i = 0; i < font16EncLen; ++i) {
       if (font->getID()->num == font16Enc[i].fontID.num &&
-	  font->getID()->gen == font16Enc[i].fontID.gen) {
-	uMap = globalParams->getUnicodeMap(font16Enc[i].enc);
-	break;
+      font->getID()->gen == font16Enc[i].fontID.gen) {
+    uMap = globalParams->getUnicodeMap(font16Enc[i].enc);
+    break;
       }
     }
 
@@ -4013,9 +4013,9 @@ void PSOutputDev::drawString(GfxState *state, GString *s) {
   } else {
     for (i = 0; i < font8InfoLen; ++i) {
       if (font->getID()->num == font8Info[i].fontID.num &&
-	  font->getID()->gen == font8Info[i].fontID.gen) {
-	codeToGID = font8Info[i].codeToGID;
-	break;
+      font->getID()->gen == font8Info[i].fontID.gen) {
+    codeToGID = font8Info[i].codeToGID;
+    break;
       }
     }
   }
@@ -4030,28 +4030,28 @@ void PSOutputDev::drawString(GfxState *state, GString *s) {
   s2 = new GString();
   while (len > 0) {
     n = font->getNextChar(p, len, &code,
-			  u, (int)(sizeof(u) / sizeof(Unicode)), &uLen,
-			  &dx2, &dy2, &originX, &originY);
+              u, (int)(sizeof(u) / sizeof(Unicode)), &uLen,
+              &dx2, &dy2, &originX, &originY);
     if (font->isCIDFont()) {
       if (uMap) {
-	for (i = 0; i < uLen; ++i) {
-	  m = uMap->mapUnicode(u[i], buf, (int)sizeof(buf));
-	  for (j = 0; j < m; ++j) {
-	    s2->append(buf[j]);
-	  }
-	}
-	//~ this really needs to get the number of chars in the target
-	//~ encoding - which may be more than the number of Unicode
-	//~ chars
-	nChars += uLen;
+    for (i = 0; i < uLen; ++i) {
+      m = uMap->mapUnicode(u[i], buf, (int)sizeof(buf));
+      for (j = 0; j < m; ++j) {
+        s2->append(buf[j]);
+      }
+    }
+    //~ this really needs to get the number of chars in the target
+    //~ encoding - which may be more than the number of Unicode
+    //~ chars
+    nChars += uLen;
       } else {
-	s2->append((char)((code >> 8) & 0xff));
-	s2->append((char)(code & 0xff));
-	++nChars;
+    s2->append((char)((code >> 8) & 0xff));
+    s2->append((char)(code & 0xff));
+    ++nChars;
       }
     } else {
       if (!codeToGID || codeToGID[code]) {
-	s2->append((char)code);
+    s2->append((char)code);
       }
     }
     dx += dx2;
@@ -4069,9 +4069,9 @@ void PSOutputDev::drawString(GfxState *state, GString *s) {
     writePSString(s2);
     if (font->isCIDFont()) {
       if (wMode) {
-	writePSFmt(" {0:d} {1:.4g} Tj16V\n", nChars, dy);
+    writePSFmt(" {0:d} {1:.4g} Tj16V\n", nChars, dy);
       } else {
-	writePSFmt(" {0:d} {1:.4g} Tj16\n", nChars, dx);
+    writePSFmt(" {0:d} {1:.4g} Tj16\n", nChars, dx);
       }
     } else {
       writePSFmt(" {0:.4g} Tj\n", dx);
@@ -4092,8 +4092,8 @@ void PSOutputDev::endTextObject(GfxState *state) {
 }
 
 void PSOutputDev::drawImageMask(GfxState *state, Object *ref, Stream *str,
-				int width, int height, GBool invert,
-				GBool inlineImg) {
+                int width, int height, GBool invert,
+                GBool inlineImg) {
   int len;
 
   len = height * ((width + 7) / 8);
@@ -4105,23 +4105,23 @@ void PSOutputDev::drawImageMask(GfxState *state, Object *ref, Stream *str,
   case psLevel2:
   case psLevel2Sep:
     doImageL2(ref, NULL, invert, inlineImg, str, width, height, len,
-	      NULL, NULL, 0, 0, gFalse);
+          NULL, NULL, 0, 0, gFalse);
     break;
   case psLevel3:
   case psLevel3Sep:
     doImageL3(ref, NULL, invert, inlineImg, str, width, height, len,
-	      NULL, NULL, 0, 0, gFalse);
+          NULL, NULL, 0, 0, gFalse);
     break;
   }
 }
 
 void PSOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
-			    int width, int height, GfxImageColorMap *colorMap,
-			    int *maskColors, GBool inlineImg) {
+                int width, int height, GfxImageColorMap *colorMap,
+                int *maskColors, GBool inlineImg) {
   int len;
 
   len = height * ((width * colorMap->getNumPixelComps() *
-		   colorMap->getBits() + 7) / 8);
+           colorMap->getBits() + 7) / 8);
   switch (level) {
   case psLevel1:
     doImageL1(ref, colorMap, gFalse, inlineImg, str, width, height, len);
@@ -4133,27 +4133,27 @@ void PSOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
   case psLevel2:
   case psLevel2Sep:
     doImageL2(ref, colorMap, gFalse, inlineImg, str,
-	      width, height, len, maskColors, NULL, 0, 0, gFalse);
+          width, height, len, maskColors, NULL, 0, 0, gFalse);
     break;
   case psLevel3:
   case psLevel3Sep:
     doImageL3(ref, colorMap, gFalse, inlineImg, str,
-	      width, height, len, maskColors, NULL, 0, 0, gFalse);
+          width, height, len, maskColors, NULL, 0, 0, gFalse);
     break;
   }
   t3Cacheable = gFalse;
 }
 
 void PSOutputDev::drawMaskedImage(GfxState *state, Object *ref, Stream *str,
-				  int width, int height,
-				  GfxImageColorMap *colorMap,
-				  Stream *maskStr,
-				  int maskWidth, int maskHeight,
-				  GBool maskInvert) {
+                  int width, int height,
+                  GfxImageColorMap *colorMap,
+                  Stream *maskStr,
+                  int maskWidth, int maskHeight,
+                  GBool maskInvert) {
   int len;
 
   len = height * ((width * colorMap->getNumPixelComps() *
-		   colorMap->getBits() + 7) / 8);
+           colorMap->getBits() + 7) / 8);
   switch (level) {
   case psLevel1:
     doImageL1(ref, colorMap, gFalse, gFalse, str, width, height, len);
@@ -4165,20 +4165,20 @@ void PSOutputDev::drawMaskedImage(GfxState *state, Object *ref, Stream *str,
   case psLevel2:
   case psLevel2Sep:
     doImageL2(ref, colorMap, gFalse, gFalse, str, width, height, len,
-	      NULL, maskStr, maskWidth, maskHeight, maskInvert);
+          NULL, maskStr, maskWidth, maskHeight, maskInvert);
     break;
   case psLevel3:
   case psLevel3Sep:
     doImageL3(ref, colorMap, gFalse, gFalse, str, width, height, len,
-	      NULL, maskStr, maskWidth, maskHeight, maskInvert);
+          NULL, maskStr, maskWidth, maskHeight, maskInvert);
     break;
   }
   t3Cacheable = gFalse;
 }
 
 void PSOutputDev::doImageL1(Object *ref, GfxImageColorMap *colorMap,
-			    GBool invert, GBool inlineImg,
-			    Stream *str, int width, int height, int len) {
+                GBool invert, GBool inlineImg,
+                Stream *str, int width, int height, int len) {
   ImageStream *imgStr;
   Guchar pixBuf[gfxColorMaxComps];
   GfxGray gray;
@@ -4193,22 +4193,22 @@ void PSOutputDev::doImageL1(Object *ref, GfxImageColorMap *colorMap,
       col = 0;
       writePS("[<");
       do {
-	do {
-	  c = str->getChar();
-	} while (c == '\n' || c == '\r');
-	if (c == '>' || c == EOF) {
-	  break;
-	}
-	writePSChar(c);
-	++col;
-	// each line is: "<...data...><eol>"
-	// so max data length = 255 - 4 = 251
-	// but make it 240 just to be safe
-	// chunks are 2 bytes each, so we need to stop on an even col number
-	if (col == 240) {
-	  writePS(">\n<");
-	  col = 0;
-	}
+    do {
+      c = str->getChar();
+    } while (c == '\n' || c == '\r');
+    if (c == '>' || c == EOF) {
+      break;
+    }
+    writePSChar(c);
+    ++col;
+    // each line is: "<...data...><eol>"
+    // so max data length = 255 - 4 = 251
+    // but make it 240 just to be safe
+    // chunks are 2 bytes each, so we need to stop on an even col number
+    if (col == 240) {
+      writePS(">\n<");
+      col = 0;
+    }
       } while (c != '>' && c != EOF);
       writePS(">]\n");
       writePS("0\n");
@@ -4223,16 +4223,16 @@ void PSOutputDev::doImageL1(Object *ref, GfxImageColorMap *colorMap,
   // image/imagemask command
   if ((inType3Char || preload) && !colorMap) {
     writePSFmt("{0:d} {1:d} {2:s} [{3:d} 0 0 {4:d} 0 {5:d}] pdfImM1a\n",
-	       width, height, invert ? "true" : "false",
-	       width, -height, height);
+           width, height, invert ? "true" : "false",
+           width, -height, height);
   } else if (colorMap) {
     writePSFmt("{0:d} {1:d} 8 [{2:d} 0 0 {3:d} 0 {4:d}] pdfIm1\n",
-	       width, height,
-	       width, -height, height);
+           width, height,
+           width, -height, height);
   } else {
     writePSFmt("{0:d} {1:d} {2:s} [{3:d} 0 0 {4:d} 0 {5:d}] pdfImM1\n",
-	       width, height, invert ? "true" : "false",
-	       width, -height, height);
+           width, height, invert ? "true" : "false",
+           width, -height, height);
   }
 
   // image data
@@ -4242,26 +4242,26 @@ void PSOutputDev::doImageL1(Object *ref, GfxImageColorMap *colorMap,
 
       // set up to process the data stream
       imgStr = new ImageStream(str, width, colorMap->getNumPixelComps(),
-			       colorMap->getBits());
+                   colorMap->getBits());
       imgStr->reset();
 
       // process the data stream
       i = 0;
       for (y = 0; y < height; ++y) {
 
-	// write the line
-	for (x = 0; x < width; ++x) {
-	  imgStr->getPixel(pixBuf);
-	  colorMap->getGray(pixBuf, &gray);
-	  writePSFmt("{0:02x}", colToByte(gray));
-	  if (++i == 32) {
-	    writePSChar('\n');
-	    i = 0;
-	  }
-	}
+    // write the line
+    for (x = 0; x < width; ++x) {
+      imgStr->getPixel(pixBuf);
+      colorMap->getGray(pixBuf, &gray);
+      writePSFmt("{0:02x}", colToByte(gray));
+      if (++i == 32) {
+        writePSChar('\n');
+        i = 0;
+      }
+    }
       }
       if (i != 0) {
-	writePSChar('\n');
+    writePSChar('\n');
       }
       str->close();
       delete imgStr;
@@ -4271,16 +4271,16 @@ void PSOutputDev::doImageL1(Object *ref, GfxImageColorMap *colorMap,
       str->reset();
       i = 0;
       for (y = 0; y < height; ++y) {
-	for (x = 0; x < width; x += 8) {
-	  writePSFmt("{0:02x}", str->getChar() & 0xff);
-	  if (++i == 32) {
-	    writePSChar('\n');
-	    i = 0;
-	  }
-	}
+    for (x = 0; x < width; x += 8) {
+      writePSFmt("{0:02x}", str->getChar() & 0xff);
+      if (++i == 32) {
+        writePSChar('\n');
+        i = 0;
+      }
+    }
       }
       if (i != 0) {
-	writePSChar('\n');
+    writePSChar('\n');
       }
       str->close();
     }
@@ -4288,8 +4288,8 @@ void PSOutputDev::doImageL1(Object *ref, GfxImageColorMap *colorMap,
 }
 
 void PSOutputDev::doImageL1Sep(GfxImageColorMap *colorMap,
-			       GBool invert, GBool inlineImg,
-			       Stream *str, int width, int height, int len) {
+                   GBool invert, GBool inlineImg,
+                   Stream *str, int width, int height, int len) {
   ImageStream *imgStr;
   Guchar *lineBuf;
   Guchar pixBuf[gfxColorMaxComps];
@@ -4298,15 +4298,15 @@ void PSOutputDev::doImageL1Sep(GfxImageColorMap *colorMap,
 
   // width, height, matrix, bits per component
   writePSFmt("{0:d} {1:d} 8 [{2:d} 0 0 {3:d} 0 {4:d}] pdfIm1Sep\n",
-	     width, height,
-	     width, -height, height);
+         width, height,
+         width, -height, height);
 
   // allocate a line buffer
   lineBuf = (Guchar *)gmalloc(4 * width);
 
   // set up to process the data stream
   imgStr = new ImageStream(str, width, colorMap->getNumPixelComps(),
-			   colorMap->getBits());
+               colorMap->getBits());
   imgStr->reset();
 
   // process the data stream
@@ -4322,17 +4322,17 @@ void PSOutputDev::doImageL1Sep(GfxImageColorMap *colorMap,
       lineBuf[4*x+2] = colToByte(cmyk.y);
       lineBuf[4*x+3] = colToByte(cmyk.k);
       addProcessColor(colToDbl(cmyk.c), colToDbl(cmyk.m),
-		      colToDbl(cmyk.y), colToDbl(cmyk.k));
+              colToDbl(cmyk.y), colToDbl(cmyk.k));
     }
 
     // write one line of each color component
     for (comp = 0; comp < 4; ++comp) {
       for (x = 0; x < width; ++x) {
-	writePSFmt("{0:02x}", lineBuf[4*x + comp]);
-	if (++i == 32) {
-	  writePSChar('\n');
-	  i = 0;
-	}
+    writePSFmt("{0:02x}", lineBuf[4*x + comp]);
+    if (++i == 32) {
+      writePSChar('\n');
+      i = 0;
+    }
       }
     }
   }
@@ -4347,10 +4347,10 @@ void PSOutputDev::doImageL1Sep(GfxImageColorMap *colorMap,
 }
 
 void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
-			    GBool invert, GBool inlineImg,
-			    Stream *str, int width, int height, int len,
-			    int *maskColors, Stream *maskStr,
-			    int maskWidth, int maskHeight, GBool maskInvert) {
+                GBool invert, GBool inlineImg,
+                Stream *str, int width, int height, int len,
+                int *maskColors, Stream *maskStr,
+                int maskWidth, int maskHeight, GBool maskInvert) {
   Stream *str2;
   ImageStream *imgStr;
   Guchar *line;
@@ -4378,104 +4378,104 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
     rects0 = (PSOutImgClipRect *)gmallocn(rectsSize, sizeof(PSOutImgClipRect));
     rects1 = (PSOutImgClipRect *)gmallocn(rectsSize, sizeof(PSOutImgClipRect));
     rectsOut = (PSOutImgClipRect *)gmallocn(rectsOutSize,
-					    sizeof(PSOutImgClipRect));
+                        sizeof(PSOutImgClipRect));
     for (y = 0; y < height; ++y) {
       if (!(line = imgStr->getLine())) {
-	break;
+    break;
       }
       i = 0;
       rects1Len = 0;
       for (x0 = 0; x0 < width; ++x0) {
-	for (j = 0; j < numComps; ++j) {
-	  if (line[x0*numComps+j] < maskColors[2*j] ||
-	      line[x0*numComps+j] > maskColors[2*j+1]) {
-	    break;
-	  }
-	}
-	if (j < numComps) {
-	  break;
-	}
+    for (j = 0; j < numComps; ++j) {
+      if (line[x0*numComps+j] < maskColors[2*j] ||
+          line[x0*numComps+j] > maskColors[2*j+1]) {
+        break;
+      }
+    }
+    if (j < numComps) {
+      break;
+    }
       }
       for (x1 = x0; x1 < width; ++x1) {
-	for (j = 0; j < numComps; ++j) {
-	  if (line[x1*numComps+j] < maskColors[2*j] ||
-	      line[x1*numComps+j] > maskColors[2*j+1]) {
-	    break;
-	  }
-	}
-	if (j == numComps) {
-	  break;
-	}
+    for (j = 0; j < numComps; ++j) {
+      if (line[x1*numComps+j] < maskColors[2*j] ||
+          line[x1*numComps+j] > maskColors[2*j+1]) {
+        break;
+      }
+    }
+    if (j == numComps) {
+      break;
+    }
       }
       while (x0 < width || i < rects0Len) {
-	emitRect = addRect = extendRect = gFalse;
-	if (x0 >= width) {
-	  emitRect = gTrue;
-	} else if (i >= rects0Len) {
-	  addRect = gTrue;
-	} else if (rects0[i].x0 < x0) {
-	  emitRect = gTrue;
-	} else if (x0 < rects0[i].x0) {
-	  addRect = gTrue;
-	} else if (rects0[i].x1 == x1) {
-	  extendRect = gTrue;
-	} else {
-	  emitRect = addRect = gTrue;
-	}
-	if (emitRect) {
-	  if (rectsOutLen == rectsOutSize) {
-	    rectsOutSize *= 2;
-	    rectsOut = (PSOutImgClipRect *)greallocn(rectsOut, rectsOutSize,
-						     sizeof(PSOutImgClipRect));
-	  }
-	  rectsOut[rectsOutLen].x0 = rects0[i].x0;
-	  rectsOut[rectsOutLen].x1 = rects0[i].x1;
-	  rectsOut[rectsOutLen].y0 = height - y - 1;
-	  rectsOut[rectsOutLen].y1 = height - rects0[i].y0 - 1;
-	  ++rectsOutLen;
-	  ++i;
-	}
-	if (addRect || extendRect) {
-	  if (rects1Len == rectsSize) {
-	    rectsSize *= 2;
-	    rects0 = (PSOutImgClipRect *)greallocn(rects0, rectsSize,
-						   sizeof(PSOutImgClipRect));
-	    rects1 = (PSOutImgClipRect *)greallocn(rects1, rectsSize,
-						   sizeof(PSOutImgClipRect));
-	  }
-	  rects1[rects1Len].x0 = x0;
-	  rects1[rects1Len].x1 = x1;
-	  if (addRect) {
-	    rects1[rects1Len].y0 = y;
-	  }
-	  if (extendRect) {
-	    rects1[rects1Len].y0 = rects0[i].y0;
-	    ++i;
-	  }
-	  ++rects1Len;
-	  for (x0 = x1; x0 < width; ++x0) {
-	    for (j = 0; j < numComps; ++j) {
-	      if (line[x0*numComps+j] < maskColors[2*j] ||
-		  line[x0*numComps+j] > maskColors[2*j+1]) {
-		break;
-	      }
-	    }
-	    if (j < numComps) {
-	      break;
-	    }
-	  }
-	  for (x1 = x0; x1 < width; ++x1) {
-	    for (j = 0; j < numComps; ++j) {
-	      if (line[x1*numComps+j] < maskColors[2*j] ||
-		  line[x1*numComps+j] > maskColors[2*j+1]) {
-		break;
-	      }
-	    }
-	    if (j == numComps) {
-	      break;
-	    }
-	  }
-	}
+    emitRect = addRect = extendRect = gFalse;
+    if (x0 >= width) {
+      emitRect = gTrue;
+    } else if (i >= rects0Len) {
+      addRect = gTrue;
+    } else if (rects0[i].x0 < x0) {
+      emitRect = gTrue;
+    } else if (x0 < rects0[i].x0) {
+      addRect = gTrue;
+    } else if (rects0[i].x1 == x1) {
+      extendRect = gTrue;
+    } else {
+      emitRect = addRect = gTrue;
+    }
+    if (emitRect) {
+      if (rectsOutLen == rectsOutSize) {
+        rectsOutSize *= 2;
+        rectsOut = (PSOutImgClipRect *)greallocn(rectsOut, rectsOutSize,
+                             sizeof(PSOutImgClipRect));
+      }
+      rectsOut[rectsOutLen].x0 = rects0[i].x0;
+      rectsOut[rectsOutLen].x1 = rects0[i].x1;
+      rectsOut[rectsOutLen].y0 = height - y - 1;
+      rectsOut[rectsOutLen].y1 = height - rects0[i].y0 - 1;
+      ++rectsOutLen;
+      ++i;
+    }
+    if (addRect || extendRect) {
+      if (rects1Len == rectsSize) {
+        rectsSize *= 2;
+        rects0 = (PSOutImgClipRect *)greallocn(rects0, rectsSize,
+                           sizeof(PSOutImgClipRect));
+        rects1 = (PSOutImgClipRect *)greallocn(rects1, rectsSize,
+                           sizeof(PSOutImgClipRect));
+      }
+      rects1[rects1Len].x0 = x0;
+      rects1[rects1Len].x1 = x1;
+      if (addRect) {
+        rects1[rects1Len].y0 = y;
+      }
+      if (extendRect) {
+        rects1[rects1Len].y0 = rects0[i].y0;
+        ++i;
+      }
+      ++rects1Len;
+      for (x0 = x1; x0 < width; ++x0) {
+        for (j = 0; j < numComps; ++j) {
+          if (line[x0*numComps+j] < maskColors[2*j] ||
+          line[x0*numComps+j] > maskColors[2*j+1]) {
+        break;
+          }
+        }
+        if (j < numComps) {
+          break;
+        }
+      }
+      for (x1 = x0; x1 < width; ++x1) {
+        for (j = 0; j < numComps; ++j) {
+          if (line[x1*numComps+j] < maskColors[2*j] ||
+          line[x1*numComps+j] > maskColors[2*j+1]) {
+        break;
+          }
+        }
+        if (j == numComps) {
+          break;
+        }
+      }
+    }
       }
       rectsTmp = rects0;
       rects0 = rects1;
@@ -4486,9 +4486,9 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
     }
     for (i = 0; i < rects0Len; ++i) {
       if (rectsOutLen == rectsOutSize) {
-	rectsOutSize *= 2;
-	rectsOut = (PSOutImgClipRect *)greallocn(rectsOut, rectsOutSize,
-						 sizeof(PSOutImgClipRect));
+    rectsOutSize *= 2;
+    rectsOut = (PSOutImgClipRect *)greallocn(rectsOut, rectsOutSize,
+                         sizeof(PSOutImgClipRect));
       }
       rectsOut[rectsOutLen].x0 = rects0[i].x0;
       rectsOut[rectsOutLen].x1 = rects0[i].x1;
@@ -4499,9 +4499,9 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
     writePSFmt("{0:d} array 0\n", rectsOutLen * 4);
     for (i = 0; i < rectsOutLen; ++i) {
       writePSFmt("[{0:d} {1:d} {2:d} {3:d}] pr\n",
-		 rectsOut[i].x0, rectsOut[i].y0,
-		 rectsOut[i].x1 - rectsOut[i].x0,
-		 rectsOut[i].y1 - rectsOut[i].y0);
+         rectsOut[i].x0, rectsOut[i].y0,
+         rectsOut[i].x1 - rectsOut[i].x0,
+         rectsOut[i].y1 - rectsOut[i].y0);
     }
     writePSFmt("pop {0:d} {1:d} pdfImClip\n", width, height);
     gfree(rectsOut);
@@ -4519,65 +4519,65 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
     rects0 = (PSOutImgClipRect *)gmallocn(rectsSize, sizeof(PSOutImgClipRect));
     rects1 = (PSOutImgClipRect *)gmallocn(rectsSize, sizeof(PSOutImgClipRect));
     rectsOut = (PSOutImgClipRect *)gmallocn(rectsOutSize,
-					    sizeof(PSOutImgClipRect));
+                        sizeof(PSOutImgClipRect));
     maskXor = maskInvert ? 1 : 0;
     for (y = 0; y < maskHeight; ++y) {
       if (!(line = imgStr->getLine())) {
-	break;
+    break;
       }
       i = 0;
       rects1Len = 0;
       for (x0 = 0; x0 < maskWidth && (line[x0] ^ maskXor); ++x0) ;
       for (x1 = x0; x1 < maskWidth && !(line[x1] ^ maskXor); ++x1) ;
       while (x0 < maskWidth || i < rects0Len) {
-	emitRect = addRect = extendRect = gFalse;
-	if (x0 >= maskWidth) {
-	  emitRect = gTrue;
-	} else if (i >= rects0Len) {
-	  addRect = gTrue;
-	} else if (rects0[i].x0 < x0) {
-	  emitRect = gTrue;
-	} else if (x0 < rects0[i].x0) {
-	  addRect = gTrue;
-	} else if (rects0[i].x1 == x1) {
-	  extendRect = gTrue;
-	} else {
-	  emitRect = addRect = gTrue;
-	}
-	if (emitRect) {
-	  if (rectsOutLen == rectsOutSize) {
-	    rectsOutSize *= 2;
-	    rectsOut = (PSOutImgClipRect *)greallocn(rectsOut, rectsOutSize,
-						     sizeof(PSOutImgClipRect));
-	  }
-	  rectsOut[rectsOutLen].x0 = rects0[i].x0;
-	  rectsOut[rectsOutLen].x1 = rects0[i].x1;
-	  rectsOut[rectsOutLen].y0 = maskHeight - y - 1;
-	  rectsOut[rectsOutLen].y1 = maskHeight - rects0[i].y0 - 1;
-	  ++rectsOutLen;
-	  ++i;
-	}
-	if (addRect || extendRect) {
-	  if (rects1Len == rectsSize) {
-	    rectsSize *= 2;
-	    rects0 = (PSOutImgClipRect *)greallocn(rects0, rectsSize,
-						   sizeof(PSOutImgClipRect));
-	    rects1 = (PSOutImgClipRect *)greallocn(rects1, rectsSize,
-						   sizeof(PSOutImgClipRect));
-	  }
-	  rects1[rects1Len].x0 = x0;
-	  rects1[rects1Len].x1 = x1;
-	  if (addRect) {
-	    rects1[rects1Len].y0 = y;
-	  }
-	  if (extendRect) {
-	    rects1[rects1Len].y0 = rects0[i].y0;
-	    ++i;
-	  }
-	  ++rects1Len;
-	  for (x0 = x1; x0 < maskWidth && (line[x0] ^ maskXor); ++x0) ;
-	  for (x1 = x0; x1 < maskWidth && !(line[x1] ^ maskXor); ++x1) ;
-	}
+    emitRect = addRect = extendRect = gFalse;
+    if (x0 >= maskWidth) {
+      emitRect = gTrue;
+    } else if (i >= rects0Len) {
+      addRect = gTrue;
+    } else if (rects0[i].x0 < x0) {
+      emitRect = gTrue;
+    } else if (x0 < rects0[i].x0) {
+      addRect = gTrue;
+    } else if (rects0[i].x1 == x1) {
+      extendRect = gTrue;
+    } else {
+      emitRect = addRect = gTrue;
+    }
+    if (emitRect) {
+      if (rectsOutLen == rectsOutSize) {
+        rectsOutSize *= 2;
+        rectsOut = (PSOutImgClipRect *)greallocn(rectsOut, rectsOutSize,
+                             sizeof(PSOutImgClipRect));
+      }
+      rectsOut[rectsOutLen].x0 = rects0[i].x0;
+      rectsOut[rectsOutLen].x1 = rects0[i].x1;
+      rectsOut[rectsOutLen].y0 = maskHeight - y - 1;
+      rectsOut[rectsOutLen].y1 = maskHeight - rects0[i].y0 - 1;
+      ++rectsOutLen;
+      ++i;
+    }
+    if (addRect || extendRect) {
+      if (rects1Len == rectsSize) {
+        rectsSize *= 2;
+        rects0 = (PSOutImgClipRect *)greallocn(rects0, rectsSize,
+                           sizeof(PSOutImgClipRect));
+        rects1 = (PSOutImgClipRect *)greallocn(rects1, rectsSize,
+                           sizeof(PSOutImgClipRect));
+      }
+      rects1[rects1Len].x0 = x0;
+      rects1[rects1Len].x1 = x1;
+      if (addRect) {
+        rects1[rects1Len].y0 = y;
+      }
+      if (extendRect) {
+        rects1[rects1Len].y0 = rects0[i].y0;
+        ++i;
+      }
+      ++rects1Len;
+      for (x0 = x1; x0 < maskWidth && (line[x0] ^ maskXor); ++x0) ;
+      for (x1 = x0; x1 < maskWidth && !(line[x1] ^ maskXor); ++x1) ;
+    }
       }
       rectsTmp = rects0;
       rects0 = rects1;
@@ -4588,9 +4588,9 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
     }
     for (i = 0; i < rects0Len; ++i) {
       if (rectsOutLen == rectsOutSize) {
-	rectsOutSize *= 2;
-	rectsOut = (PSOutImgClipRect *)greallocn(rectsOut, rectsOutSize,
-						 sizeof(PSOutImgClipRect));
+    rectsOutSize *= 2;
+    rectsOut = (PSOutImgClipRect *)greallocn(rectsOut, rectsOutSize,
+                         sizeof(PSOutImgClipRect));
       }
       rectsOut[rectsOutLen].x0 = rects0[i].x0;
       rectsOut[rectsOutLen].x1 = rects0[i].x1;
@@ -4601,9 +4601,9 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
     writePSFmt("{0:d} array 0\n", rectsOutLen * 4);
     for (i = 0; i < rectsOutLen; ++i) {
       writePSFmt("[{0:d} {1:d} {2:d} {3:d}] pr\n",
-		 rectsOut[i].x0, rectsOut[i].y0,
-		 rectsOut[i].x1 - rectsOut[i].x0,
-		 rectsOut[i].y1 - rectsOut[i].y0);
+         rectsOut[i].x0, rectsOut[i].y0,
+         rectsOut[i].x1 - rectsOut[i].x0,
+         rectsOut[i].y1 - rectsOut[i].y0);
     }
     writePSFmt("pop {0:d} {1:d} pdfImClip\n", maskWidth, maskHeight);
     gfree(rectsOut);
@@ -4628,45 +4628,45 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
       str2 = new FixedLengthEncoder(str, len);
       str2 = new RunLengthEncoder(str2);
       if (useASCIIHex) {
-	str2 = new ASCIIHexEncoder(str2);
+    str2 = new ASCIIHexEncoder(str2);
       } else {
-	str2 = new ASCII85Encoder(str2);
+    str2 = new ASCII85Encoder(str2);
       }
       str2->reset();
       col = 0;
       writePS((char *)(useASCIIHex ? "[<" : "[<~"));
       do {
-	do {
-	  c = str2->getChar();
-	} while (c == '\n' || c == '\r');
-	if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
-	  break;
-	}
-	if (c == 'z') {
-	  writePSChar(c);
-	  ++col;
-	} else {
-	  writePSChar(c);
-	  ++col;
-	  for (i = 1; i <= (useASCIIHex ? 1 : 4); ++i) {
-	    do {
-	      c = str2->getChar();
-	    } while (c == '\n' || c == '\r');
-	    if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
-	      break;
-	    }
-	    writePSChar(c);
-	    ++col;
-	  }
-	}
-	// each line is: "<~...data...~><eol>"
-	// so max data length = 255 - 6 = 249
-	// chunks are 1 or 5 bytes each, so we have to stop at 245
-	// but make it 240 just to be safe
-	if (col > 240) {
-	  writePS((char *)(useASCIIHex ? ">\n<" : "~>\n<~"));
-	  col = 0;
-	}
+    do {
+      c = str2->getChar();
+    } while (c == '\n' || c == '\r');
+    if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
+      break;
+    }
+    if (c == 'z') {
+      writePSChar(c);
+      ++col;
+    } else {
+      writePSChar(c);
+      ++col;
+      for (i = 1; i <= (useASCIIHex ? 1 : 4); ++i) {
+        do {
+          c = str2->getChar();
+        } while (c == '\n' || c == '\r');
+        if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
+          break;
+        }
+        writePSChar(c);
+        ++col;
+      }
+    }
+    // each line is: "<~...data...~><eol>"
+    // so max data length = 255 - 6 = 249
+    // chunks are 1 or 5 bytes each, so we have to stop at 245
+    // but make it 240 just to be safe
+    if (col > 240) {
+      writePS((char *)(useASCIIHex ? ">\n<" : "~>\n<~"));
+      col = 0;
+    }
       } while (c != (useASCIIHex ? '>' : '~') && c != EOF);
       writePS((char *)(useASCIIHex ? ">\n" : "~>\n"));
       // add an extra entry because the RunLengthDecode filter may
@@ -4688,40 +4688,40 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
   writePSFmt("  /Width {0:d}\n", width);
   writePSFmt("  /Height {0:d}\n", height);
   writePSFmt("  /ImageMatrix [{0:d} 0 0 {1:d} 0 {2:d}]\n",
-	     width, -height, height);
+         width, -height, height);
   if (colorMap && colorMap->getColorSpace()->getMode() == csDeviceN) {
     writePS("  /BitsPerComponent 8\n");
   } else {
     writePSFmt("  /BitsPerComponent {0:d}\n",
-	       colorMap ? colorMap->getBits() : 1);
+           colorMap ? colorMap->getBits() : 1);
   }
 
   // decode 
   if (colorMap) {
     writePS("  /Decode [");
     if ((level == psLevel2Sep || level == psLevel3Sep) &&
-	colorMap->getColorSpace()->getMode() == csSeparation) {
+    colorMap->getColorSpace()->getMode() == csSeparation) {
       // this matches up with the code in the pdfImSep operator
       n = (1 << colorMap->getBits()) - 1;
       writePSFmt("{0:.4g} {1:.4g}", colorMap->getDecodeLow(0) * n,
-		 colorMap->getDecodeHigh(0) * n);
+         colorMap->getDecodeHigh(0) * n);
     } else if (colorMap->getColorSpace()->getMode() == csDeviceN) {
       numComps = ((GfxDeviceNColorSpace *)colorMap->getColorSpace())->
-	           getAlt()->getNComps();
+               getAlt()->getNComps();
       for (i = 0; i < numComps; ++i) {
-	if (i > 0) {
-	  writePS(" ");
-	}
-	writePS("0 1");
+    if (i > 0) {
+      writePS(" ");
+    }
+    writePS("0 1");
       }
     } else {
       numComps = colorMap->getNumPixelComps();
       for (i = 0; i < numComps; ++i) {
-	if (i > 0) {
-	  writePS(" ");
-	}
-	writePSFmt("{0:.4g} {1:.4g}",
-		   colorMap->getDecodeLow(i), colorMap->getDecodeHigh(i));
+    if (i > 0) {
+      writePS(" ");
+    }
+    writePSFmt("{0:.4g} {1:.4g}",
+           colorMap->getDecodeLow(i), colorMap->getDecodeHigh(i));
       }
     }
     writePS("]\n");
@@ -4738,7 +4738,7 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
 
   // filters
   s = str->getPSFilter(level < psLevel2 ? 1 : level < psLevel3 ? 2 : 3,
-		       "    ");
+               "    ");
   if ((colorMap && colorMap->getColorSpace()->getMode() == csDeviceN) ||
       inlineImg || !s) {
     useRLE = gTrue;
@@ -4752,7 +4752,7 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
   }
   if (useASCII) {
     writePSFmt("    /ASCII{0:s}Decode filter\n",
-	       useASCIIHex ? "Hex" : "85");
+           useASCIIHex ? "Hex" : "85");
   }
   if (useRLE) {
     writePS("    /RunLengthDecode filter\n");
@@ -4792,9 +4792,9 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
     }
     if (useASCII) {
       if (useASCIIHex) {
-	str = new ASCIIHexEncoder(str);
+    str = new ASCIIHexEncoder(str);
       } else {
-	str = new ASCII85Encoder(str);
+    str = new ASCII85Encoder(str);
       }
     }
 
@@ -4803,18 +4803,18 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
 #if OPI_SUPPORT
     if (opi13Nest) {
       if (inlineImg) {
-	// this can't happen -- OPI dictionaries are in XObjects
-	error(-1, "Internal: OPI in inline image");
-	n = 0;
+    // this can't happen -- OPI dictionaries are in XObjects
+    error(-1, "Internal: OPI in inline image");
+    n = 0;
       } else {
-	// need to read the stream to count characters -- the length
-	// is data-dependent (because of ASCII and RLE filters)
-	str->reset();
-	n = 0;
-	while ((c = str->getChar()) != EOF) {
-	  ++n;
-	}
-	str->close();
+    // need to read the stream to count characters -- the length
+    // is data-dependent (because of ASCII and RLE filters)
+    str->reset();
+    n = 0;
+    while ((c = str->getChar()) != EOF) {
+      ++n;
+    }
+    str->close();
       }
       // +6/7 for "pdfIm\n" / "pdfImM\n"
       // +8 for newline + trailer
@@ -4823,14 +4823,14 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
     }
 #endif
     if ((level == psLevel2Sep || level == psLevel3Sep) && colorMap &&
-	colorMap->getColorSpace()->getMode() == csSeparation) {
+    colorMap->getColorSpace()->getMode() == csSeparation) {
       color.c[0] = gfxColorComp1;
       sepCS = (GfxSeparationColorSpace *)colorMap->getColorSpace();
       sepCS->getCMYK(&color, &cmyk);
       writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} ({4:t}) pdfImSep\n",
-		 colToDbl(cmyk.c), colToDbl(cmyk.m),
-		 colToDbl(cmyk.y), colToDbl(cmyk.k),
-		 sepCS->getName());
+         colToDbl(cmyk.c), colToDbl(cmyk.m),
+         colToDbl(cmyk.y), colToDbl(cmyk.k),
+         sepCS->getName());
     } else {
       writePSFmt("{0:s}\n", colorMap ? "pdfIm" : "pdfImM");
     }
@@ -4865,10 +4865,10 @@ void PSOutputDev::doImageL2(Object *ref, GfxImageColorMap *colorMap,
 //~ this doesn't currently support OPI
 //~ this doesn't currently support OPI
 void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
-			    GBool invert, GBool inlineImg,
-			    Stream *str, int width, int height, int len,
-			    int *maskColors, Stream *maskStr,
-			    int maskWidth, int maskHeight, GBool maskInvert) {
+                GBool invert, GBool inlineImg,
+                Stream *str, int width, int height, int len,
+                int *maskColors, Stream *maskStr,
+                int maskWidth, int maskHeight, GBool maskInvert) {
   Stream *str2;
   GString *s;
   int n, numComps;
@@ -4897,45 +4897,45 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
       str2 = new FixedLengthEncoder(str, len);
       str2 = new RunLengthEncoder(str2);
       if (useASCIIHex) {
-	str2 = new ASCIIHexEncoder(str2);
+    str2 = new ASCIIHexEncoder(str2);
       } else {
-	str2 = new ASCII85Encoder(str2);
+    str2 = new ASCII85Encoder(str2);
       }
       str2->reset();
       col = 0;
       writePS((char *)(useASCIIHex ? "[<" : "[<~"));
       do {
-	do {
-	  c = str2->getChar();
-	} while (c == '\n' || c == '\r');
-	if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
-	  break;
-	}
-	if (c == 'z') {
-	  writePSChar(c);
-	  ++col;
-	} else {
-	  writePSChar(c);
-	  ++col;
-	  for (i = 1; i <= (useASCIIHex ? 1 : 4); ++i) {
-	    do {
-	      c = str2->getChar();
-	    } while (c == '\n' || c == '\r');
-	    if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
-	      break;
-	    }
-	    writePSChar(c);
-	    ++col;
-	  }
-	}
-	// each line is: "<~...data...~><eol>"
-	// so max data length = 255 - 6 = 249
-	// chunks are 1 or 5 bytes each, so we have to stop at 245
-	// but make it 240 just to be safe
-	if (col > 240) {
-	  writePS((char *)(useASCIIHex ? ">\n<" : "~>\n<~"));
-	  col = 0;
-	}
+    do {
+      c = str2->getChar();
+    } while (c == '\n' || c == '\r');
+    if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
+      break;
+    }
+    if (c == 'z') {
+      writePSChar(c);
+      ++col;
+    } else {
+      writePSChar(c);
+      ++col;
+      for (i = 1; i <= (useASCIIHex ? 1 : 4); ++i) {
+        do {
+          c = str2->getChar();
+        } while (c == '\n' || c == '\r');
+        if (c == (useASCIIHex ? '>' : '~') || c == EOF) {
+          break;
+        }
+        writePSChar(c);
+        ++col;
+      }
+    }
+    // each line is: "<~...data...~><eol>"
+    // so max data length = 255 - 6 = 249
+    // chunks are 1 or 5 bytes each, so we have to stop at 245
+    // but make it 240 just to be safe
+    if (col > 240) {
+      writePS((char *)(useASCIIHex ? ">\n<" : "~>\n<~"));
+      col = 0;
+    }
       } while (c != (useASCIIHex ? '>' : '~') && c != EOF);
       writePS((char *)(useASCIIHex ? ">\n" : "~>\n"));
       // add an extra entry because the RunLengthDecode filter may
@@ -4974,40 +4974,40 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
   writePSFmt("  /Width {0:d}\n", width);
   writePSFmt("  /Height {0:d}\n", height);
   writePSFmt("  /ImageMatrix [{0:d} 0 0 {1:d} 0 {2:d}]\n",
-	     width, -height, height);
+         width, -height, height);
   if (colorMap && colorMap->getColorSpace()->getMode() == csDeviceN) {
     writePS("  /BitsPerComponent 8\n");
   } else {
     writePSFmt("  /BitsPerComponent {0:d}\n",
-	       colorMap ? colorMap->getBits() : 1);
+           colorMap ? colorMap->getBits() : 1);
   }
 
   // decode 
   if (colorMap) {
     writePS("  /Decode [");
     if ((level == psLevel2Sep || level == psLevel3Sep) &&
-	colorMap->getColorSpace()->getMode() == csSeparation) {
+    colorMap->getColorSpace()->getMode() == csSeparation) {
       // this matches up with the code in the pdfImSep operator
       n = (1 << colorMap->getBits()) - 1;
       writePSFmt("{0:.4g} {1:.4g}", colorMap->getDecodeLow(0) * n,
-		 colorMap->getDecodeHigh(0) * n);
+         colorMap->getDecodeHigh(0) * n);
     } else if (colorMap->getColorSpace()->getMode() == csDeviceN) {
       numComps = ((GfxDeviceNColorSpace *)colorMap->getColorSpace())->
-	           getAlt()->getNComps();
+               getAlt()->getNComps();
       for (i = 0; i < numComps; ++i) {
-	if (i > 0) {
-	  writePS(" ");
-	}
-	writePS("0 1");
+    if (i > 0) {
+      writePS(" ");
+    }
+    writePS("0 1");
       }
     } else {
       numComps = colorMap->getNumPixelComps();
       for (i = 0; i < numComps; ++i) {
-	if (i > 0) {
-	  writePS(" ");
-	}
-	writePSFmt("{0:.4g} {1:.4g}", colorMap->getDecodeLow(i),
-		   colorMap->getDecodeHigh(i));
+    if (i > 0) {
+      writePS(" ");
+    }
+    writePSFmt("{0:.4g} {1:.4g}", colorMap->getDecodeLow(i),
+           colorMap->getDecodeHigh(i));
       }
     }
     writePS("]\n");
@@ -5024,7 +5024,7 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
 
   // filters
   s = str->getPSFilter(level < psLevel2 ? 1 : level < psLevel3 ? 2 : 3,
-		       "    ");
+               "    ");
   if ((colorMap && colorMap->getColorSpace()->getMode() == csDeviceN) ||
       inlineImg || !s) {
     useRLE = gTrue;
@@ -5038,7 +5038,7 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
   }
   if (useASCII) {
     writePSFmt("    /ASCII{0:s}Decode filter\n",
-	       useASCIIHex ? "Hex" : "85");
+           useASCIIHex ? "Hex" : "85");
   }
   if (useRLE) {
     writePS("    /RunLengthDecode filter\n");
@@ -5061,10 +5061,10 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
     writePSFmt("  /Width {0:d}\n", maskWidth);
     writePSFmt("  /Height {0:d}\n", maskHeight);
     writePSFmt("  /ImageMatrix [{0:d} 0 0 {1:d} 0 {2:d}]\n",
-	       maskWidth, -maskHeight, maskHeight);
+           maskWidth, -maskHeight, maskHeight);
     writePS("  /BitsPerComponent 1\n");
     writePSFmt("  /Decode [{0:d} {1:d}]\n",
-	       maskInvert ? 1 : 0, maskInvert ? 0 : 1);
+           maskInvert ? 1 : 0, maskInvert ? 0 : 1);
 
     // mask data source
     writePS("  /DataSource currentfile\n");
@@ -5080,7 +5080,7 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
     }
     if (maskUseASCII) {
       writePSFmt("    /ASCII{0:s}Decode filter\n",
-		 useASCIIHex ? "Hex" : "85");
+         useASCIIHex ? "Hex" : "85");
     }
     if (maskUseRLE) {
       writePS("    /RunLengthDecode filter\n");
@@ -5104,14 +5104,14 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
   } else {
 
     if ((level == psLevel2Sep || level == psLevel3Sep) && colorMap &&
-	colorMap->getColorSpace()->getMode() == csSeparation) {
+    colorMap->getColorSpace()->getMode() == csSeparation) {
       color.c[0] = gfxColorComp1;
       sepCS = (GfxSeparationColorSpace *)colorMap->getColorSpace();
       sepCS->getCMYK(&color, &cmyk);
       writePSFmt("{0:.4g} {1:.4g} {2:.4g} {3:.4g} ({4:t}) pdfImSep\n",
-		 colToDbl(cmyk.c), colToDbl(cmyk.m),
-		 colToDbl(cmyk.y), colToDbl(cmyk.k),
-		 sepCS->getName());
+         colToDbl(cmyk.c), colToDbl(cmyk.m),
+         colToDbl(cmyk.y), colToDbl(cmyk.k),
+         sepCS->getName());
     } else {
       writePSFmt("{0:s}\n", colorMap ? "pdfIm" : "pdfImM");
     }
@@ -5131,9 +5131,9 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
     }
     if (maskUseASCII) {
       if (useASCIIHex) {
-	maskStr = new ASCIIHexEncoder(maskStr);
+    maskStr = new ASCIIHexEncoder(maskStr);
       } else {
-	maskStr = new ASCII85Encoder(maskStr);
+    maskStr = new ASCII85Encoder(maskStr);
       }
     }
 
@@ -5176,9 +5176,9 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
     }
     if (useASCII) {
       if (useASCIIHex) {
-	str = new ASCIIHexEncoder(str);
+    str = new ASCIIHexEncoder(str);
       } else {
-	str = new ASCII85Encoder(str);
+    str = new ASCII85Encoder(str);
       }
     }
 
@@ -5201,8 +5201,8 @@ void PSOutputDev::doImageL3(Object *ref, GfxImageColorMap *colorMap,
 }
 
 void PSOutputDev::dumpColorSpaceL2(GfxColorSpace *colorSpace,
-				   GBool genXform, GBool updateColors,
-				   GBool map01) {
+                   GBool genXform, GBool updateColors,
+                   GBool map01) {
   GfxCalGrayColorSpace *calGrayCS;
   GfxCalRGBColorSpace *calRGBCS;
   GfxLabColorSpace *labCS;
@@ -5237,14 +5237,14 @@ void PSOutputDev::dumpColorSpaceL2(GfxColorSpace *colorSpace,
     writePS("[/CIEBasedA <<\n");
     writePSFmt(" /DecodeA {{{0:.4g} exp}} bind\n", calGrayCS->getGamma());
     writePSFmt(" /MatrixA [{0:.4g} {1:.4g} {2:.4g}]\n",
-	       calGrayCS->getWhiteX(), calGrayCS->getWhiteY(),
-	       calGrayCS->getWhiteZ());
+           calGrayCS->getWhiteX(), calGrayCS->getWhiteY(),
+           calGrayCS->getWhiteZ());
     writePSFmt(" /WhitePoint [{0:.4g} {1:.4g} {2:.4g}]\n",
-	       calGrayCS->getWhiteX(), calGrayCS->getWhiteY(),
-	       calGrayCS->getWhiteZ());
+           calGrayCS->getWhiteX(), calGrayCS->getWhiteY(),
+           calGrayCS->getWhiteZ());
     writePSFmt(" /BlackPoint [{0:.4g} {1:.4g} {2:.4g}]\n",
-	       calGrayCS->getBlackX(), calGrayCS->getBlackY(),
-	       calGrayCS->getBlackZ());
+           calGrayCS->getBlackX(), calGrayCS->getBlackY(),
+           calGrayCS->getBlackZ());
     writePS(">>]");
     if (genXform) {
       writePS(" {}");
@@ -5268,20 +5268,20 @@ void PSOutputDev::dumpColorSpaceL2(GfxColorSpace *colorSpace,
     calRGBCS = (GfxCalRGBColorSpace *)colorSpace;
     writePS("[/CIEBasedABC <<\n");
     writePSFmt(" /DecodeABC [{{{0:.4g} exp}} bind {{{1:.4g} exp}} bind {{{2:.4g} exp}} bind]\n",
-	       calRGBCS->getGammaR(), calRGBCS->getGammaG(),
-	       calRGBCS->getGammaB());
+           calRGBCS->getGammaR(), calRGBCS->getGammaG(),
+           calRGBCS->getGammaB());
     writePSFmt(" /MatrixABC [{0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g} {6:.4g} {7:.4g} {8:.4g}]\n",
-	       calRGBCS->getMatrix()[0], calRGBCS->getMatrix()[1],
-	       calRGBCS->getMatrix()[2], calRGBCS->getMatrix()[3],
-	       calRGBCS->getMatrix()[4], calRGBCS->getMatrix()[5],
-	       calRGBCS->getMatrix()[6], calRGBCS->getMatrix()[7],
-	       calRGBCS->getMatrix()[8]);
+           calRGBCS->getMatrix()[0], calRGBCS->getMatrix()[1],
+           calRGBCS->getMatrix()[2], calRGBCS->getMatrix()[3],
+           calRGBCS->getMatrix()[4], calRGBCS->getMatrix()[5],
+           calRGBCS->getMatrix()[6], calRGBCS->getMatrix()[7],
+           calRGBCS->getMatrix()[8]);
     writePSFmt(" /WhitePoint [{0:.4g} {1:.4g} {2:.4g}]\n",
-	       calRGBCS->getWhiteX(), calRGBCS->getWhiteY(),
-	       calRGBCS->getWhiteZ());
+           calRGBCS->getWhiteX(), calRGBCS->getWhiteY(),
+           calRGBCS->getWhiteZ());
     writePSFmt(" /BlackPoint [{0:.4g} {1:.4g} {2:.4g}]\n",
-	       calRGBCS->getBlackX(), calRGBCS->getBlackY(),
-	       calRGBCS->getBlackZ());
+           calRGBCS->getBlackX(), calRGBCS->getBlackY(),
+           calRGBCS->getBlackZ());
     writePS(">>]");
     if (genXform) {
       writePS(" {}");
@@ -5307,31 +5307,31 @@ void PSOutputDev::dumpColorSpaceL2(GfxColorSpace *colorSpace,
     if (map01) {
       writePS(" /RangeABC [0 1 0 1 0 1]\n");
       writePSFmt(" /DecodeABC [{{100 mul 16 add 116 div}} bind {{{0:.4g} mul {1:.4g} add}} bind {{{2:.4g} mul {3:.4g} add}} bind]\n",
-		 (labCS->getAMax() - labCS->getAMin()) / 500.0,
-		 labCS->getAMin() / 500.0,
-		 (labCS->getBMax() - labCS->getBMin()) / 200.0,
-		 labCS->getBMin() / 200.0);
+         (labCS->getAMax() - labCS->getAMin()) / 500.0,
+         labCS->getAMin() / 500.0,
+         (labCS->getBMax() - labCS->getBMin()) / 200.0,
+         labCS->getBMin() / 200.0);
     } else {
       writePSFmt(" /RangeABC [0 100 {0:.4g} {1:.4g} {2:.4g} {3:.4g}]\n",
-		 labCS->getAMin(), labCS->getAMax(),
-		 labCS->getBMin(), labCS->getBMax());
+         labCS->getAMin(), labCS->getAMax(),
+         labCS->getBMin(), labCS->getBMax());
       writePS(" /DecodeABC [{16 add 116 div} bind {500 div} bind {200 div} bind]\n");
     }
     writePS(" /MatrixABC [1 1 1 1 0 0 0 0 -1]\n");
     writePS(" /DecodeLMN\n");
     writePS("   [{dup 6 29 div ge {dup dup mul mul}\n");
     writePSFmt("     {{4 29 div sub 108 841 div mul }} ifelse {0:.4g} mul}} bind\n",
-	       labCS->getWhiteX());
+           labCS->getWhiteX());
     writePS("    {dup 6 29 div ge {dup dup mul mul}\n");
     writePSFmt("     {{4 29 div sub 108 841 div mul }} ifelse {0:.4g} mul}} bind\n",
-	       labCS->getWhiteY());
+           labCS->getWhiteY());
     writePS("    {dup 6 29 div ge {dup dup mul mul}\n");
     writePSFmt("     {{4 29 div sub 108 841 div mul }} ifelse {0:.4g} mul}} bind]\n",
-	       labCS->getWhiteZ());
+           labCS->getWhiteZ());
     writePSFmt(" /WhitePoint [{0:.4g} {1:.4g} {2:.4g}]\n",
-	       labCS->getWhiteX(), labCS->getWhiteY(), labCS->getWhiteZ());
+           labCS->getWhiteX(), labCS->getWhiteY(), labCS->getWhiteZ());
     writePSFmt(" /BlackPoint [{0:.4g} {1:.4g} {2:.4g}]\n",
-	       labCS->getBlackX(), labCS->getBlackY(), labCS->getBlackZ());
+           labCS->getBlackX(), labCS->getBlackY(), labCS->getBlackZ());
     writePS(">>]");
     if (genXform) {
       writePS(" {}");
@@ -5345,7 +5345,7 @@ void PSOutputDev::dumpColorSpaceL2(GfxColorSpace *colorSpace,
     // there is no transform function to the alternate color space, so
     // we can use it directly
     dumpColorSpaceL2(((GfxICCBasedColorSpace *)colorSpace)->getAlt(),
-		     genXform, updateColors, gFalse);
+             genXform, updateColors, gFalse);
     break;
 
   case csIndexed:
@@ -5361,59 +5361,59 @@ void PSOutputDev::dumpColorSpaceL2(GfxColorSpace *colorSpace,
       func = ((GfxDeviceNColorSpace *)baseCS)->getTintTransformFunc();
       baseCS->getDefaultRanges(low, range, indexedCS->getIndexHigh());
       if (((GfxDeviceNColorSpace *)baseCS)->getAlt()->getMode() == csLab) {
-	labCS = (GfxLabColorSpace *)((GfxDeviceNColorSpace *)baseCS)->getAlt();
+    labCS = (GfxLabColorSpace *)((GfxDeviceNColorSpace *)baseCS)->getAlt();
       } else {
-	labCS = NULL;
+    labCS = NULL;
       }
       numAltComps = ((GfxDeviceNColorSpace *)baseCS)->getAlt()->getNComps();
       p = lookup;
       for (i = 0; i <= n; i += 8) {
-	writePS("  ");
-	for (j = i; j < i+8 && j <= n; ++j) {
-	  for (k = 0; k < numComps; ++k) {
-	    x[k] = low[k] + (*p++ / 255.0) * range[k];
-	  }
-	  func->transform(x, y);
-	  if (labCS) {
-	    y[0] /= 100.0;
-	    y[1] = (y[1] - labCS->getAMin()) /
-	           (labCS->getAMax() - labCS->getAMin());
-	    y[2] = (y[2] - labCS->getBMin()) /
-	           (labCS->getBMax() - labCS->getBMin());
-	  }
-	  for (k = 0; k < numAltComps; ++k) {
-	    byte = (int)(y[k] * 255 + 0.5);
-	    if (byte < 0) {
-	      byte = 0;
-	    } else if (byte > 255) {
-	      byte = 255;
-	    }
-	    writePSFmt("{0:02x}", byte);
-	  }
-	  if (updateColors) {
-	    color.c[0] = dblToCol(j);
-	    indexedCS->getCMYK(&color, &cmyk);
-	    addProcessColor(colToDbl(cmyk.c), colToDbl(cmyk.m),
-			    colToDbl(cmyk.y), colToDbl(cmyk.k));
-	  }
-	}
-	writePS("\n");
+    writePS("  ");
+    for (j = i; j < i+8 && j <= n; ++j) {
+      for (k = 0; k < numComps; ++k) {
+        x[k] = low[k] + (*p++ / 255.0) * range[k];
+      }
+      func->transform(x, y);
+      if (labCS) {
+        y[0] /= 100.0;
+        y[1] = (y[1] - labCS->getAMin()) /
+               (labCS->getAMax() - labCS->getAMin());
+        y[2] = (y[2] - labCS->getBMin()) /
+               (labCS->getBMax() - labCS->getBMin());
+      }
+      for (k = 0; k < numAltComps; ++k) {
+        byte = (int)(y[k] * 255 + 0.5);
+        if (byte < 0) {
+          byte = 0;
+        } else if (byte > 255) {
+          byte = 255;
+        }
+        writePSFmt("{0:02x}", byte);
+      }
+      if (updateColors) {
+        color.c[0] = dblToCol(j);
+        indexedCS->getCMYK(&color, &cmyk);
+        addProcessColor(colToDbl(cmyk.c), colToDbl(cmyk.m),
+                colToDbl(cmyk.y), colToDbl(cmyk.k));
+      }
+    }
+    writePS("\n");
       }
     } else {
       for (i = 0; i <= n; i += 8) {
-	writePS("  ");
-	for (j = i; j < i+8 && j <= n; ++j) {
-	  for (k = 0; k < numComps; ++k) {
-	    writePSFmt("{0:02x}", lookup[j * numComps + k]);
-	  }
-	  if (updateColors) {
-	    color.c[0] = dblToCol(j);
-	    indexedCS->getCMYK(&color, &cmyk);
-	    addProcessColor(colToDbl(cmyk.c), colToDbl(cmyk.m),
-			    colToDbl(cmyk.y), colToDbl(cmyk.k));
-	  }
-	}
-	writePS("\n");
+    writePS("  ");
+    for (j = i; j < i+8 && j <= n; ++j) {
+      for (k = 0; k < numComps; ++k) {
+        writePSFmt("{0:02x}", lookup[j * numComps + k]);
+      }
+      if (updateColors) {
+        color.c[0] = dblToCol(j);
+        indexedCS->getCMYK(&color, &cmyk);
+        addProcessColor(colToDbl(cmyk.c), colToDbl(cmyk.m),
+                colToDbl(cmyk.y), colToDbl(cmyk.k));
+      }
+    }
+    writePS("\n");
       }
     }
     writePS(">]");
@@ -5468,7 +5468,7 @@ void PSOutputDev::opiBegin(GfxState *state, Dict *opiDict) {
       dict.free();
       opiDict->lookup("1.3", &dict);
       if (dict.isDict()) {
-	opiBegin13(state, dict.getDict());
+    opiBegin13(state, dict.getDict());
       }
       dict.free();
     }
@@ -5527,7 +5527,7 @@ void PSOutputDev::opiBegin20(GfxState *state, Dict *dict) {
     bottom = obj2.getNum();
     obj2.free();
     writePSFmt("%%ImageCropRect: {0:.4g} {1:.4g} {2:.4g} {3:.4g}\n",
-	       left, top, right, bottom);
+           left, top, right, bottom);
   }
   obj1.free();
 
@@ -5544,17 +5544,17 @@ void PSOutputDev::opiBegin20(GfxState *state, Dict *dict) {
     obj1.arrayGet(0, &obj2);
     if (obj2.isName()) {
       writePSFmt("%%ImageInks: {0:s} {1:d}",
-		 obj2.getName(), (obj1.arrayGetLength() - 1) / 2);
+         obj2.getName(), (obj1.arrayGetLength() - 1) / 2);
       for (i = 1; i+1 < obj1.arrayGetLength(); i += 2) {
-	obj1.arrayGet(i, &obj3);
-	obj1.arrayGet(i+1, &obj4);
-	if (obj3.isString() && obj4.isNum()) {
-	  writePS(" ");
-	  writePSString(obj3.getString());
-	  writePSFmt(" {0:.4g}", obj4.getNum());
-	}
-	obj3.free();
-	obj4.free();
+    obj1.arrayGet(i, &obj3);
+    obj1.arrayGet(i+1, &obj4);
+    if (obj3.isString() && obj4.isNum()) {
+      writePS(" ");
+      writePSString(obj3.getString());
+      writePSFmt(" {0:.4g}", obj4.getNum());
+    }
+    obj3.free();
+    obj4.free();
       }
       writePS("\n");
     }
@@ -5622,7 +5622,7 @@ void PSOutputDev::opiBegin13(GfxState *state, Dict *dict) {
     bottom = obj2.getInt();
     obj2.free();
     writePSFmt("%ALDImageCropRect: {0:d} {1:d} {2:d} {3:d}\n",
-	       left, top, right, bottom);
+           left, top, right, bottom);
   }
   obj1.free();
 
@@ -5643,7 +5643,7 @@ void PSOutputDev::opiBegin13(GfxState *state, Dict *dict) {
     obj1.arrayGet(4, &obj2);
     if (obj2.isString()) {
       writePSFmt("%ALDImageColor: {0:.4g} {1:.4g} {2:.4g} {3:.4g} ",
-		 c, m, y, k);
+         c, m, y, k);
       writePSString(obj2.getString());
       writePS("\n");
     }
@@ -5675,7 +5675,7 @@ void PSOutputDev::opiBegin13(GfxState *state, Dict *dict) {
     lry = obj2.getNum();
     obj2.free();
     writePSFmt("%ALDImageCropFixed: {0:.4g} {1:.4g} {2:.4g} {3:.4g}\n",
-	       ulx, uly, lrx, lry);
+           ulx, uly, lrx, lry);
   }
   obj1.free();
 
@@ -5684,12 +5684,12 @@ void PSOutputDev::opiBegin13(GfxState *state, Dict *dict) {
     writePS("%ALDImageGrayMap:");
     for (i = 0; i < obj1.arrayGetLength(); i += 16) {
       if (i > 0) {
-	writePS("\n%%+");
+    writePS("\n%%+");
       }
       for (j = 0; j < 16 && i+j < obj1.arrayGetLength(); ++j) {
-	obj1.arrayGet(i+j, &obj2);
-	writePSFmt(" {0:d}", obj2.getInt());
-	obj2.free();
+    obj1.arrayGet(i+j, &obj2);
+    writePSFmt(" {0:d}", obj2.getInt());
+    obj2.free();
       }
     }
     writePS("\n");
@@ -5717,7 +5717,7 @@ void PSOutputDev::opiBegin13(GfxState *state, Dict *dict) {
   dict->lookup("Overprint", &obj1);
   if (obj1.isBool()) {
     writePSFmt("%ALDImageOverprint: {0:s}\n",
-	       obj1.getBool() ? "true" : "false");
+           obj1.getBool() ? "true" : "false");
   }
   obj1.free();
 
@@ -5752,7 +5752,7 @@ void PSOutputDev::opiBegin13(GfxState *state, Dict *dict) {
     opiTransform(state, urx, ury, &turx, &tury);
     opiTransform(state, lrx, lry, &tlrx, &tlry);
     writePSFmt("%ALDImagePosition: {0:.4g} {1:.4g} {2:.4g} {3:.4g} {4:.4g} {5:.4g} {6:.4g} {7:.4g}\n",
-	       tllx, tlly, tulx, tuly, turx, tury, tlrx, tlry);
+           tllx, tlly, tulx, tuly, turx, tury, tlrx, tlry);
     obj2.free();
   }
   obj1.free();
@@ -5794,7 +5794,7 @@ void PSOutputDev::opiBegin13(GfxState *state, Dict *dict) {
   dict->lookup("Transparency", &obj1);
   if (obj1.isBool()) {
     writePSFmt("%ALDImageTransparency: {0:s}\n",
-	       obj1.getBool() ? "true" : "false");
+           obj1.getBool() ? "true" : "false");
   }
   obj1.free();
 
@@ -5807,7 +5807,7 @@ void PSOutputDev::opiBegin13(GfxState *state, Dict *dict) {
 // coordinates.  This has to account for both the PDF CTM and the
 // PSOutputDev page-fitting transform.
 void PSOutputDev::opiTransform(GfxState *state, double x0, double y0,
-			       double *x1, double *y1) {
+                   double *x1, double *y1) {
   double t;
 
   state->transform(x0, y0, x1, y1);
@@ -5844,9 +5844,9 @@ void PSOutputDev::opiEnd(GfxState *state, Dict *opiDict) {
       dict.free();
       opiDict->lookup("1.3", &dict);
       if (dict.isDict()) {
-	writePS("%%EndObject\n");
-	writePS("restore\n");
-	--opi13Nest;
+    writePS("%%EndObject\n");
+    writePS("restore\n");
+    --opi13Nest;
       }
       dict.free();
     }
@@ -5891,7 +5891,7 @@ void PSOutputDev::type3D0(GfxState *state, double wx, double wy) {
 }
 
 void PSOutputDev::type3D1(GfxState *state, double wx, double wy,
-			  double llx, double lly, double urx, double ury) {
+              double llx, double lly, double urx, double ury) {
   t3WX = wx;
   t3WY = wy;
   t3LLX = llx;
@@ -5935,11 +5935,11 @@ void PSOutputDev::cvtFunction(Function *func) {
 
   switch (func->getType()) {
 
-  case -1:			// identity
+  case -1:            // identity
     writePS("{}\n");
     break;
 
-  case 0:			// sampled
+  case 0:            // sampled
     func0 = (SampledFunction *)func;
     thisFunc = nextFunc++;
     m = func0->getInputSize();
@@ -5958,13 +5958,13 @@ void PSOutputDev::cvtFunction(Function *func) {
     for (i = m-1; i >= 0; --i) {
       // [e01] [efrac] x0 x1 ... xi
       writePSFmt("{0:.4g} sub {1:.4g} mul {2:.4g} add\n",
-	      func0->getDomainMin(i),
-	      (func0->getEncodeMax(i) - func0->getEncodeMin(i)) /
-	        (func0->getDomainMax(i) - func0->getDomainMin(i)),
-	      func0->getEncodeMin(i));
+          func0->getDomainMin(i),
+          (func0->getEncodeMax(i) - func0->getEncodeMin(i)) /
+            (func0->getDomainMax(i) - func0->getDomainMin(i)),
+          func0->getEncodeMin(i));
       // [e01] [efrac] x0 x1 ... xi-1 xi'
       writePSFmt("dup 0 lt {{ pop 0 }} {{ dup {0:d} gt {{ pop {1:d} }} if }} ifelse\n",
-		 func0->getSampleSize(i) - 1, func0->getSampleSize(i) - 1);
+         func0->getSampleSize(i) - 1, func0->getSampleSize(i) - 1);
       // [e01] [efrac] x0 x1 ... xi-1 xi'
       writePS("dup floor cvi exch dup ceiling cvi exch 2 index sub\n");
       // [e01] [efrac] x0 x1 ... xi-1 floor(xi') ceiling(xi') xi'-floor(xi')
@@ -5979,69 +5979,69 @@ void PSOutputDev::cvtFunction(Function *func) {
     for (i = 0; i < n; ++i) {
       // [e01] [efrac] y(0) ... y(i-1)
       for (j = 0; j < (1<<m); ++j) {
-	// [e01] [efrac] y(0) ... y(i-1) s(0) s(1) ... s(j-1)
-	writePSFmt("xpdfSamples{0:d}\n", thisFunc);
-	k = m - 1;
-	writePSFmt("{0:d} index {1:d} get\n", i+j+2, 2 * k + ((j >> k) & 1));
-	for (k = m - 2; k >= 0; --k) {
-	  writePSFmt("{0:d} mul {1:d} index {2:d} get add\n",
-		     func0->getSampleSize(k),
-		     i + j + 3,
-		     2 * k + ((j >> k) & 1));
-	}
-	if (n > 1) {
-	  writePSFmt("{0:d} mul {1:d} add ", n, i);
-	}
-	writePS("get\n");
+    // [e01] [efrac] y(0) ... y(i-1) s(0) s(1) ... s(j-1)
+    writePSFmt("xpdfSamples{0:d}\n", thisFunc);
+    k = m - 1;
+    writePSFmt("{0:d} index {1:d} get\n", i+j+2, 2 * k + ((j >> k) & 1));
+    for (k = m - 2; k >= 0; --k) {
+      writePSFmt("{0:d} mul {1:d} index {2:d} get add\n",
+             func0->getSampleSize(k),
+             i + j + 3,
+             2 * k + ((j >> k) & 1));
+    }
+    if (n > 1) {
+      writePSFmt("{0:d} mul {1:d} add ", n, i);
+    }
+    writePS("get\n");
       }
       // [e01] [efrac] y(0) ... y(i-1) s(0) s(1) ... s(2^m-1)
       for (j = 0; j < m; ++j) {
-	// [e01] [efrac] y(0) ... y(i-1) s(0) s(1) ... s(2^(m-j)-1)
-	for (k = 0; k < (1 << (m - j)); k += 2) {
-	  // [e01] [efrac] y(0) ... y(i-1) <k/2 s' values> <2^(m-j)-k s values>
-	  writePSFmt("{0:d} index {1:d} get dup\n",
-		     i + k/2 + (1 << (m-j)) - k, j);
-	  writePS("3 2 roll mul exch 1 exch sub 3 2 roll mul add\n");
-	  writePSFmt("{0:d} 1 roll\n", k/2 + (1 << m-j) - k - 1);
-	}
-	// [e01] [efrac] s'(0) s'(1) ... s(2^(m-j-1)-1)
+    // [e01] [efrac] y(0) ... y(i-1) s(0) s(1) ... s(2^(m-j)-1)
+    for (k = 0; k < (1 << (m - j)); k += 2) {
+      // [e01] [efrac] y(0) ... y(i-1) <k/2 s' values> <2^(m-j)-k s values>
+      writePSFmt("{0:d} index {1:d} get dup\n",
+             i + k/2 + (1 << (m-j)) - k, j);
+      writePS("3 2 roll mul exch 1 exch sub 3 2 roll mul add\n");
+      writePSFmt("{0:d} 1 roll\n", k/2 + (1 << m-j) - k - 1);
+    }
+    // [e01] [efrac] s'(0) s'(1) ... s(2^(m-j-1)-1)
       }
       // [e01] [efrac] y(0) ... y(i-1) s
       writePSFmt("{0:.4g} mul {1:.4g} add\n",
-		 func0->getDecodeMax(i) - func0->getDecodeMin(i),
-		 func0->getDecodeMin(i));
+         func0->getDecodeMax(i) - func0->getDecodeMin(i),
+         func0->getDecodeMin(i));
       writePSFmt("dup {0:.4g} lt {{ pop {1:.4g} }} {{ dup {2:.4g} gt {{ pop {3:.4g} }} if }} ifelse\n",
-		 func0->getRangeMin(i), func0->getRangeMin(i),
-		 func0->getRangeMax(i), func0->getRangeMax(i));
+         func0->getRangeMin(i), func0->getRangeMin(i),
+         func0->getRangeMax(i), func0->getRangeMax(i));
       // [e01] [efrac] y(0) ... y(i-1) y(i)
     }
     // [e01] [efrac] y(0) ... y(n-1)
     writePSFmt("{0:d} {1:d} roll pop pop }}\n", n+2, n);
     break;
 
-  case 2:			// exponential
+  case 2:            // exponential
     func2 = (ExponentialFunction *)func;
     n = func2->getOutputSize();
     writePSFmt("{{ dup {0:.4g} lt {{ pop {1:.4g} }} {{ dup {2:.4g} gt {{ pop {3:.4g} }} if }} ifelse\n",
-	       func2->getDomainMin(0), func2->getDomainMin(0),
-	       func2->getDomainMax(0), func2->getDomainMax(0));
+           func2->getDomainMin(0), func2->getDomainMin(0),
+           func2->getDomainMax(0), func2->getDomainMax(0));
     // x
     for (i = 0; i < n; ++i) {
       // x y(0) .. y(i-1)
       writePSFmt("{0:d} index {1:.4g} exp {2:.4g} mul {3:.4g} add\n",
-		 i, func2->getE(), func2->getC1()[i] - func2->getC0()[i],
-		 func2->getC0()[i]);
+         i, func2->getE(), func2->getC1()[i] - func2->getC0()[i],
+         func2->getC0()[i]);
       if (func2->getHasRange()) {
-	writePSFmt("dup {0:.4g} lt {{ pop {1:.4g} }} {{ dup {2:.4g} gt {{ pop {3:.4g} }} if }} ifelse\n",
-		   func2->getRangeMin(i), func2->getRangeMin(i),
-		   func2->getRangeMax(i), func2->getRangeMax(i));
+    writePSFmt("dup {0:.4g} lt {{ pop {1:.4g} }} {{ dup {2:.4g} gt {{ pop {3:.4g} }} if }} ifelse\n",
+           func2->getRangeMin(i), func2->getRangeMin(i),
+           func2->getRangeMax(i), func2->getRangeMax(i));
       }
     }
     // x y(0) .. y(n-1)
     writePSFmt("{0:d} {1:d} roll pop }}\n", n+1, n);
     break;
 
-  case 3:			// stitching
+  case 3:            // stitching
     func3 = (StitchingFunction *)func;
     thisFunc = nextFunc++;
     for (i = 0; i < func3->getNumFuncs(); ++i) {
@@ -6049,28 +6049,28 @@ void PSOutputDev::cvtFunction(Function *func) {
       writePSFmt("/xpdfFunc{0:d}_{1:d} exch def\n", thisFunc, i);
     }
     writePSFmt("{{ dup {0:.4g} lt {{ pop {1:.4g} }} {{ dup {2:.4g} gt {{ pop {3:.4g} }} if }} ifelse\n",
-	       func3->getDomainMin(0), func3->getDomainMin(0),
-	       func3->getDomainMax(0), func3->getDomainMax(0));
+           func3->getDomainMin(0), func3->getDomainMin(0),
+           func3->getDomainMax(0), func3->getDomainMax(0));
     for (i = 0; i < func3->getNumFuncs() - 1; ++i) {
       writePSFmt("dup {0:.4g} lt {{ {1:.4g} sub {2:.4g} mul {3:.4g} add xpdfFunc{4:d}_{5:d} }} {{\n",
-		 func3->getBounds()[i+1],
-		 func3->getBounds()[i],
-		 func3->getScale()[i],
-		 func3->getEncode()[2*i],
-		 thisFunc, i);
+         func3->getBounds()[i+1],
+         func3->getBounds()[i],
+         func3->getScale()[i],
+         func3->getEncode()[2*i],
+         thisFunc, i);
     }
     writePSFmt("{0:.4g} sub {1:.4g} mul {2:.4g} add xpdfFunc{3:d}_{4:d}\n",
-	       func3->getBounds()[i],
-	       func3->getScale()[i],
-	       func3->getEncode()[2*i],
-	       thisFunc, i);
+           func3->getBounds()[i],
+           func3->getScale()[i],
+           func3->getEncode()[2*i],
+           thisFunc, i);
     for (i = 0; i < func3->getNumFuncs() - 1; ++i) {
       writePS("} ifelse\n");
     }
     writePS("}\n");
     break;
 
-  case 4:			// PostScript
+  case 4:            // PostScript
     func4 = (PostScriptFunction *)func;
     writePS(func4->getCodeString()->getCString());
     writePS("\n");
@@ -6145,9 +6145,9 @@ void PSOutputDev::writePSName(char *s) {
   p = s;
   while ((c = *p++)) {
     if (c <= (char)0x20 || c >= (char)0x7f ||
-	c == '(' || c == ')' || c == '<' || c == '>' ||
-	c == '[' || c == ']' || c == '{' || c == '}' ||
-	c == '/' || c == '%') {
+    c == '(' || c == ')' || c == '<' || c == '>' ||
+    c == '[' || c == ']' || c == '{' || c == '}' ||
+    c == '/' || c == '%') {
       writePSFmt("#{0:02x}", c & 0xff);
     } else {
       writePSChar(c);
@@ -6174,9 +6174,9 @@ GString *PSOutputDev::filterPSName(GString *name) {
   for (i = 0; i < name->getLength(); ++i) {
     c = name->getChar(i);
     if (c <= (char)0x20 || c >= (char)0x7f ||
-	c == '(' || c == ')' || c == '<' || c == '>' ||
-	c == '[' || c == ']' || c == '{' || c == '}' ||
-	c == '/' || c == '%') {
+    c == '(' || c == ')' || c == '<' || c == '>' ||
+    c == '[' || c == ']' || c == '{' || c == '}' ||
+    c == '/' || c == '%') {
       sprintf(buf, "#%02x", c & 0xff);
       name2->append(buf);
     } else {

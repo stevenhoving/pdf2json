@@ -29,8 +29,8 @@ Outline::Outline(Object *outlineObj, XRef *xref) {
     return;
   }
   items = OutlineItem::readItemList(outlineObj->dictLookupNF("First", &first),
-				    outlineObj->dictLookupNF("Last", &last),
-				    xref);
+                    outlineObj->dictLookupNF("Last", &last),
+                    xref);
   first.free();
   last.free();
 }
@@ -56,18 +56,18 @@ OutlineItem::OutlineItem(Dict *dict, XRef *xrefA) {
   if (dict->lookup("Title", &obj1)->isString()) {
     s = obj1.getString();
     if ((s->getChar(0) & 0xff) == 0xfe &&
-	(s->getChar(1) & 0xff) == 0xff) {
+    (s->getChar(1) & 0xff) == 0xff) {
       titleLen = (s->getLength() - 2) / 2;
       title = (Unicode *)gmallocn(titleLen, sizeof(Unicode));
       for (i = 0; i < titleLen; ++i) {
-	title[i] = ((s->getChar(2 + 2*i) & 0xff) << 8) |
-	           (s->getChar(3 + 2*i) & 0xff);
+    title[i] = ((s->getChar(2 + 2*i) & 0xff) << 8) |
+               (s->getChar(3 + 2*i) & 0xff);
       }
     } else {
       titleLen = s->getLength();
       title = (Unicode *)gmallocn(titleLen, sizeof(Unicode));
       for (i = 0; i < titleLen; ++i) {
-	title[i] = pdfDocEncoding[s->getChar(i) & 0xff];
+    title[i] = pdfDocEncoding[s->getChar(i) & 0xff];
       }
     }
   } else {
@@ -112,7 +112,7 @@ OutlineItem::~OutlineItem() {
 }
 
 GList *OutlineItem::readItemList(Object *firstItemRef, Object *lastItemRef,
-				 XRef *xrefA) {
+                 XRef *xrefA) {
   GList *items;
   OutlineItem *item;
   Object obj;
@@ -129,7 +129,7 @@ GList *OutlineItem::readItemList(Object *firstItemRef, Object *lastItemRef,
     obj.free();
     items->append(item);
     if (p->getRef().num == lastItemRef->getRef().num &&
-	p->getRef().gen == lastItemRef->getRef().gen) {
+    p->getRef().gen == lastItemRef->getRef().gen) {
       break;
     }
     p = &item->nextRef;

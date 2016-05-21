@@ -130,8 +130,8 @@ Gushort *FoFiType1C::getCIDToGIDMap(int *nCIDs) {
 }
 
 void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
-				FoFiOutputFunc outputFunc,
-				void *outputStream) {
+                FoFiOutputFunc outputFunc,
+                void *outputStream) {
   int psNameLen;
   Type1CEexecBuf eb;
   Type1CIndex subrIdx;
@@ -207,11 +207,11 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
   (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
   delete buf;
   buf = GString::format("/UnderlinePosition {0:.4g} def\n",
-			topDict.underlinePosition);
+            topDict.underlinePosition);
   (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
   delete buf;
   buf = GString::format("/UnderlineThickness {0:.4g} def\n",
-			topDict.underlineThickness);
+            topDict.underlineThickness);
   (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
   delete buf;
   (*outputFunc)(outputStream, "end readonly def\n", 17);
@@ -223,14 +223,14 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
   delete buf;
   (*outputFunc)(outputStream, "/FontType 1 def\n", 16);
   buf = GString::format("/FontMatrix [{0:.8g} {1:.8g} {2:.8g} {3:.8g} {4:.8g} {5:.8g}] readonly def\n",
-			topDict.fontMatrix[0], topDict.fontMatrix[1],
-			topDict.fontMatrix[2], topDict.fontMatrix[3],
-			topDict.fontMatrix[4], topDict.fontMatrix[5]);
+            topDict.fontMatrix[0], topDict.fontMatrix[1],
+            topDict.fontMatrix[2], topDict.fontMatrix[3],
+            topDict.fontMatrix[4], topDict.fontMatrix[5]);
   (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
   delete buf;
   buf = GString::format("/FontBBox [{0:.4g} {1:.4g} {2:.4g} {3:.4g}] readonly def\n",
-			topDict.fontBBox[0], topDict.fontBBox[1],
-			topDict.fontBBox[2], topDict.fontBBox[3]);
+            topDict.fontBBox[0], topDict.fontBBox[1],
+            topDict.fontBBox[2], topDict.fontBBox[3]);
   (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
   delete buf;
   buf = GString::format("/StrokeWidth {0:.4g} def\n", topDict.strokeWidth);
@@ -249,13 +249,13 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
   } else {
     (*outputFunc)(outputStream, "256 array\n", 10);
     (*outputFunc)(outputStream,
-		  "0 1 255 {1 index exch /.notdef put} for\n", 40);
+          "0 1 255 {1 index exch /.notdef put} for\n", 40);
     enc = newEncoding ? newEncoding : encoding;
     for (i = 0; i < 256; ++i) {
       if (enc[i]) {
-	buf = GString::format("dup {0:d} /{1:s} put\n", i, enc[i]);
-	(*outputFunc)(outputStream, buf->getCString(), buf->getLength());
-	delete buf;
+    buf = GString::format("dup {0:d} /{1:s} put\n", i, enc[i]);
+    (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
+    delete buf;
       }
     }
     (*outputFunc)(outputStream, "readonly def\n", 13);
@@ -274,7 +274,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
   eexecWrite(&eb, "\x83\xca\x73\xd5");
   eexecWrite(&eb, "dup /Private 32 dict dup begin\n");
   eexecWrite(&eb, "/RD {string currentfile exch readstring pop}"
-	     " executeonly def\n");
+         " executeonly def\n");
   eexecWrite(&eb, "/ND {noaccess def} executeonly def\n");
   eexecWrite(&eb, "/NP {noaccess put} executeonly def\n");
   eexecWrite(&eb, "/MinFeature {16 16} def\n");
@@ -283,7 +283,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
     eexecWrite(&eb, "/BlueValues [");
     for (i = 0; i < privateDicts[0].nBlueValues; ++i) {
       buf = GString::format("{0:s}{1:d}",
-			    i > 0 ? " " : "", privateDicts[0].blueValues[i]);
+                i > 0 ? " " : "", privateDicts[0].blueValues[i]);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
@@ -293,7 +293,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
     eexecWrite(&eb, "/OtherBlues [");
     for (i = 0; i < privateDicts[0].nOtherBlues; ++i) {
       buf = GString::format("{0:s}{1:d}",
-			    i > 0 ? " " : "", privateDicts[0].otherBlues[i]);
+                i > 0 ? " " : "", privateDicts[0].otherBlues[i]);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
@@ -303,7 +303,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
     eexecWrite(&eb, "/FamilyBlues [");
     for (i = 0; i < privateDicts[0].nFamilyBlues; ++i) {
       buf = GString::format("{0:s}{1:d}",
-			    i > 0 ? " " : "", privateDicts[0].familyBlues[i]);
+                i > 0 ? " " : "", privateDicts[0].familyBlues[i]);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
@@ -313,7 +313,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
     eexecWrite(&eb, "/FamilyOtherBlues [");
     for (i = 0; i < privateDicts[0].nFamilyOtherBlues; ++i) {
       buf = GString::format("{0:s}{1:d}", i > 0 ? " " : "",
-			    privateDicts[0].familyOtherBlues[i]);
+                privateDicts[0].familyOtherBlues[i]);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
@@ -321,7 +321,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
   }
   if (privateDicts[0].blueScale != 0.039625) {
     buf = GString::format("/BlueScale {0:.4g} def\n",
-			  privateDicts[0].blueScale);
+              privateDicts[0].blueScale);
     eexecWrite(&eb, buf->getCString());
     delete buf;
   }
@@ -349,7 +349,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
     eexecWrite(&eb, "/StemSnapH [");
     for (i = 0; i < privateDicts[0].nStemSnapH; ++i) {
       buf = GString::format("{0:s}{1:.4g}",
-			    i > 0 ? " " : "", privateDicts[0].stemSnapH[i]);
+                i > 0 ? " " : "", privateDicts[0].stemSnapH[i]);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
@@ -359,7 +359,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
     eexecWrite(&eb, "/StemSnapV [");
     for (i = 0; i < privateDicts[0].nStemSnapV; ++i) {
       buf = GString::format("{0:s}{1:.4g}",
-			    i > 0 ? " " : "", privateDicts[0].stemSnapV[i]);
+                i > 0 ? " " : "", privateDicts[0].stemSnapV[i]);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
@@ -367,25 +367,25 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
   }
   if (privateDicts[0].hasForceBold) {
     buf = GString::format("/ForceBold {0:s} def\n",
-			  privateDicts[0].forceBold ? "true" : "false");
+              privateDicts[0].forceBold ? "true" : "false");
     eexecWrite(&eb, buf->getCString());
     delete buf;
   }
   if (privateDicts[0].forceBoldThreshold != 0) {
     buf = GString::format("/ForceBoldThreshold {0:.4g} def\n",
-			  privateDicts[0].forceBoldThreshold);
+              privateDicts[0].forceBoldThreshold);
     eexecWrite(&eb, buf->getCString());
     delete buf;
   }
   if (privateDicts[0].languageGroup != 0) {
     buf = GString::format("/LanguageGroup {0:d} def\n",
-			  privateDicts[0].languageGroup);
+              privateDicts[0].languageGroup);
     eexecWrite(&eb, buf->getCString());
     delete buf;
   }
   if (privateDicts[0].expansionFactor != 0.06) {
     buf = GString::format("/ExpansionFactor {0:.4g} def\n",
-			  privateDicts[0].expansionFactor);
+              privateDicts[0].expansionFactor);
     eexecWrite(&eb, buf->getCString());
     delete buf;
   }
@@ -399,7 +399,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
 
   // write the CharStrings
   buf = GString::format("2 index /CharStrings {0:d} dict dup begin\n",
-			nGlyphs);
+            nGlyphs);
   eexecWrite(&eb, buf->getCString());
   delete buf;
   for (i = 0; i < nGlyphs; ++i) {
@@ -408,7 +408,7 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
     if (ok) {
       getString(charset[i], buf2, &ok);
       if (ok) {
-	eexecCvtGlyph(&eb, buf2, val.pos, val.len, &subrIdx, &privateDicts[0]);
+    eexecCvtGlyph(&eb, buf2, val.pos, val.len, &subrIdx, &privateDicts[0]);
       }
     }
   }
@@ -430,8 +430,8 @@ void FoFiType1C::convertToType1(char *psName, char **newEncoding, GBool ascii,
 }
 
 void FoFiType1C::convertToCIDType0(char *psName,
-				   FoFiOutputFunc outputFunc,
-				   void *outputStream) {
+                   FoFiOutputFunc outputFunc,
+                   void *outputStream) {
   int *cidMap;
   GString *charStrings;
   int *charStringOffsets;
@@ -467,12 +467,12 @@ void FoFiType1C::convertToCIDType0(char *psName,
       ok = gTrue;
       getIndexVal(&charStringsIdx, gid, &val, &ok);
       if (ok) {
-	getIndex(privateDicts[fdSelect[gid]].subrsOffset, &subrIdx, &ok);
-	if (!ok) {
-	  subrIdx.pos = -1;
-	}
-	cvtGlyph(val.pos, val.len, charStrings,
-		 &subrIdx, &privateDicts[fdSelect[gid]], gTrue);
+    getIndex(privateDicts[fdSelect[gid]].subrsOffset, &subrIdx, &ok);
+    if (!ok) {
+      subrIdx.pos = -1;
+    }
+    cvtGlyph(val.pos, val.len, charStrings,
+         &subrIdx, &privateDicts[fdSelect[gid]], gTrue);
       }
     }
   }
@@ -526,20 +526,20 @@ void FoFiType1C::convertToCIDType0(char *psName,
   (*outputFunc)(outputStream, "end def\n", 8);
   if (topDict.hasFontMatrix) {
     buf = GString::format("/FontMatrix [{0:.8g} {1:.8g} {2:.8g} {3:.8g} {4:.8g} {5:.8g}] def\n",
-			  topDict.fontMatrix[0], topDict.fontMatrix[1],
-			  topDict.fontMatrix[2], topDict.fontMatrix[3],
-			  topDict.fontMatrix[4], topDict.fontMatrix[5]);
+              topDict.fontMatrix[0], topDict.fontMatrix[1],
+              topDict.fontMatrix[2], topDict.fontMatrix[3],
+              topDict.fontMatrix[4], topDict.fontMatrix[5]);
     (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
     delete buf;
   } else if (privateDicts[0].hasFontMatrix) {
     (*outputFunc)(outputStream, "/FontMatrix [1 0 0 1 0 0] def\n", 30);
   } else {
     (*outputFunc)(outputStream,
-		  "/FontMatrix [0.001 0 0 0.001 0 0] def\n", 38);
+          "/FontMatrix [0.001 0 0 0.001 0 0] def\n", 38);
   }
   buf = GString::format("/FontBBox [{0:.4g} {1:.4g} {2:.4g} {3:.4g}] def\n",
-			topDict.fontBBox[0], topDict.fontBBox[1],
-			topDict.fontBBox[2], topDict.fontBBox[3]);
+            topDict.fontBBox[0], topDict.fontBBox[1],
+            topDict.fontBBox[2], topDict.fontBBox[3]);
   (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
   delete buf;
   (*outputFunc)(outputStream, "/FontInfo 1 dict dup begin\n", 27);
@@ -575,12 +575,12 @@ void FoFiType1C::convertToCIDType0(char *psName,
     (*outputFunc)(outputStream, "/FontType 1 def\n", 16);
     if (privateDicts[i].hasFontMatrix) {
       buf = GString::format("/FontMatrix [{0:.8g} {1:.8g} {2:.8g} {3:.8g} {4:.8g} {5:.8g}] def\n",
-			    privateDicts[i].fontMatrix[0],
-			    privateDicts[i].fontMatrix[1],
-			    privateDicts[i].fontMatrix[2],
-			    privateDicts[i].fontMatrix[3],
-			    privateDicts[i].fontMatrix[4],
-			    privateDicts[i].fontMatrix[5]);
+                privateDicts[i].fontMatrix[0],
+                privateDicts[i].fontMatrix[1],
+                privateDicts[i].fontMatrix[2],
+                privateDicts[i].fontMatrix[3],
+                privateDicts[i].fontMatrix[4],
+                privateDicts[i].fontMatrix[5]);
       (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
       delete buf;
     } else {
@@ -593,53 +593,53 @@ void FoFiType1C::convertToCIDType0(char *psName,
     if (privateDicts[i].nBlueValues) {
       (*outputFunc)(outputStream, "/BlueValues [", 13);
       for (j = 0; j < privateDicts[i].nBlueValues; ++j) {
-	buf = GString::format("{0:s}{1:d}",
-			      j > 0 ? " " : "", privateDicts[i].blueValues[j]);
-	(*outputFunc)(outputStream, buf->getCString(), buf->getLength());
-	delete buf;
+    buf = GString::format("{0:s}{1:d}",
+                  j > 0 ? " " : "", privateDicts[i].blueValues[j]);
+    (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
+    delete buf;
       }
       (*outputFunc)(outputStream, "] def\n", 6);
     }
     if (privateDicts[i].nOtherBlues) {
       (*outputFunc)(outputStream, "/OtherBlues [", 13);
       for (j = 0; j < privateDicts[i].nOtherBlues; ++j) {
-	buf = GString::format("{0:s}{1:d}",
-			      j > 0 ? " " : "", privateDicts[i].otherBlues[j]);
-	(*outputFunc)(outputStream, buf->getCString(), buf->getLength());
-	delete buf;
+    buf = GString::format("{0:s}{1:d}",
+                  j > 0 ? " " : "", privateDicts[i].otherBlues[j]);
+    (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
+    delete buf;
       }
       (*outputFunc)(outputStream, "] def\n", 6);
     }
     if (privateDicts[i].nFamilyBlues) {
       (*outputFunc)(outputStream, "/FamilyBlues [", 14);
       for (j = 0; j < privateDicts[i].nFamilyBlues; ++j) {
-	buf = GString::format("{0:s}{1:d}",
-			      j > 0 ? " " : "",
-			      privateDicts[i].familyBlues[j]);
-	(*outputFunc)(outputStream, buf->getCString(), buf->getLength());
-	delete buf;
+    buf = GString::format("{0:s}{1:d}",
+                  j > 0 ? " " : "",
+                  privateDicts[i].familyBlues[j]);
+    (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
+    delete buf;
       }
       (*outputFunc)(outputStream, "] def\n", 6);
     }
     if (privateDicts[i].nFamilyOtherBlues) {
       (*outputFunc)(outputStream, "/FamilyOtherBlues [", 19);
       for (j = 0; j < privateDicts[i].nFamilyOtherBlues; ++j) {
-	buf = GString::format("{0:s}{1:d}", j > 0 ? " " : "",
-			      privateDicts[i].familyOtherBlues[j]);
-	(*outputFunc)(outputStream, buf->getCString(), buf->getLength());
-	delete buf;
+    buf = GString::format("{0:s}{1:d}", j > 0 ? " " : "",
+                  privateDicts[i].familyOtherBlues[j]);
+    (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
+    delete buf;
       }
       (*outputFunc)(outputStream, "] def\n", 6);
     }
     if (privateDicts[i].blueScale != 0.039625) {
       buf = GString::format("/BlueScale {0:.4g} def\n",
-			    privateDicts[i].blueScale);
+                privateDicts[i].blueScale);
       (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
       delete buf;
     }
     if (privateDicts[i].blueShift != 7) {
       buf = GString::format("/BlueShift {0:d} def\n",
-			    privateDicts[i].blueShift);
+                privateDicts[i].blueShift);
       (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
       delete buf;
     }
@@ -661,44 +661,44 @@ void FoFiType1C::convertToCIDType0(char *psName,
     if (privateDicts[i].nStemSnapH) {
       (*outputFunc)(outputStream, "/StemSnapH [", 12);
       for (j = 0; j < privateDicts[i].nStemSnapH; ++j) {
-	buf = GString::format("{0:s}{1:.4g}",
-			      j > 0 ? " " : "", privateDicts[i].stemSnapH[j]);
-	(*outputFunc)(outputStream, buf->getCString(), buf->getLength());
-	delete buf;
+    buf = GString::format("{0:s}{1:.4g}",
+                  j > 0 ? " " : "", privateDicts[i].stemSnapH[j]);
+    (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
+    delete buf;
       }
       (*outputFunc)(outputStream, "] def\n", 6);
     }
     if (privateDicts[i].nStemSnapV) {
       (*outputFunc)(outputStream, "/StemSnapV [", 12);
       for (j = 0; j < privateDicts[i].nStemSnapV; ++j) {
-	buf = GString::format("{0:s}{1:.4g}",
-			      j > 0 ? " " : "", privateDicts[i].stemSnapV[j]);
-	(*outputFunc)(outputStream, buf->getCString(), buf->getLength());
-	delete buf;
+    buf = GString::format("{0:s}{1:.4g}",
+                  j > 0 ? " " : "", privateDicts[i].stemSnapV[j]);
+    (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
+    delete buf;
       }
       (*outputFunc)(outputStream, "] def\n", 6);
     }
     if (privateDicts[i].hasForceBold) {
       buf = GString::format("/ForceBold {0:s} def\n",
-			    privateDicts[i].forceBold ? "true" : "false");
+                privateDicts[i].forceBold ? "true" : "false");
       (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
       delete buf;
     }
     if (privateDicts[i].forceBoldThreshold != 0) {
       buf = GString::format("/ForceBoldThreshold {0:.4g} def\n",
-			    privateDicts[i].forceBoldThreshold);
+                privateDicts[i].forceBoldThreshold);
       (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
       delete buf;
     }
     if (privateDicts[i].languageGroup != 0) {
       buf = GString::format("/LanguageGroup {0:d} def\n",
-			    privateDicts[i].languageGroup);
+                privateDicts[i].languageGroup);
       (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
       delete buf;
     }
     if (privateDicts[i].expansionFactor != 0.06) {
       buf = GString::format("/ExpansionFactor {0:.4g} def\n",
-			    privateDicts[i].expansionFactor);
+                privateDicts[i].expansionFactor);
       (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
       delete buf;
     }
@@ -710,7 +710,7 @@ void FoFiType1C::convertToCIDType0(char *psName,
   // start the binary section
   offset = (nCIDs + 1) * (1 + gdBytes);
   buf = GString::format("(Hex) {0:d} StartData\n",
-			offset + charStrings->getLength());
+            offset + charStrings->getLength());
   (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
   delete buf;
 
@@ -718,19 +718,19 @@ void FoFiType1C::convertToCIDType0(char *psName,
   for (i = 0; i <= nCIDs; i += 6) {
     for (j = 0; j < 6 && i+j <= nCIDs; ++j) {
       if (i+j < nCIDs && cidMap[i+j] >= 0) {
-	buf2[0] = (char)fdSelect[cidMap[i+j]];
+    buf2[0] = (char)fdSelect[cidMap[i+j]];
       } else {
-	buf2[0] = (char)0;
+    buf2[0] = (char)0;
       }
       n = offset + charStringOffsets[i+j];
       for (k = gdBytes; k >= 1; --k) {
-	buf2[k] = (char)(n & 0xff);
-	n >>= 8;
+    buf2[k] = (char)(n & 0xff);
+    n >>= 8;
       }
       for (k = 0; k <= gdBytes; ++k) {
-	buf = GString::format("{0:02x}", buf2[k] & 0xff);
-	(*outputFunc)(outputStream, buf->getCString(), buf->getLength());
-	delete buf;
+    buf = GString::format("{0:02x}", buf2[k] & 0xff);
+    (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
+    delete buf;
       }
     }
     (*outputFunc)(outputStream, "\n", 1);
@@ -756,8 +756,8 @@ void FoFiType1C::convertToCIDType0(char *psName,
 }
 
 void FoFiType1C::convertToType0(char *psName,
-				FoFiOutputFunc outputFunc,
-				void *outputStream) {
+                FoFiOutputFunc outputFunc,
+                void *outputStream) {
   int *cidMap;
   Type1CIndex subrIdx;
   Type1CIndexVal val;
@@ -791,8 +791,8 @@ void FoFiType1C::convertToType0(char *psName,
     fd = 0;
     for (j = i==0 ? 1 : 0; j < 256 && i+j < nCIDs; ++j) {
       if (cidMap[i+j] >= 0) {
-	fd = fdSelect[cidMap[i+j]];
-	break;
+    fd = fdSelect[cidMap[i+j]];
+    break;
       }
     }
 
@@ -806,23 +806,23 @@ void FoFiType1C::convertToType0(char *psName,
     (*outputFunc)(outputStream, "/FontType 1 def\n", 16);
     if (privateDicts[fd].hasFontMatrix) {
       buf = GString::format("/FontMatrix [{0:.8g} {1:.8g} {2:.8g} {3:.8g} {4:.8g} {5:.8g}] def\n",
-			    privateDicts[fd].fontMatrix[0],
-			    privateDicts[fd].fontMatrix[1],
-			    privateDicts[fd].fontMatrix[2],
-			    privateDicts[fd].fontMatrix[3],
-			    privateDicts[fd].fontMatrix[4],
-			    privateDicts[fd].fontMatrix[5]);
+                privateDicts[fd].fontMatrix[0],
+                privateDicts[fd].fontMatrix[1],
+                privateDicts[fd].fontMatrix[2],
+                privateDicts[fd].fontMatrix[3],
+                privateDicts[fd].fontMatrix[4],
+                privateDicts[fd].fontMatrix[5]);
       (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
       delete buf;
     } else if (topDict.hasFontMatrix) {
       (*outputFunc)(outputStream, "/FontMatrix [1 0 0 1 0 0] def\n", 30);
     } else {
       (*outputFunc)(outputStream,
-		    "/FontMatrix [0.001 0 0 0.001 0 0] def\n", 38);
+            "/FontMatrix [0.001 0 0 0.001 0 0] def\n", 38);
     }
     buf = GString::format("/FontBBox [{0:.4g} {1:.4g} {2:.4g} {3:.4g}] def\n",
-			  topDict.fontBBox[0], topDict.fontBBox[1],
-			  topDict.fontBBox[2], topDict.fontBBox[3]);
+              topDict.fontBBox[0], topDict.fontBBox[1],
+              topDict.fontBBox[2], topDict.fontBBox[3]);
     (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
     delete buf;
     buf = GString::format("/PaintType {0:d} def\n", topDict.paintType);
@@ -841,7 +841,7 @@ void FoFiType1C::convertToType0(char *psName,
     }
     if (j < 256) {
       buf = GString::format("{0:d} 1 255 {{ 1 index exch /.notdef put }} for\n",
-			    j);
+                j);
       (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
       delete buf;
     }
@@ -860,7 +860,7 @@ void FoFiType1C::convertToType0(char *psName,
     eexecWrite(&eb, "\x83\xca\x73\xd5");
     eexecWrite(&eb, "dup /Private 32 dict dup begin\n");
     eexecWrite(&eb, "/RD {string currentfile exch readstring pop}"
-	       " executeonly def\n");
+           " executeonly def\n");
     eexecWrite(&eb, "/ND {noaccess def} executeonly def\n");
     eexecWrite(&eb, "/NP {noaccess put} executeonly def\n");
     eexecWrite(&eb, "/MinFeature {16 16} def\n");
@@ -868,60 +868,60 @@ void FoFiType1C::convertToType0(char *psName,
     if (privateDicts[fd].nBlueValues) {
       eexecWrite(&eb, "/BlueValues [");
       for (k = 0; k < privateDicts[fd].nBlueValues; ++k) {
-	buf = GString::format("{0:s}{1:d}",
-			      k > 0 ? " " : "",
-			      privateDicts[fd].blueValues[k]);
-	eexecWrite(&eb, buf->getCString());
-	delete buf;
+    buf = GString::format("{0:s}{1:d}",
+                  k > 0 ? " " : "",
+                  privateDicts[fd].blueValues[k]);
+    eexecWrite(&eb, buf->getCString());
+    delete buf;
       }
       eexecWrite(&eb, "] def\n");
     }
     if (privateDicts[fd].nOtherBlues) {
       eexecWrite(&eb, "/OtherBlues [");
       for (k = 0; k < privateDicts[fd].nOtherBlues; ++k) {
-	buf = GString::format("{0:s}{1:d}",
-			      k > 0 ? " " : "",
-			      privateDicts[fd].otherBlues[k]);
-	eexecWrite(&eb, buf->getCString());
-	delete buf;
+    buf = GString::format("{0:s}{1:d}",
+                  k > 0 ? " " : "",
+                  privateDicts[fd].otherBlues[k]);
+    eexecWrite(&eb, buf->getCString());
+    delete buf;
       }
       eexecWrite(&eb, "] def\n");
     }
     if (privateDicts[fd].nFamilyBlues) {
       eexecWrite(&eb, "/FamilyBlues [");
       for (k = 0; k < privateDicts[fd].nFamilyBlues; ++k) {
-	buf = GString::format("{0:s}{1:d}", k > 0 ? " " : "",
-			      privateDicts[fd].familyBlues[k]);
-	eexecWrite(&eb, buf->getCString());
-	delete buf;
+    buf = GString::format("{0:s}{1:d}", k > 0 ? " " : "",
+                  privateDicts[fd].familyBlues[k]);
+    eexecWrite(&eb, buf->getCString());
+    delete buf;
       }
       eexecWrite(&eb, "] def\n");
     }
     if (privateDicts[fd].nFamilyOtherBlues) {
       eexecWrite(&eb, "/FamilyOtherBlues [");
       for (k = 0; k < privateDicts[fd].nFamilyOtherBlues; ++k) {
-	buf = GString::format("{0:s}{1:d}", k > 0 ? " " : "",
-			      privateDicts[fd].familyOtherBlues[k]);
-	eexecWrite(&eb, buf->getCString());
-	delete buf;
+    buf = GString::format("{0:s}{1:d}", k > 0 ? " " : "",
+                  privateDicts[fd].familyOtherBlues[k]);
+    eexecWrite(&eb, buf->getCString());
+    delete buf;
       }
       eexecWrite(&eb, "] def\n");
     }
     if (privateDicts[fd].blueScale != 0.039625) {
       buf = GString::format("/BlueScale {0:.4g} def\n",
-			    privateDicts[fd].blueScale);
+                privateDicts[fd].blueScale);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
     if (privateDicts[fd].blueShift != 7) {
       buf = GString::format("/BlueShift {0:d} def\n",
-			    privateDicts[fd].blueShift);
+                privateDicts[fd].blueShift);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
     if (privateDicts[fd].blueFuzz != 1) {
       buf = GString::format("/BlueFuzz {0:d} def\n",
-			    privateDicts[fd].blueFuzz);
+                privateDicts[fd].blueFuzz);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
@@ -938,44 +938,44 @@ void FoFiType1C::convertToType0(char *psName,
     if (privateDicts[fd].nStemSnapH) {
       eexecWrite(&eb, "/StemSnapH [");
       for (k = 0; k < privateDicts[fd].nStemSnapH; ++k) {
-	buf = GString::format("{0:s}{1:.4g}",
-			      k > 0 ? " " : "", privateDicts[fd].stemSnapH[k]);
-	eexecWrite(&eb, buf->getCString());
-	delete buf;
+    buf = GString::format("{0:s}{1:.4g}",
+                  k > 0 ? " " : "", privateDicts[fd].stemSnapH[k]);
+    eexecWrite(&eb, buf->getCString());
+    delete buf;
       }
       eexecWrite(&eb, "] def\n");
     }
     if (privateDicts[fd].nStemSnapV) {
       eexecWrite(&eb, "/StemSnapV [");
       for (k = 0; k < privateDicts[fd].nStemSnapV; ++k) {
-	buf = GString::format("{0:s}{1:.4g}",
-			      k > 0 ? " " : "", privateDicts[fd].stemSnapV[k]);
-	eexecWrite(&eb, buf->getCString());
-	delete buf;
+    buf = GString::format("{0:s}{1:.4g}",
+                  k > 0 ? " " : "", privateDicts[fd].stemSnapV[k]);
+    eexecWrite(&eb, buf->getCString());
+    delete buf;
       }
       eexecWrite(&eb, "] def\n");
     }
     if (privateDicts[fd].hasForceBold) {
       buf = GString::format("/ForceBold {0:s} def\n",
-			    privateDicts[fd].forceBold ? "true" : "false");
+                privateDicts[fd].forceBold ? "true" : "false");
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
     if (privateDicts[fd].forceBoldThreshold != 0) {
       buf = GString::format("/ForceBoldThreshold {0:.4g} def\n",
-			    privateDicts[fd].forceBoldThreshold);
+                privateDicts[fd].forceBoldThreshold);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
     if (privateDicts[fd].languageGroup != 0) {
       buf = GString::format("/LanguageGroup {0:d} def\n",
-			    privateDicts[fd].languageGroup);
+                privateDicts[fd].languageGroup);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
     if (privateDicts[fd].expansionFactor != 0.06) {
       buf = GString::format("/ExpansionFactor {0:.4g} def\n",
-			    privateDicts[fd].expansionFactor);
+                privateDicts[fd].expansionFactor);
       eexecWrite(&eb, buf->getCString());
       delete buf;
     }
@@ -995,20 +995,20 @@ void FoFiType1C::convertToType0(char *psName,
     getIndexVal(&charStringsIdx, 0, &val, &ok);
     if (ok) {
       eexecCvtGlyph(&eb, ".notdef", val.pos, val.len,
-		    &subrIdx, &privateDicts[fd]);
+            &subrIdx, &privateDicts[fd]);
     }
 
     // write the CharStrings
     for (j = 0; j < 256 && i+j < nCIDs; ++j) {
       if (cidMap[i+j] >= 0) {
-	ok = gTrue;
-	getIndexVal(&charStringsIdx, cidMap[i+j], &val, &ok);
-	if (ok) {
-	  buf = GString::format("c{0:02x}", j);
-	  eexecCvtGlyph(&eb, buf->getCString(), val.pos, val.len,
-			&subrIdx, &privateDicts[fd]);
-	  delete buf;
-	}
+    ok = gTrue;
+    getIndexVal(&charStringsIdx, cidMap[i+j], &val, &ok);
+    if (ok) {
+      buf = GString::format("c{0:02x}", j);
+      eexecCvtGlyph(&eb, buf->getCString(), val.pos, val.len,
+            &subrIdx, &privateDicts[fd]);
+      delete buf;
+    }
       }
     }
     eexecWrite(&eb, "end\n");
@@ -1036,9 +1036,9 @@ void FoFiType1C::convertToType0(char *psName,
   (*outputFunc)(outputStream, "/FontType 0 def\n", 16);
   if (topDict.hasFontMatrix) {
     buf = GString::format("/FontMatrix [{0:.8g} {1:.8g} {2:.8g} {3:.8g} {4:.8g} {5:.8g}] def\n",
-			  topDict.fontMatrix[0], topDict.fontMatrix[1],
-			  topDict.fontMatrix[2], topDict.fontMatrix[3],
-			  topDict.fontMatrix[4], topDict.fontMatrix[5]);
+              topDict.fontMatrix[0], topDict.fontMatrix[1],
+              topDict.fontMatrix[2], topDict.fontMatrix[3],
+              topDict.fontMatrix[4], topDict.fontMatrix[5]);
     (*outputFunc)(outputStream, buf->getCString(), buf->getLength());
     delete buf;
   } else {
@@ -1067,9 +1067,9 @@ void FoFiType1C::convertToType0(char *psName,
 }
 
 void FoFiType1C::eexecCvtGlyph(Type1CEexecBuf *eb, char *glyphName,
-			       int offset, int nBytes,
-			       Type1CIndex *subrIdx,
-			       Type1CPrivateDict *pDict) {
+                   int offset, int nBytes,
+                   Type1CIndex *subrIdx,
+                   Type1CPrivateDict *pDict) {
   GString *buf;
   GString *charBuf;
 
@@ -1081,15 +1081,15 @@ void FoFiType1C::eexecCvtGlyph(Type1CEexecBuf *eb, char *glyphName,
   eexecWrite(eb, buf->getCString());
   delete buf;
   eexecWriteCharstring(eb, (Guchar *)charBuf->getCString(),
-		       charBuf->getLength());
+               charBuf->getLength());
   eexecWrite(eb, " ND\n");
 
   delete charBuf;
 }
 
 void FoFiType1C::cvtGlyph(int offset, int nBytes, GString *charBuf,
-			  Type1CIndex *subrIdx, Type1CPrivateDict *pDict,
-			  GBool top) {
+              Type1CIndex *subrIdx, Type1CPrivateDict *pDict,
+              GBool top) {
   Type1CIndexVal val;
   GBool ok, dFP;
   double d, dx, dy;
@@ -1119,591 +1119,591 @@ void FoFiType1C::cvtGlyph(int offset, int nBytes, GString *charBuf,
     if (!ops[nOps - 1].isNum) {
       --nOps; // drop the operator
       switch (ops[nOps].op) {
-      case 0x0001:		// hstem
-	if (firstOp) {
-	  cvtGlyphWidth(nOps & 1, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (nOps & 1) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 hstem", nOps);
-	}
-	d = 0;
-	dFP = gFalse;
-	for (k = 0; k < nOps; k += 2) {
-	  // convert Type 2 edge hints (-20 or -21) to Type 1 ghost hints
-	  if (ops[k+1].num < 0) {
-	    d += ops[k].num + ops[k+1].num;
-	    dFP |= ops[k].isFP | ops[k+1].isFP;
-	    cvtNum(d, dFP, charBuf);
-	    cvtNum(-ops[k+1].num, ops[k+1].isFP, charBuf);
-	  } else {
-	    d += ops[k].num;
-	    dFP |= ops[k].isFP;
-	    cvtNum(d, dFP, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    d += ops[k+1].num;
-	    dFP |= ops[k+1].isFP;
-	  }
-	  charBuf->append((char)1);
-	}
-	nHints += nOps / 2;
-	nOps = 0;
-	break;
-      case 0x0003:		// vstem
-	if (firstOp) {
-	  cvtGlyphWidth(nOps & 1, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (nOps & 1) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 vstem", nOps);
-	}
-	d = 0;
-	dFP = gFalse;
-	for (k = 0; k < nOps; k += 2) {
-	  // convert Type 2 edge hints (-20 or -21) to Type 1 ghost hints
-	  if (ops[k+1].num < 0) {
-	    d += ops[k].num + ops[k+1].num;
-	    dFP |= ops[k].isFP | ops[k+1].isFP;
-	    cvtNum(d, dFP, charBuf);
-	    cvtNum(-ops[k+1].num, ops[k+1].isFP, charBuf);
-	  } else {
-	    d += ops[k].num;
-	    dFP |= ops[k].isFP;
-	    cvtNum(d, dFP, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    d += ops[k+1].num;
-	    dFP |= ops[k+1].isFP;
-	  }
-	  charBuf->append((char)3);
-	}
-	nHints += nOps / 2;
-	nOps = 0;
-	break;
-      case 0x0004:		// vmoveto
-	if (firstOp) {
-	  cvtGlyphWidth(nOps == 2, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (openPath) {
-	  charBuf->append((char)9);
-	  openPath = gFalse;
-	}
-	if (nOps != 1) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 vmoveto", nOps);
-	}
-	cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	charBuf->append((char)4);
-	nOps = 0;
-	break;
-      case 0x0005:		// rlineto
-	if (nOps < 2 || nOps % 2 != 0) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 rlineto", nOps);
-	}
-	for (k = 0; k < nOps; k += 2) {
-	  cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	  cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	  charBuf->append((char)5);
-	}
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x0006:		// hlineto
-	if (nOps < 1) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 hlineto", nOps);
-	}
-	for (k = 0; k < nOps; ++k) {
-	  cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	  charBuf->append((char)((k & 1) ? 7 : 6));
-	}
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x0007:		// vlineto
-	if (nOps < 1) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 vlineto", nOps);
-	}
-	for (k = 0; k < nOps; ++k) {
-	  cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	  charBuf->append((char)((k & 1) ? 6 : 7));
-	}
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x0008:		// rrcurveto
-	if (nOps < 6 || nOps % 6 != 0) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 rrcurveto", nOps);
-	}
-	for (k = 0; k < nOps; k += 6) {
-	  cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	  cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	  cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	  cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	  cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
-	  cvtNum(ops[k+5].num, ops[k+5].isFP, charBuf);
-	  charBuf->append((char)8);
-	}
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x000a:		// callsubr
-	if (nOps >= 1) {
-	  subrBias = (subrIdx->len < 1240)
-	               ? 107 : (subrIdx->len < 33900) ? 1131 : 32768;
-	  k = subrBias + (int)ops[nOps - 1].num;
-	  --nOps;
-	  ok = gTrue;
-	  getIndexVal(subrIdx, k, &val, &ok);
-	  if (ok) {
-	    cvtGlyph(val.pos, val.len, charBuf, subrIdx, pDict, gFalse);
-	  }
-	} else {
-	  //~ error(-1, "Too few args to Type 2 callsubr");
-	}
-	// don't clear the stack
-	break;
-      case 0x000b:		// return
-	// don't clear the stack
-	break;
-      case 0x000e:		// endchar / seac
-	if (firstOp) {
-	  cvtGlyphWidth(nOps == 1 || nOps == 5, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (openPath) {
-	  charBuf->append((char)9);
-	  openPath = gFalse;
-	}
-	if (nOps == 4) {
-	  cvtNum(0, gFalse, charBuf);
-	  cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	  cvtNum(ops[1].num, ops[1].isFP, charBuf);
-	  cvtNum(ops[2].num, ops[2].isFP, charBuf);
-	  cvtNum(ops[3].num, ops[3].isFP, charBuf);
-	  charBuf->append((char)12)->append((char)6);
-	} else if (nOps == 0) {
-	  charBuf->append((char)14);
-	} else {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 endchar", nOps);
-	}
-	nOps = 0;
-	break;
-      case 0x000f:		// (obsolete)
-	// this op is ignored, but we need the glyph width
-	if (firstOp) {
-	  cvtGlyphWidth(nOps > 0, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	nOps = 0;
-	break;
-      case 0x0010:		// blend
-	//~ error(-1, "Unimplemented Type 2 charstring op: %d", file[i]);
-	nOps = 0;
-	break;
-      case 0x0012:		// hstemhm
-	// ignored
-	if (firstOp) {
-	  cvtGlyphWidth(nOps & 1, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (nOps & 1) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 hstemhm", nOps);
-	}
-	nHints += nOps / 2;
-	nOps = 0;
-	break;
-      case 0x0013:		// hintmask
-	// ignored
-	if (firstOp) {
-	  cvtGlyphWidth(nOps & 1, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (nOps > 0) {
-	  if (nOps & 1) {
-	    //~ error(-1, "Wrong number of args (%d) to Type 2 hintmask/vstemhm",
-	    //~       nOps);
-	  }
-	  nHints += nOps / 2;
-	}
-	pos += (nHints + 7) >> 3;
-	nOps = 0;
-	break;
-      case 0x0014:		// cntrmask
-	// ignored
-	if (firstOp) {
-	  cvtGlyphWidth(nOps & 1, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (nOps > 0) {
-	  if (nOps & 1) {
-	    //~ error(-1, "Wrong number of args (%d) to Type 2 cntrmask/vstemhm",
-	    //~       nOps);
-	  }
-	  nHints += nOps / 2;
-	}
-	pos += (nHints + 7) >> 3;
-	nOps = 0;
-	break;
-      case 0x0015:		// rmoveto
-	if (firstOp) {
-	  cvtGlyphWidth(nOps == 3, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (openPath) {
-	  charBuf->append((char)9);
-	  openPath = gFalse;
-	}
-	if (nOps != 2) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 rmoveto", nOps);
-	}
-	cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	cvtNum(ops[1].num, ops[1].isFP, charBuf);
-	charBuf->append((char)21);
-	nOps = 0;
-	break;
-      case 0x0016:		// hmoveto
-	if (firstOp) {
-	  cvtGlyphWidth(nOps == 2, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (openPath) {
-	  charBuf->append((char)9);
-	  openPath = gFalse;
-	}
-	if (nOps != 1) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 hmoveto", nOps);
-	}
-	cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	charBuf->append((char)22);
-	nOps = 0;
-	break;
-      case 0x0017:		// vstemhm
-	// ignored
-	if (firstOp) {
-	  cvtGlyphWidth(nOps & 1, charBuf, pDict);
-	  firstOp = gFalse;
-	}
-	if (nOps & 1) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 vstemhm", nOps);
-	}
-	nHints += nOps / 2;
-	nOps = 0;
-	break;
-      case 0x0018:		// rcurveline
-	if (nOps < 8 || (nOps - 2) % 6 != 0) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 rcurveline", nOps);
-	}
-	for (k = 0; k < nOps - 2; k += 6) {
-	  cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	  cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	  cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	  cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	  cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
-	  cvtNum(ops[k+5].num, ops[k+5].isFP, charBuf);
-	  charBuf->append((char)8);
-	}
-	cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	cvtNum(ops[k+1].num, ops[k].isFP, charBuf);
-	charBuf->append((char)5);
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x0019:		// rlinecurve
-	if (nOps < 8 || (nOps - 6) % 2 != 0) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 rlinecurve", nOps);
-	}
-	for (k = 0; k < nOps - 6; k += 2) {
-	  cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	  cvtNum(ops[k+1].num, ops[k].isFP, charBuf);
-	  charBuf->append((char)5);
-	}
-	cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
-	cvtNum(ops[k+5].num, ops[k+5].isFP, charBuf);
-	charBuf->append((char)8);
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x001a:		// vvcurveto
-	if (nOps < 4 || !(nOps % 4 == 0 || (nOps-1) % 4 == 0)) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 vvcurveto", nOps);
-	}
-	if (nOps % 2 == 1) {
-	  cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	  cvtNum(ops[1].num, ops[1].isFP, charBuf);
-	  cvtNum(ops[2].num, ops[2].isFP, charBuf);
-	  cvtNum(ops[3].num, ops[3].isFP, charBuf);
-	  cvtNum(0, gFalse, charBuf);
-	  cvtNum(ops[4].num, ops[4].isFP, charBuf);
-	  charBuf->append((char)8);
-	  k = 5;
-	} else {
-	  k = 0;
-	}
-	for (; k < nOps; k += 4) {
-	  cvtNum(0, gFalse, charBuf);
-	  cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	  cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	  cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	  cvtNum(0, gFalse, charBuf);
-	  cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	  charBuf->append((char)8);
-	}
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x001b:		// hhcurveto
-	if (nOps < 4 || !(nOps % 4 == 0 || (nOps-1) % 4 == 0)) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 hhcurveto", nOps);
-	}
-	if (nOps % 2 == 1) {
-	  cvtNum(ops[1].num, ops[1].isFP, charBuf);
-	  cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	  cvtNum(ops[2].num, ops[2].isFP, charBuf);
-	  cvtNum(ops[3].num, ops[3].isFP, charBuf);
-	  cvtNum(ops[4].num, ops[4].isFP, charBuf);
-	  cvtNum(0, gFalse, charBuf);
-	  charBuf->append((char)8);
-	  k = 5;
-	} else {
-	  k = 0;
-	}
-	for (; k < nOps; k += 4) {
-	  cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	  cvtNum(0, gFalse, charBuf);
-	  cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	  cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	  cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	  cvtNum(0, gFalse, charBuf);
-	  charBuf->append((char)8);
-	}
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x001d:		// callgsubr
-	if (nOps >= 1) {
-	  k = gsubrBias + (int)ops[nOps - 1].num;
-	  --nOps;
-	  ok = gTrue;
-	  getIndexVal(&gsubrIdx, k, &val, &ok);
-	  if (ok) {
-	    cvtGlyph(val.pos, val.len, charBuf, subrIdx, pDict, gFalse);
-	  }
-	} else {
-	  //~ error(-1, "Too few args to Type 2 callgsubr");
-	}
-	// don't clear the stack
-	break;
-      case 0x001e:		// vhcurveto
-	if (nOps < 4 || !(nOps % 4 == 0 || (nOps-1) % 4 == 0)) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 vhcurveto", nOps);
-	}
-	for (k = 0; k < nOps && k != nOps-5; k += 4) {
-	  if (k % 8 == 0) {
-	    cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	    cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	    charBuf->append((char)30);
-	  } else {
-	    cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	    cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	    charBuf->append((char)31);
-	  }
-	}
-	if (k == nOps-5) {
-	  if (k % 8 == 0) {
-	    cvtNum(0, gFalse, charBuf);
-	    cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	    cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	    cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
-	  } else {
-	    cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	    cvtNum(0, gFalse, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	    cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
-	    cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	  }
-	  charBuf->append((char)8);
-	}
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x001f:		// hvcurveto
-	if (nOps < 4 || !(nOps % 4 == 0 || (nOps-1) % 4 == 0)) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 hvcurveto", nOps);
-	}
-	for (k = 0; k < nOps && k != nOps-5; k += 4) {
-	  if (k % 8 == 0) {
-	    cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	    cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	    charBuf->append((char)31);
-	  } else {
-	    cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	    cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	    charBuf->append((char)30);
-	  }
-	}
-	if (k == nOps-5) {
-	  if (k % 8 == 0) {
-	    cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	    cvtNum(0, gFalse, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	    cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
-	    cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	  } else {
-	    cvtNum(0, gFalse, charBuf);
-	    cvtNum(ops[k].num, ops[k].isFP, charBuf);
-	    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
-	    cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
-	    cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
-	    cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
-	  }
-	  charBuf->append((char)8);
-	}
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x0c00:		// dotsection (should be Type 1 only?)
-	// ignored
-	nOps = 0;
-	break;
-      case 0x0c03:		// and
-      case 0x0c04:		// or
-      case 0x0c05:		// not
-      case 0x0c08:		// store
-      case 0x0c09:		// abs
-      case 0x0c0a:		// add
-      case 0x0c0b:		// sub
-      case 0x0c0c:		// div
-      case 0x0c0d:		// load
-      case 0x0c0e:		// neg
-      case 0x0c0f:		// eq
-      case 0x0c12:		// drop
-      case 0x0c14:		// put
-      case 0x0c15:		// get
-      case 0x0c16:		// ifelse
-      case 0x0c17:		// random
-      case 0x0c18:		// mul
-      case 0x0c1a:		// sqrt
-      case 0x0c1b:		// dup
-      case 0x0c1c:		// exch
-      case 0x0c1d:		// index
-      case 0x0c1e:		// roll
-	//~ error(-1, "Unimplemented Type 2 charstring op: 12.%d", file[i+1]);
-	nOps = 0;
-	break;
-      case 0x0c22:		// hflex
-	if (nOps != 7) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 hflex", nOps);
-	}
-	cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	cvtNum(0, gFalse, charBuf);
-	cvtNum(ops[1].num, ops[1].isFP, charBuf);
-	cvtNum(ops[2].num, ops[2].isFP, charBuf);
-	cvtNum(ops[3].num, ops[3].isFP, charBuf);
-	cvtNum(0, gFalse, charBuf);
-	charBuf->append((char)8);
-	cvtNum(ops[4].num, ops[4].isFP, charBuf);
-	cvtNum(0, gFalse, charBuf);
-	cvtNum(ops[5].num, ops[5].isFP, charBuf);
-	cvtNum(-ops[2].num, ops[2].isFP, charBuf);
-	cvtNum(ops[6].num, ops[6].isFP, charBuf);
-	cvtNum(0, gFalse, charBuf);
-	charBuf->append((char)8);
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x0c23:		// flex
-	if (nOps != 13) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 flex", nOps);
-	}
-	cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	cvtNum(ops[1].num, ops[1].isFP, charBuf);
-	cvtNum(ops[2].num, ops[2].isFP, charBuf);
-	cvtNum(ops[3].num, ops[3].isFP, charBuf);
-	cvtNum(ops[4].num, ops[4].isFP, charBuf);
-	cvtNum(ops[5].num, ops[5].isFP, charBuf);
-	charBuf->append((char)8);
-	cvtNum(ops[6].num, ops[6].isFP, charBuf);
-	cvtNum(ops[7].num, ops[7].isFP, charBuf);
-	cvtNum(ops[8].num, ops[8].isFP, charBuf);
-	cvtNum(ops[9].num, ops[9].isFP, charBuf);
-	cvtNum(ops[10].num, ops[10].isFP, charBuf);
-	cvtNum(ops[11].num, ops[11].isFP, charBuf);
-	charBuf->append((char)8);
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x0c24:		// hflex1
-	if (nOps != 9) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 hflex1", nOps);
-	}
-	cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	cvtNum(ops[1].num, ops[1].isFP, charBuf);
-	cvtNum(ops[2].num, ops[2].isFP, charBuf);
-	cvtNum(ops[3].num, ops[3].isFP, charBuf);
-	cvtNum(ops[4].num, ops[4].isFP, charBuf);
-	cvtNum(0, gFalse, charBuf);
-	charBuf->append((char)8);
-	cvtNum(ops[5].num, ops[5].isFP, charBuf);
-	cvtNum(0, gFalse, charBuf);
-	cvtNum(ops[6].num, ops[6].isFP, charBuf);
-	cvtNum(ops[7].num, ops[7].isFP, charBuf);
-	cvtNum(ops[8].num, ops[8].isFP, charBuf);
-	cvtNum(-(ops[1].num + ops[3].num + ops[7].num),
-	       ops[1].isFP | ops[3].isFP | ops[7].isFP, charBuf);
-	charBuf->append((char)8);
-	nOps = 0;
-	openPath = gTrue;
-	break;
-      case 0x0c25:		// flex1
-	if (nOps != 11) {
-	  //~ error(-1, "Wrong number of args (%d) to Type 2 flex1", nOps);
-	}
-	cvtNum(ops[0].num, ops[0].isFP, charBuf);
-	cvtNum(ops[1].num, ops[1].isFP, charBuf);
-	cvtNum(ops[2].num, ops[2].isFP, charBuf);
-	cvtNum(ops[3].num, ops[3].isFP, charBuf);
-	cvtNum(ops[4].num, ops[4].isFP, charBuf);
-	cvtNum(ops[5].num, ops[5].isFP, charBuf);
-	charBuf->append((char)8);
-	cvtNum(ops[6].num, ops[6].isFP, charBuf);
-	cvtNum(ops[7].num, ops[7].isFP, charBuf);
-	cvtNum(ops[8].num, ops[8].isFP, charBuf);
-	cvtNum(ops[9].num, ops[9].isFP, charBuf);
-	dx = ops[0].num + ops[2].num + ops[4].num + ops[6].num + ops[8].num;
-	dy = ops[1].num + ops[3].num + ops[5].num + ops[7].num + ops[9].num;
-	if (fabs(dx) > fabs(dy)) {
-	  cvtNum(ops[10].num, ops[10].isFP, charBuf);
-	  cvtNum(-dy, ops[1].isFP | ops[3].isFP | ops[5].isFP |
-		      ops[7].isFP | ops[9].isFP, charBuf);
-	} else {
-	  cvtNum(-dx, ops[0].isFP | ops[2].isFP | ops[4].isFP |
-		      ops[6].isFP | ops[8].isFP, charBuf);
-	  cvtNum(ops[10].num, ops[10].isFP, charBuf);
-	}
-	charBuf->append((char)8);
-	nOps = 0;
-	openPath = gTrue;
-	break;
+      case 0x0001:        // hstem
+    if (firstOp) {
+      cvtGlyphWidth(nOps & 1, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (nOps & 1) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 hstem", nOps);
+    }
+    d = 0;
+    dFP = gFalse;
+    for (k = 0; k < nOps; k += 2) {
+      // convert Type 2 edge hints (-20 or -21) to Type 1 ghost hints
+      if (ops[k+1].num < 0) {
+        d += ops[k].num + ops[k+1].num;
+        dFP |= ops[k].isFP | ops[k+1].isFP;
+        cvtNum(d, dFP, charBuf);
+        cvtNum(-ops[k+1].num, ops[k+1].isFP, charBuf);
+      } else {
+        d += ops[k].num;
+        dFP |= ops[k].isFP;
+        cvtNum(d, dFP, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        d += ops[k+1].num;
+        dFP |= ops[k+1].isFP;
+      }
+      charBuf->append((char)1);
+    }
+    nHints += nOps / 2;
+    nOps = 0;
+    break;
+      case 0x0003:        // vstem
+    if (firstOp) {
+      cvtGlyphWidth(nOps & 1, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (nOps & 1) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 vstem", nOps);
+    }
+    d = 0;
+    dFP = gFalse;
+    for (k = 0; k < nOps; k += 2) {
+      // convert Type 2 edge hints (-20 or -21) to Type 1 ghost hints
+      if (ops[k+1].num < 0) {
+        d += ops[k].num + ops[k+1].num;
+        dFP |= ops[k].isFP | ops[k+1].isFP;
+        cvtNum(d, dFP, charBuf);
+        cvtNum(-ops[k+1].num, ops[k+1].isFP, charBuf);
+      } else {
+        d += ops[k].num;
+        dFP |= ops[k].isFP;
+        cvtNum(d, dFP, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        d += ops[k+1].num;
+        dFP |= ops[k+1].isFP;
+      }
+      charBuf->append((char)3);
+    }
+    nHints += nOps / 2;
+    nOps = 0;
+    break;
+      case 0x0004:        // vmoveto
+    if (firstOp) {
+      cvtGlyphWidth(nOps == 2, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (openPath) {
+      charBuf->append((char)9);
+      openPath = gFalse;
+    }
+    if (nOps != 1) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 vmoveto", nOps);
+    }
+    cvtNum(ops[0].num, ops[0].isFP, charBuf);
+    charBuf->append((char)4);
+    nOps = 0;
+    break;
+      case 0x0005:        // rlineto
+    if (nOps < 2 || nOps % 2 != 0) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 rlineto", nOps);
+    }
+    for (k = 0; k < nOps; k += 2) {
+      cvtNum(ops[k].num, ops[k].isFP, charBuf);
+      cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+      charBuf->append((char)5);
+    }
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x0006:        // hlineto
+    if (nOps < 1) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 hlineto", nOps);
+    }
+    for (k = 0; k < nOps; ++k) {
+      cvtNum(ops[k].num, ops[k].isFP, charBuf);
+      charBuf->append((char)((k & 1) ? 7 : 6));
+    }
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x0007:        // vlineto
+    if (nOps < 1) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 vlineto", nOps);
+    }
+    for (k = 0; k < nOps; ++k) {
+      cvtNum(ops[k].num, ops[k].isFP, charBuf);
+      charBuf->append((char)((k & 1) ? 6 : 7));
+    }
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x0008:        // rrcurveto
+    if (nOps < 6 || nOps % 6 != 0) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 rrcurveto", nOps);
+    }
+    for (k = 0; k < nOps; k += 6) {
+      cvtNum(ops[k].num, ops[k].isFP, charBuf);
+      cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+      cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+      cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+      cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
+      cvtNum(ops[k+5].num, ops[k+5].isFP, charBuf);
+      charBuf->append((char)8);
+    }
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x000a:        // callsubr
+    if (nOps >= 1) {
+      subrBias = (subrIdx->len < 1240)
+                   ? 107 : (subrIdx->len < 33900) ? 1131 : 32768;
+      k = subrBias + (int)ops[nOps - 1].num;
+      --nOps;
+      ok = gTrue;
+      getIndexVal(subrIdx, k, &val, &ok);
+      if (ok) {
+        cvtGlyph(val.pos, val.len, charBuf, subrIdx, pDict, gFalse);
+      }
+    } else {
+      //~ error(-1, "Too few args to Type 2 callsubr");
+    }
+    // don't clear the stack
+    break;
+      case 0x000b:        // return
+    // don't clear the stack
+    break;
+      case 0x000e:        // endchar / seac
+    if (firstOp) {
+      cvtGlyphWidth(nOps == 1 || nOps == 5, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (openPath) {
+      charBuf->append((char)9);
+      openPath = gFalse;
+    }
+    if (nOps == 4) {
+      cvtNum(0, gFalse, charBuf);
+      cvtNum(ops[0].num, ops[0].isFP, charBuf);
+      cvtNum(ops[1].num, ops[1].isFP, charBuf);
+      cvtNum(ops[2].num, ops[2].isFP, charBuf);
+      cvtNum(ops[3].num, ops[3].isFP, charBuf);
+      charBuf->append((char)12)->append((char)6);
+    } else if (nOps == 0) {
+      charBuf->append((char)14);
+    } else {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 endchar", nOps);
+    }
+    nOps = 0;
+    break;
+      case 0x000f:        // (obsolete)
+    // this op is ignored, but we need the glyph width
+    if (firstOp) {
+      cvtGlyphWidth(nOps > 0, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    nOps = 0;
+    break;
+      case 0x0010:        // blend
+    //~ error(-1, "Unimplemented Type 2 charstring op: %d", file[i]);
+    nOps = 0;
+    break;
+      case 0x0012:        // hstemhm
+    // ignored
+    if (firstOp) {
+      cvtGlyphWidth(nOps & 1, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (nOps & 1) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 hstemhm", nOps);
+    }
+    nHints += nOps / 2;
+    nOps = 0;
+    break;
+      case 0x0013:        // hintmask
+    // ignored
+    if (firstOp) {
+      cvtGlyphWidth(nOps & 1, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (nOps > 0) {
+      if (nOps & 1) {
+        //~ error(-1, "Wrong number of args (%d) to Type 2 hintmask/vstemhm",
+        //~       nOps);
+      }
+      nHints += nOps / 2;
+    }
+    pos += (nHints + 7) >> 3;
+    nOps = 0;
+    break;
+      case 0x0014:        // cntrmask
+    // ignored
+    if (firstOp) {
+      cvtGlyphWidth(nOps & 1, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (nOps > 0) {
+      if (nOps & 1) {
+        //~ error(-1, "Wrong number of args (%d) to Type 2 cntrmask/vstemhm",
+        //~       nOps);
+      }
+      nHints += nOps / 2;
+    }
+    pos += (nHints + 7) >> 3;
+    nOps = 0;
+    break;
+      case 0x0015:        // rmoveto
+    if (firstOp) {
+      cvtGlyphWidth(nOps == 3, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (openPath) {
+      charBuf->append((char)9);
+      openPath = gFalse;
+    }
+    if (nOps != 2) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 rmoveto", nOps);
+    }
+    cvtNum(ops[0].num, ops[0].isFP, charBuf);
+    cvtNum(ops[1].num, ops[1].isFP, charBuf);
+    charBuf->append((char)21);
+    nOps = 0;
+    break;
+      case 0x0016:        // hmoveto
+    if (firstOp) {
+      cvtGlyphWidth(nOps == 2, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (openPath) {
+      charBuf->append((char)9);
+      openPath = gFalse;
+    }
+    if (nOps != 1) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 hmoveto", nOps);
+    }
+    cvtNum(ops[0].num, ops[0].isFP, charBuf);
+    charBuf->append((char)22);
+    nOps = 0;
+    break;
+      case 0x0017:        // vstemhm
+    // ignored
+    if (firstOp) {
+      cvtGlyphWidth(nOps & 1, charBuf, pDict);
+      firstOp = gFalse;
+    }
+    if (nOps & 1) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 vstemhm", nOps);
+    }
+    nHints += nOps / 2;
+    nOps = 0;
+    break;
+      case 0x0018:        // rcurveline
+    if (nOps < 8 || (nOps - 2) % 6 != 0) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 rcurveline", nOps);
+    }
+    for (k = 0; k < nOps - 2; k += 6) {
+      cvtNum(ops[k].num, ops[k].isFP, charBuf);
+      cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+      cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+      cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+      cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
+      cvtNum(ops[k+5].num, ops[k+5].isFP, charBuf);
+      charBuf->append((char)8);
+    }
+    cvtNum(ops[k].num, ops[k].isFP, charBuf);
+    cvtNum(ops[k+1].num, ops[k].isFP, charBuf);
+    charBuf->append((char)5);
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x0019:        // rlinecurve
+    if (nOps < 8 || (nOps - 6) % 2 != 0) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 rlinecurve", nOps);
+    }
+    for (k = 0; k < nOps - 6; k += 2) {
+      cvtNum(ops[k].num, ops[k].isFP, charBuf);
+      cvtNum(ops[k+1].num, ops[k].isFP, charBuf);
+      charBuf->append((char)5);
+    }
+    cvtNum(ops[k].num, ops[k].isFP, charBuf);
+    cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+    cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+    cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+    cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
+    cvtNum(ops[k+5].num, ops[k+5].isFP, charBuf);
+    charBuf->append((char)8);
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x001a:        // vvcurveto
+    if (nOps < 4 || !(nOps % 4 == 0 || (nOps-1) % 4 == 0)) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 vvcurveto", nOps);
+    }
+    if (nOps % 2 == 1) {
+      cvtNum(ops[0].num, ops[0].isFP, charBuf);
+      cvtNum(ops[1].num, ops[1].isFP, charBuf);
+      cvtNum(ops[2].num, ops[2].isFP, charBuf);
+      cvtNum(ops[3].num, ops[3].isFP, charBuf);
+      cvtNum(0, gFalse, charBuf);
+      cvtNum(ops[4].num, ops[4].isFP, charBuf);
+      charBuf->append((char)8);
+      k = 5;
+    } else {
+      k = 0;
+    }
+    for (; k < nOps; k += 4) {
+      cvtNum(0, gFalse, charBuf);
+      cvtNum(ops[k].num, ops[k].isFP, charBuf);
+      cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+      cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+      cvtNum(0, gFalse, charBuf);
+      cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+      charBuf->append((char)8);
+    }
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x001b:        // hhcurveto
+    if (nOps < 4 || !(nOps % 4 == 0 || (nOps-1) % 4 == 0)) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 hhcurveto", nOps);
+    }
+    if (nOps % 2 == 1) {
+      cvtNum(ops[1].num, ops[1].isFP, charBuf);
+      cvtNum(ops[0].num, ops[0].isFP, charBuf);
+      cvtNum(ops[2].num, ops[2].isFP, charBuf);
+      cvtNum(ops[3].num, ops[3].isFP, charBuf);
+      cvtNum(ops[4].num, ops[4].isFP, charBuf);
+      cvtNum(0, gFalse, charBuf);
+      charBuf->append((char)8);
+      k = 5;
+    } else {
+      k = 0;
+    }
+    for (; k < nOps; k += 4) {
+      cvtNum(ops[k].num, ops[k].isFP, charBuf);
+      cvtNum(0, gFalse, charBuf);
+      cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+      cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+      cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+      cvtNum(0, gFalse, charBuf);
+      charBuf->append((char)8);
+    }
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x001d:        // callgsubr
+    if (nOps >= 1) {
+      k = gsubrBias + (int)ops[nOps - 1].num;
+      --nOps;
+      ok = gTrue;
+      getIndexVal(&gsubrIdx, k, &val, &ok);
+      if (ok) {
+        cvtGlyph(val.pos, val.len, charBuf, subrIdx, pDict, gFalse);
+      }
+    } else {
+      //~ error(-1, "Too few args to Type 2 callgsubr");
+    }
+    // don't clear the stack
+    break;
+      case 0x001e:        // vhcurveto
+    if (nOps < 4 || !(nOps % 4 == 0 || (nOps-1) % 4 == 0)) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 vhcurveto", nOps);
+    }
+    for (k = 0; k < nOps && k != nOps-5; k += 4) {
+      if (k % 8 == 0) {
+        cvtNum(ops[k].num, ops[k].isFP, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+        cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+        charBuf->append((char)30);
+      } else {
+        cvtNum(ops[k].num, ops[k].isFP, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+        cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+        charBuf->append((char)31);
+      }
+    }
+    if (k == nOps-5) {
+      if (k % 8 == 0) {
+        cvtNum(0, gFalse, charBuf);
+        cvtNum(ops[k].num, ops[k].isFP, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+        cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+        cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
+      } else {
+        cvtNum(ops[k].num, ops[k].isFP, charBuf);
+        cvtNum(0, gFalse, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+        cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
+        cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+      }
+      charBuf->append((char)8);
+    }
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x001f:        // hvcurveto
+    if (nOps < 4 || !(nOps % 4 == 0 || (nOps-1) % 4 == 0)) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 hvcurveto", nOps);
+    }
+    for (k = 0; k < nOps && k != nOps-5; k += 4) {
+      if (k % 8 == 0) {
+        cvtNum(ops[k].num, ops[k].isFP, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+        cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+        charBuf->append((char)31);
+      } else {
+        cvtNum(ops[k].num, ops[k].isFP, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+        cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+        charBuf->append((char)30);
+      }
+    }
+    if (k == nOps-5) {
+      if (k % 8 == 0) {
+        cvtNum(ops[k].num, ops[k].isFP, charBuf);
+        cvtNum(0, gFalse, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+        cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
+        cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+      } else {
+        cvtNum(0, gFalse, charBuf);
+        cvtNum(ops[k].num, ops[k].isFP, charBuf);
+        cvtNum(ops[k+1].num, ops[k+1].isFP, charBuf);
+        cvtNum(ops[k+2].num, ops[k+2].isFP, charBuf);
+        cvtNum(ops[k+3].num, ops[k+3].isFP, charBuf);
+        cvtNum(ops[k+4].num, ops[k+4].isFP, charBuf);
+      }
+      charBuf->append((char)8);
+    }
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x0c00:        // dotsection (should be Type 1 only?)
+    // ignored
+    nOps = 0;
+    break;
+      case 0x0c03:        // and
+      case 0x0c04:        // or
+      case 0x0c05:        // not
+      case 0x0c08:        // store
+      case 0x0c09:        // abs
+      case 0x0c0a:        // add
+      case 0x0c0b:        // sub
+      case 0x0c0c:        // div
+      case 0x0c0d:        // load
+      case 0x0c0e:        // neg
+      case 0x0c0f:        // eq
+      case 0x0c12:        // drop
+      case 0x0c14:        // put
+      case 0x0c15:        // get
+      case 0x0c16:        // ifelse
+      case 0x0c17:        // random
+      case 0x0c18:        // mul
+      case 0x0c1a:        // sqrt
+      case 0x0c1b:        // dup
+      case 0x0c1c:        // exch
+      case 0x0c1d:        // index
+      case 0x0c1e:        // roll
+    //~ error(-1, "Unimplemented Type 2 charstring op: 12.%d", file[i+1]);
+    nOps = 0;
+    break;
+      case 0x0c22:        // hflex
+    if (nOps != 7) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 hflex", nOps);
+    }
+    cvtNum(ops[0].num, ops[0].isFP, charBuf);
+    cvtNum(0, gFalse, charBuf);
+    cvtNum(ops[1].num, ops[1].isFP, charBuf);
+    cvtNum(ops[2].num, ops[2].isFP, charBuf);
+    cvtNum(ops[3].num, ops[3].isFP, charBuf);
+    cvtNum(0, gFalse, charBuf);
+    charBuf->append((char)8);
+    cvtNum(ops[4].num, ops[4].isFP, charBuf);
+    cvtNum(0, gFalse, charBuf);
+    cvtNum(ops[5].num, ops[5].isFP, charBuf);
+    cvtNum(-ops[2].num, ops[2].isFP, charBuf);
+    cvtNum(ops[6].num, ops[6].isFP, charBuf);
+    cvtNum(0, gFalse, charBuf);
+    charBuf->append((char)8);
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x0c23:        // flex
+    if (nOps != 13) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 flex", nOps);
+    }
+    cvtNum(ops[0].num, ops[0].isFP, charBuf);
+    cvtNum(ops[1].num, ops[1].isFP, charBuf);
+    cvtNum(ops[2].num, ops[2].isFP, charBuf);
+    cvtNum(ops[3].num, ops[3].isFP, charBuf);
+    cvtNum(ops[4].num, ops[4].isFP, charBuf);
+    cvtNum(ops[5].num, ops[5].isFP, charBuf);
+    charBuf->append((char)8);
+    cvtNum(ops[6].num, ops[6].isFP, charBuf);
+    cvtNum(ops[7].num, ops[7].isFP, charBuf);
+    cvtNum(ops[8].num, ops[8].isFP, charBuf);
+    cvtNum(ops[9].num, ops[9].isFP, charBuf);
+    cvtNum(ops[10].num, ops[10].isFP, charBuf);
+    cvtNum(ops[11].num, ops[11].isFP, charBuf);
+    charBuf->append((char)8);
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x0c24:        // hflex1
+    if (nOps != 9) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 hflex1", nOps);
+    }
+    cvtNum(ops[0].num, ops[0].isFP, charBuf);
+    cvtNum(ops[1].num, ops[1].isFP, charBuf);
+    cvtNum(ops[2].num, ops[2].isFP, charBuf);
+    cvtNum(ops[3].num, ops[3].isFP, charBuf);
+    cvtNum(ops[4].num, ops[4].isFP, charBuf);
+    cvtNum(0, gFalse, charBuf);
+    charBuf->append((char)8);
+    cvtNum(ops[5].num, ops[5].isFP, charBuf);
+    cvtNum(0, gFalse, charBuf);
+    cvtNum(ops[6].num, ops[6].isFP, charBuf);
+    cvtNum(ops[7].num, ops[7].isFP, charBuf);
+    cvtNum(ops[8].num, ops[8].isFP, charBuf);
+    cvtNum(-(ops[1].num + ops[3].num + ops[7].num),
+           ops[1].isFP | ops[3].isFP | ops[7].isFP, charBuf);
+    charBuf->append((char)8);
+    nOps = 0;
+    openPath = gTrue;
+    break;
+      case 0x0c25:        // flex1
+    if (nOps != 11) {
+      //~ error(-1, "Wrong number of args (%d) to Type 2 flex1", nOps);
+    }
+    cvtNum(ops[0].num, ops[0].isFP, charBuf);
+    cvtNum(ops[1].num, ops[1].isFP, charBuf);
+    cvtNum(ops[2].num, ops[2].isFP, charBuf);
+    cvtNum(ops[3].num, ops[3].isFP, charBuf);
+    cvtNum(ops[4].num, ops[4].isFP, charBuf);
+    cvtNum(ops[5].num, ops[5].isFP, charBuf);
+    charBuf->append((char)8);
+    cvtNum(ops[6].num, ops[6].isFP, charBuf);
+    cvtNum(ops[7].num, ops[7].isFP, charBuf);
+    cvtNum(ops[8].num, ops[8].isFP, charBuf);
+    cvtNum(ops[9].num, ops[9].isFP, charBuf);
+    dx = ops[0].num + ops[2].num + ops[4].num + ops[6].num + ops[8].num;
+    dy = ops[1].num + ops[3].num + ops[5].num + ops[7].num + ops[9].num;
+    if (fabs(dx) > fabs(dy)) {
+      cvtNum(ops[10].num, ops[10].isFP, charBuf);
+      cvtNum(-dy, ops[1].isFP | ops[3].isFP | ops[5].isFP |
+              ops[7].isFP | ops[9].isFP, charBuf);
+    } else {
+      cvtNum(-dx, ops[0].isFP | ops[2].isFP | ops[4].isFP |
+              ops[6].isFP | ops[8].isFP, charBuf);
+      cvtNum(ops[10].num, ops[10].isFP, charBuf);
+    }
+    charBuf->append((char)8);
+    nOps = 0;
+    openPath = gTrue;
+    break;
       default:
-	//~ error(-1, "Illegal Type 2 charstring op: %04x",
-	//~       ops[nOps].op);
-	nOps = 0;
-	break;
+    //~ error(-1, "Illegal Type 2 charstring op: %04x",
+    //~       ops[nOps].op);
+    nOps = 0;
+    break;
       }
     }
   }
@@ -1720,7 +1720,7 @@ void FoFiType1C::cvtGlyph(int offset, int nBytes, GString *charBuf,
 }
 
 void FoFiType1C::cvtGlyphWidth(GBool useOp, GString *charBuf,
-			       Type1CPrivateDict *pDict) {
+                   Type1CPrivateDict *pDict) {
   double w;
   GBool wFP;
   int i;
@@ -1804,8 +1804,8 @@ void FoFiType1C::eexecWrite(Type1CEexecBuf *eb, char *s) {
       (*eb->outputFunc)(eb->outputStream, &hexChars[x & 0x0f], 1);
       eb->line += 2;
       if (eb->line == 64) {
-	(*eb->outputFunc)(eb->outputStream, "\n", 1);
-	eb->line = 0;
+    (*eb->outputFunc)(eb->outputStream, "\n", 1);
+    eb->line = 0;
       }
     } else {
       (*eb->outputFunc)(eb->outputStream, (char *)&x, 1);
@@ -1814,7 +1814,7 @@ void FoFiType1C::eexecWrite(Type1CEexecBuf *eb, char *s) {
 }
 
 void FoFiType1C::eexecWriteCharstring(Type1CEexecBuf *eb,
-				      Guchar *s, int n) {
+                      Guchar *s, int n) {
   Guchar x;
   int i;
 
@@ -1827,8 +1827,8 @@ void FoFiType1C::eexecWriteCharstring(Type1CEexecBuf *eb,
       (*eb->outputFunc)(eb->outputStream, &hexChars[x & 0x0f], 1);
       eb->line += 2;
       if (eb->line == 64) {
-	(*eb->outputFunc)(eb->outputStream, "\n", 1);
-	eb->line = 0;
+    (*eb->outputFunc)(eb->outputStream, "\n", 1);
+    eb->line = 0;
       }
     } else {
       (*eb->outputFunc)(eb->outputStream, (char *)&x, 1);
@@ -1880,17 +1880,17 @@ GBool FoFiType1C::parse() {
     } else {
       getIndex(topDict.fdArrayOffset, &fdIdx, &parsedOk);
       if (!parsedOk) {
-	return gFalse;
+    return gFalse;
       }
       nFDs = fdIdx.len;
       privateDicts = (Type1CPrivateDict *)
-	                 gmallocn(nFDs, sizeof(Type1CPrivateDict));
+                     gmallocn(nFDs, sizeof(Type1CPrivateDict));
       for (i = 0; i < nFDs; ++i) {
-	getIndexVal(&fdIdx, i, &val, &parsedOk);
-	if (!parsedOk) {
-	  return gFalse;
-	}
-	readFD(val.pos, val.len, &privateDicts[i]);
+    getIndexVal(&fdIdx, i, &val, &parsedOk);
+    if (!parsedOk) {
+      return gFalse;
+    }
+    readFD(val.pos, val.len, &privateDicts[i]);
       }
     }
 
@@ -1898,7 +1898,7 @@ GBool FoFiType1C::parse() {
   } else {
     privateDicts = (Type1CPrivateDict *)gmalloc(sizeof(Type1CPrivateDict));
     readPrivateDict(topDict.privateOffset, topDict.privateSize,
-		    &privateDicts[0]);
+            &privateDicts[0]);
   }
 
   // check for parse errors in the private dict(s)
@@ -1994,7 +1994,7 @@ void FoFiType1C::readTopDict() {
     if (!ops[nOps - 1].isNum) {
       --nOps; // drop the operator
       if (topDict.firstOp < 0) {
-	topDict.firstOp = ops[nOps].op;
+    topDict.firstOp = ops[nOps].op;
       }
       switch (ops[nOps].op) {
       case 0x0000: topDict.versionSID = (int)ops[0].num; break;
@@ -2010,26 +2010,26 @@ void FoFiType1C::readTopDict() {
       case 0x0c05: topDict.paintType = (int)ops[0].num; break;
       case 0x0c06: topDict.charstringType = (int)ops[0].num; break;
       case 0x0c07: topDict.fontMatrix[0] = ops[0].num;
-	           topDict.fontMatrix[1] = ops[1].num;
-	           topDict.fontMatrix[2] = ops[2].num;
-	           topDict.fontMatrix[3] = ops[3].num;
-	           topDict.fontMatrix[4] = ops[4].num;
-	           topDict.fontMatrix[5] = ops[5].num;
-		   topDict.hasFontMatrix = gTrue; break;
+               topDict.fontMatrix[1] = ops[1].num;
+               topDict.fontMatrix[2] = ops[2].num;
+               topDict.fontMatrix[3] = ops[3].num;
+               topDict.fontMatrix[4] = ops[4].num;
+               topDict.fontMatrix[5] = ops[5].num;
+           topDict.hasFontMatrix = gTrue; break;
       case 0x000d: topDict.uniqueID = (int)ops[0].num; break;
       case 0x0005: topDict.fontBBox[0] = ops[0].num;
-	           topDict.fontBBox[1] = ops[1].num;
-	           topDict.fontBBox[2] = ops[2].num;
-	           topDict.fontBBox[3] = ops[3].num; break;
+               topDict.fontBBox[1] = ops[1].num;
+               topDict.fontBBox[2] = ops[2].num;
+               topDict.fontBBox[3] = ops[3].num; break;
       case 0x0c08: topDict.strokeWidth = ops[0].num; break;
       case 0x000f: topDict.charsetOffset = (int)ops[0].num; break;
       case 0x0010: topDict.encodingOffset = (int)ops[0].num; break;
       case 0x0011: topDict.charStringsOffset = (int)ops[0].num; break;
       case 0x0012: topDict.privateSize = (int)ops[0].num;
-	           topDict.privateOffset = (int)ops[1].num; break;
+               topDict.privateOffset = (int)ops[1].num; break;
       case 0x0c1e: topDict.registrySID = (int)ops[0].num;
-	           topDict.orderingSID = (int)ops[1].num;
-		   topDict.supplement = (int)ops[2].num; break;
+               topDict.orderingSID = (int)ops[1].num;
+           topDict.supplement = (int)ops[2].num; break;
       case 0x0c24: topDict.fdArrayOffset = (int)ops[0].num; break;
       case 0x0c25: topDict.fdSelectOffset = (int)ops[0].num; break;
       }
@@ -2057,21 +2057,21 @@ void FoFiType1C::readFD(int offset, int length, Type1CPrivateDict *pDict) {
     }
     if (!ops[nOps - 1].isNum) {
       if (ops[nOps - 1].op == 0x0012) {
-	if (nOps < 3) {
-	  parsedOk = gFalse;
-	  return;
-	}
-	pSize = (int)ops[0].num;
-	pOffset = (int)ops[1].num;
-	break;
+    if (nOps < 3) {
+      parsedOk = gFalse;
+      return;
+    }
+    pSize = (int)ops[0].num;
+    pOffset = (int)ops[1].num;
+    break;
       } else if (ops[nOps - 1].op == 0x0c07) {
-	fontMatrix[0] = ops[0].num;
-	fontMatrix[1] = ops[1].num;
-	fontMatrix[2] = ops[2].num;
-	fontMatrix[3] = ops[3].num;
-	fontMatrix[4] = ops[4].num;
-	fontMatrix[5] = ops[5].num;
-	hasFontMatrix = gTrue;
+    fontMatrix[0] = ops[0].num;
+    fontMatrix[1] = ops[1].num;
+    fontMatrix[2] = ops[2].num;
+    fontMatrix[3] = ops[3].num;
+    fontMatrix[4] = ops[4].num;
+    fontMatrix[5] = ops[5].num;
+    hasFontMatrix = gTrue;
       }
       nOps = 0;
     }
@@ -2089,7 +2089,7 @@ void FoFiType1C::readFD(int offset, int length, Type1CPrivateDict *pDict) {
 }
 
 void FoFiType1C::readPrivateDict(int offset, int length,
-				 Type1CPrivateDict *pDict) {
+                 Type1CPrivateDict *pDict) {
   int pos;
 
   pDict->hasFontMatrix = gFalse;
@@ -2131,73 +2131,73 @@ void FoFiType1C::readPrivateDict(int offset, int length,
       --nOps; // drop the operator
       switch (ops[nOps].op) {
       case 0x0006:
-	pDict->nBlueValues = getDeltaIntArray(pDict->blueValues,
-					      type1CMaxBlueValues);
-	break;
+    pDict->nBlueValues = getDeltaIntArray(pDict->blueValues,
+                          type1CMaxBlueValues);
+    break;
       case 0x0007:
-	pDict->nOtherBlues = getDeltaIntArray(pDict->otherBlues,
-					      type1CMaxOtherBlues);
-	break;
+    pDict->nOtherBlues = getDeltaIntArray(pDict->otherBlues,
+                          type1CMaxOtherBlues);
+    break;
       case 0x0008:
-	pDict->nFamilyBlues = getDeltaIntArray(pDict->familyBlues,
-					       type1CMaxBlueValues);
-	break;
+    pDict->nFamilyBlues = getDeltaIntArray(pDict->familyBlues,
+                           type1CMaxBlueValues);
+    break;
       case 0x0009:
-	pDict->nFamilyOtherBlues = getDeltaIntArray(pDict->familyOtherBlues,
-						    type1CMaxOtherBlues);
-	break;
+    pDict->nFamilyOtherBlues = getDeltaIntArray(pDict->familyOtherBlues,
+                            type1CMaxOtherBlues);
+    break;
       case 0x0c09:
-	pDict->blueScale = ops[0].num;
-	break;
+    pDict->blueScale = ops[0].num;
+    break;
       case 0x0c0a:
-	pDict->blueShift = (int)ops[0].num;
-	break;
+    pDict->blueShift = (int)ops[0].num;
+    break;
       case 0x0c0b:
-	pDict->blueFuzz = (int)ops[0].num;
-	break;
+    pDict->blueFuzz = (int)ops[0].num;
+    break;
       case 0x000a:
-	pDict->stdHW = ops[0].num;
-	pDict->hasStdHW = gTrue;
-	break;
+    pDict->stdHW = ops[0].num;
+    pDict->hasStdHW = gTrue;
+    break;
       case 0x000b:
-	pDict->stdVW = ops[0].num;
-	pDict->hasStdVW = gTrue;
-	break;
+    pDict->stdVW = ops[0].num;
+    pDict->hasStdVW = gTrue;
+    break;
       case 0x0c0c:
-	pDict->nStemSnapH = getDeltaFPArray(pDict->stemSnapH,
-					    type1CMaxStemSnap);
-	break;
+    pDict->nStemSnapH = getDeltaFPArray(pDict->stemSnapH,
+                        type1CMaxStemSnap);
+    break;
       case 0x0c0d:
-	pDict->nStemSnapV = getDeltaFPArray(pDict->stemSnapV,
-					    type1CMaxStemSnap);
-	break;
+    pDict->nStemSnapV = getDeltaFPArray(pDict->stemSnapV,
+                        type1CMaxStemSnap);
+    break;
       case 0x0c0e:
-	pDict->forceBold = ops[0].num != 0;
-	pDict->hasForceBold = gTrue;
-	break;
+    pDict->forceBold = ops[0].num != 0;
+    pDict->hasForceBold = gTrue;
+    break;
       case 0x0c0f:
-	pDict->forceBoldThreshold = ops[0].num;
-	break;
+    pDict->forceBoldThreshold = ops[0].num;
+    break;
       case 0x0c11:
-	pDict->languageGroup = (int)ops[0].num;
-	break;
+    pDict->languageGroup = (int)ops[0].num;
+    break;
       case 0x0c12:
-	pDict->expansionFactor = ops[0].num;
-	break;
+    pDict->expansionFactor = ops[0].num;
+    break;
       case 0x0c13:
-	pDict->initialRandomSeed = (int)ops[0].num;
-	break;
+    pDict->initialRandomSeed = (int)ops[0].num;
+    break;
       case 0x0013:
-	pDict->subrsOffset = offset + (int)ops[0].num;
-	break;
+    pDict->subrsOffset = offset + (int)ops[0].num;
+    break;
       case 0x0014:
-	pDict->defaultWidthX = ops[0].num;
-	pDict->defaultWidthXFP = ops[0].isFP;
-	break;
+    pDict->defaultWidthX = ops[0].num;
+    pDict->defaultWidthXFP = ops[0].isFP;
+    break;
       case 0x0015:
-	pDict->nominalWidthX = ops[0].num;
-	pDict->nominalWidthXFP = ops[0].isFP;
-	break;
+    pDict->nominalWidthX = ops[0].num;
+    pDict->nominalWidthXFP = ops[0].isFP;
+    break;
       }
       nOps = 0;
     }
@@ -2220,8 +2220,8 @@ void FoFiType1C::readFDSelect() {
     }
     if (fdSelectFmt == 0) {
       if (!checkRegion(pos, nGlyphs)) {
-	parsedOk = gFalse;
-	return;
+    parsedOk = gFalse;
+    return;
       }
       memcpy(fdSelect, file + pos, nGlyphs);
     } else if (fdSelectFmt == 3) {
@@ -2230,26 +2230,26 @@ void FoFiType1C::readFDSelect() {
       gid0 = getU16BE(pos, &parsedOk);
       pos += 2;
       for (i = 1; i <= nRanges; ++i) {
-	fd = getU8(pos++, &parsedOk);
-	gid1 = getU16BE(pos, &parsedOk);
-	if (!parsedOk) {
-	  return;
-	}
-	pos += 2;
-	if (gid0 > gid1 || gid1 > nGlyphs) {
-	  //~ error(-1, "Bad FDSelect table in CID font");
-	  parsedOk = gFalse;
-	  return;
-	}
-	for (j = gid0; j < gid1; ++j) {
-	  fdSelect[j] = fd;
-	}
-	gid0 = gid1;
+    fd = getU8(pos++, &parsedOk);
+    gid1 = getU16BE(pos, &parsedOk);
+    if (!parsedOk) {
+      return;
+    }
+    pos += 2;
+    if (gid0 > gid1 || gid1 > nGlyphs) {
+      //~ error(-1, "Bad FDSelect table in CID font");
+      parsedOk = gFalse;
+      return;
+    }
+    for (j = gid0; j < gid1; ++j) {
+      fdSelect[j] = fd;
+    }
+    gid0 = gid1;
       }
     } else {
       //~ error(-1, "Unknown FDSelect table format in CID font");
       for (i = 0; i < nGlyphs; ++i) {
-	fdSelect[i] = 0;
+    fdSelect[i] = 0;
       }
     }
   }
@@ -2279,65 +2279,65 @@ void FoFiType1C::buildEncoding() {
     if ((encFormat & 0x7f) == 0) {
       nCodes = 1 + getU8(pos++, &parsedOk);
       if (!parsedOk) {
-	return;
+    return;
       }
       if (nCodes > nGlyphs) {
-	nCodes = nGlyphs;
+    nCodes = nGlyphs;
       }
       for (i = 1; i < nCodes; ++i) {
-	c = getU8(pos++, &parsedOk);
-	if (!parsedOk) {
-	  return;
-	}
-	if (encoding[c]) {
-	  gfree(encoding[c]);
-	}
-	encoding[c] = copyString(getString(charset[i], buf, &parsedOk));
+    c = getU8(pos++, &parsedOk);
+    if (!parsedOk) {
+      return;
+    }
+    if (encoding[c]) {
+      gfree(encoding[c]);
+    }
+    encoding[c] = copyString(getString(charset[i], buf, &parsedOk));
       }
     } else if ((encFormat & 0x7f) == 1) {
       nRanges = getU8(pos++, &parsedOk);
       if (!parsedOk) {
-	return;
+    return;
       }
       nCodes = 1;
       for (i = 0; i < nRanges; ++i) {
-	c = getU8(pos++, &parsedOk);
-	nLeft = getU8(pos++, &parsedOk);
-	if (!parsedOk) {
-	  return;
-	}
-	for (j = 0; j <= nLeft && nCodes < nGlyphs; ++j) {
-	  if (c < 256) {
-	    if (encoding[c]) {
-	      gfree(encoding[c]);
-	    }
-	    encoding[c] = copyString(getString(charset[nCodes], buf,
-					       &parsedOk));
-	  }
-	  ++nCodes;
-	  ++c;
-	}
+    c = getU8(pos++, &parsedOk);
+    nLeft = getU8(pos++, &parsedOk);
+    if (!parsedOk) {
+      return;
+    }
+    for (j = 0; j <= nLeft && nCodes < nGlyphs; ++j) {
+      if (c < 256) {
+        if (encoding[c]) {
+          gfree(encoding[c]);
+        }
+        encoding[c] = copyString(getString(charset[nCodes], buf,
+                           &parsedOk));
+      }
+      ++nCodes;
+      ++c;
+    }
       }
     }
     if (encFormat & 0x80) {
       nSups = getU8(pos++, &parsedOk);
       if (!parsedOk) {
-	return;
+    return;
       }
       for (i = 0; i < nSups; ++i) {
-	c = getU8(pos++, &parsedOk);;
-	if (!parsedOk) {
-	  return;;
-	}
-	sid = getU16BE(pos, &parsedOk);
-	pos += 2;
-	if (!parsedOk) {
-	  return;
-	}
-	if (encoding[c]) {
-	  gfree(encoding[c]);
-	}
-	encoding[c] = copyString(getString(sid, buf, &parsedOk));
+    c = getU8(pos++, &parsedOk);;
+    if (!parsedOk) {
+      return;;
+    }
+    sid = getU16BE(pos, &parsedOk);
+    pos += 2;
+    if (!parsedOk) {
+      return;
+    }
+    if (encoding[c]) {
+      gfree(encoding[c]);
+    }
+    encoding[c] = copyString(getString(sid, buf, &parsedOk));
       }
     }
   }
@@ -2362,38 +2362,38 @@ GBool FoFiType1C::readCharset() {
     charsetFormat = getU8(pos++, &parsedOk);
     if (charsetFormat == 0) {
       for (i = 1; i < nGlyphs; ++i) {
-	charset[i] = (Gushort)getU16BE(pos, &parsedOk);
-	pos += 2;
-	if (!parsedOk) {
-	  break;
-	}
+    charset[i] = (Gushort)getU16BE(pos, &parsedOk);
+    pos += 2;
+    if (!parsedOk) {
+      break;
+    }
       }
     } else if (charsetFormat == 1) {
       i = 1;
       while (i < nGlyphs) {
-	c = getU16BE(pos, &parsedOk);
-	pos += 2;
-	nLeft = getU8(pos++, &parsedOk);
-	if (!parsedOk) {
-	  break;
-	}
-	for (j = 0; j <= nLeft && i < nGlyphs; ++j) {
-	  charset[i++] = (Gushort)c++;
-	}
+    c = getU16BE(pos, &parsedOk);
+    pos += 2;
+    nLeft = getU8(pos++, &parsedOk);
+    if (!parsedOk) {
+      break;
+    }
+    for (j = 0; j <= nLeft && i < nGlyphs; ++j) {
+      charset[i++] = (Gushort)c++;
+    }
       }
     } else if (charsetFormat == 2) {
       i = 1;
       while (i < nGlyphs) {
-	c = getU16BE(pos, &parsedOk);
-	pos += 2;
-	nLeft = getU16BE(pos, &parsedOk);
-	pos += 2;
-	if (!parsedOk) {
-	  break;
-	}
-	for (j = 0; j <= nLeft && i < nGlyphs; ++j) {
-	  charset[i++] = (Gushort)c++;
-	}
+    c = getU16BE(pos, &parsedOk);
+    pos += 2;
+    nLeft = getU16BE(pos, &parsedOk);
+    pos += 2;
+    if (!parsedOk) {
+      break;
+    }
+    for (j = 0; j <= nLeft && i < nGlyphs; ++j) {
+      charset[i++] = (Gushort)c++;
+    }
       }
     }
     if (!parsedOk) {
@@ -2440,27 +2440,27 @@ int FoFiType1C::getOp(int pos, GBool charstring, GBool *ok) {
       nyb0 = b1 >> 4;
       nyb1 = b1 & 0x0f;
       if (nyb0 == 0xf) {
-	break;
+    break;
       }
       buf[i++] = nybChars[nyb0];
       if (i == 64) {
-	break;
+    break;
       }
       if (nyb0 == 0xc) {
-	buf[i++] = '-';
+    buf[i++] = '-';
       }
       if (i == 64) {
-	break;
+    break;
       }
       if (nyb1 == 0xf) {
-	break;
+    break;
       }
       buf[i++] = nybChars[nyb1];
       if (i == 64) {
-	break;
+    break;
       }
       if (nyb1 == 0xc) {
-	buf[i++] = '-';
+    buf[i++] = '-';
       }
     } while (i < 64);
     buf[i] = '\0';
@@ -2552,7 +2552,7 @@ void FoFiType1C::getIndex(int pos, Type1CIndex *idx, GBool *ok) {
       *ok = gFalse;
     }
     idx->endPos = idx->startPos + getUVarBE(pos + 3 + idx->len * idx->offSize,
-					    idx->offSize, ok);
+                        idx->offSize, ok);
     if (idx->endPos < idx->startPos || idx->endPos > len) {
       *ok = gFalse;
     }
@@ -2560,7 +2560,7 @@ void FoFiType1C::getIndex(int pos, Type1CIndex *idx, GBool *ok) {
 }
 
 void FoFiType1C::getIndexVal(Type1CIndex *idx, int i,
-			     Type1CIndexVal *val, GBool *ok) {
+                 Type1CIndexVal *val, GBool *ok) {
   int pos0, pos1;
 
   if (i < 0 || i >= idx->len) {
@@ -2568,9 +2568,9 @@ void FoFiType1C::getIndexVal(Type1CIndex *idx, int i,
     return;
   }
   pos0 = idx->startPos + getUVarBE(idx->pos + 3 + i * idx->offSize,
-				   idx->offSize, ok);
+                   idx->offSize, ok);
   pos1 = idx->startPos + getUVarBE(idx->pos + 3 + (i + 1) * idx->offSize,
-				   idx->offSize, ok);
+                   idx->offSize, ok);
   if (pos0 < idx->startPos || pos0 > idx->endPos ||
       pos1 <= idx->startPos || pos1 > idx->endPos ||
       pos1 < pos0) {
@@ -2591,7 +2591,7 @@ char *FoFiType1C::getString(int sid, char *buf, GBool *ok) {
     getIndexVal(&stringIdx, sid, &val, ok);
     if (*ok) {
       if ((n = val.len) > 255) {
-	n = 255;
+    n = 255;
       }
       strncpy(buf, (char *)&file[val.pos], n);
       buf[n] = '\0';

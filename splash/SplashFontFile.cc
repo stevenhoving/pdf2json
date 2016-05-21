@@ -29,7 +29,7 @@ extern "C" int unlink(char *filename);
 //------------------------------------------------------------------------
 
 SplashFontFile::SplashFontFile(SplashFontFileID *idA, char *fileNameA,
-			       GBool deleteFileA) {
+                   GBool deleteFileA) {
   id = idA;
   fileName = new GString(fileNameA);
   deleteFile = deleteFileA;

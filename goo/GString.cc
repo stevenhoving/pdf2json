@@ -242,213 +242,213 @@ GString *GString::appendfv(char *fmt, va_list argList) {
     if (*p0 == '{') {
       ++p0;
       if (*p0 == '{') {
-	++p0;
-	append('{');
+    ++p0;
+    append('{');
       } else {
 
-	// parse the format string
-	if (!(*p0 >= '0' && *p0 <= '9')) {
-	  break;
-	}
-	idx = *p0 - '0';
-	for (++p0; *p0 >= '0' && *p0 <= '9'; ++p0) {
-	  idx = 10 * idx + (*p0 - '0');
-	}
-	if (*p0 != ':') {
-	  break;
-	}
-	++p0;
-	if (*p0 == '-') {
-	  reverseAlign = gTrue;
-	  ++p0;
-	} else {
-	  reverseAlign = gFalse;
-	}
-	width = 0;
-	zeroFill = *p0 == '0';
-	for (; *p0 >= '0' && *p0 <= '9'; ++p0) {
-	  width = 10 * width + (*p0 - '0');
-	}
-	if (*p0 == '.') {
-	  ++p0;
-	  prec = 0;
-	  for (; *p0 >= '0' && *p0 <= '9'; ++p0) {
-	    prec = 10 * prec + (*p0 - '0');
-	  }
-	} else {
-	  prec = 0;
-	}
-	for (ft = (GStringFormatType)0;
-	     formatStrings[ft];
-	     ft = (GStringFormatType)(ft + 1)) {
-	  if (!strncmp(p0, formatStrings[ft], strlen(formatStrings[ft]))) {
-	    break;
-	  }
-	}
-	if (!formatStrings[ft]) {
-	  break;
-	}
-	p0 += strlen(formatStrings[ft]);
-	if (*p0 != '}') {
-	  break;
-	}
-	++p0;
+    // parse the format string
+    if (!(*p0 >= '0' && *p0 <= '9')) {
+      break;
+    }
+    idx = *p0 - '0';
+    for (++p0; *p0 >= '0' && *p0 <= '9'; ++p0) {
+      idx = 10 * idx + (*p0 - '0');
+    }
+    if (*p0 != ':') {
+      break;
+    }
+    ++p0;
+    if (*p0 == '-') {
+      reverseAlign = gTrue;
+      ++p0;
+    } else {
+      reverseAlign = gFalse;
+    }
+    width = 0;
+    zeroFill = *p0 == '0';
+    for (; *p0 >= '0' && *p0 <= '9'; ++p0) {
+      width = 10 * width + (*p0 - '0');
+    }
+    if (*p0 == '.') {
+      ++p0;
+      prec = 0;
+      for (; *p0 >= '0' && *p0 <= '9'; ++p0) {
+        prec = 10 * prec + (*p0 - '0');
+      }
+    } else {
+      prec = 0;
+    }
+    for (ft = (GStringFormatType)0;
+         formatStrings[ft];
+         ft = (GStringFormatType)(ft + 1)) {
+      if (!strncmp(p0, formatStrings[ft], strlen(formatStrings[ft]))) {
+        break;
+      }
+    }
+    if (!formatStrings[ft]) {
+      break;
+    }
+    p0 += strlen(formatStrings[ft]);
+    if (*p0 != '}') {
+      break;
+    }
+    ++p0;
 
-	// fetch the argument
-	if (idx > argsLen) {
-	  break;
-	}
-	if (idx == argsLen) {
-	  if (argsLen == argsSize) {
-	    argsSize *= 2;
-	    args = (GStringFormatArg *)greallocn(args, argsSize,
-						 sizeof(GStringFormatArg));
-	  }
-	  switch (ft) {
-	  case fmtIntDecimal:
-	  case fmtIntHex:
-	  case fmtIntOctal:
-	  case fmtIntBinary:
-	  case fmtSpace:
-	    args[argsLen].i = va_arg(argList, int);
-	    break;
-	  case fmtUIntDecimal:
-	  case fmtUIntHex:
-	  case fmtUIntOctal:
-	  case fmtUIntBinary:
-	    args[argsLen].ui = va_arg(argList, Guint);
-	    break;
-	  case fmtLongDecimal:
-	  case fmtLongHex:
-	  case fmtLongOctal:
-	  case fmtLongBinary:
-	    args[argsLen].l = va_arg(argList, long);
-	    break;
-	  case fmtULongDecimal:
-	  case fmtULongHex:
-	  case fmtULongOctal:
-	  case fmtULongBinary:
-	    args[argsLen].ul = va_arg(argList, Gulong);
-	    break;
-	  case fmtDouble:
-	  case fmtDoubleTrim:
-	    args[argsLen].f = va_arg(argList, double);
-	    break;
-	  case fmtChar:
-	    args[argsLen].c = (char)va_arg(argList, int);
-	    break;
-	  case fmtString:
-	    args[argsLen].s = va_arg(argList, char *);
-	    break;
-	  case fmtGString:
-	    args[argsLen].gs = va_arg(argList, GString *);
-	    break;
-	  }
-	  ++argsLen;
-	}
+    // fetch the argument
+    if (idx > argsLen) {
+      break;
+    }
+    if (idx == argsLen) {
+      if (argsLen == argsSize) {
+        argsSize *= 2;
+        args = (GStringFormatArg *)greallocn(args, argsSize,
+                         sizeof(GStringFormatArg));
+      }
+      switch (ft) {
+      case fmtIntDecimal:
+      case fmtIntHex:
+      case fmtIntOctal:
+      case fmtIntBinary:
+      case fmtSpace:
+        args[argsLen].i = va_arg(argList, int);
+        break;
+      case fmtUIntDecimal:
+      case fmtUIntHex:
+      case fmtUIntOctal:
+      case fmtUIntBinary:
+        args[argsLen].ui = va_arg(argList, Guint);
+        break;
+      case fmtLongDecimal:
+      case fmtLongHex:
+      case fmtLongOctal:
+      case fmtLongBinary:
+        args[argsLen].l = va_arg(argList, long);
+        break;
+      case fmtULongDecimal:
+      case fmtULongHex:
+      case fmtULongOctal:
+      case fmtULongBinary:
+        args[argsLen].ul = va_arg(argList, Gulong);
+        break;
+      case fmtDouble:
+      case fmtDoubleTrim:
+        args[argsLen].f = va_arg(argList, double);
+        break;
+      case fmtChar:
+        args[argsLen].c = (char)va_arg(argList, int);
+        break;
+      case fmtString:
+        args[argsLen].s = va_arg(argList, char *);
+        break;
+      case fmtGString:
+        args[argsLen].gs = va_arg(argList, GString *);
+        break;
+      }
+      ++argsLen;
+    }
 
-	// format the argument
-	arg = args[idx];
-	switch (ft) {
-	case fmtIntDecimal:
-	  formatInt(arg.i, buf, sizeof(buf), zeroFill, width, 10, &str, &len);
-	  break;
-	case fmtIntHex:
-	  formatInt(arg.i, buf, sizeof(buf), zeroFill, width, 16, &str, &len);
-	  break;
-	case fmtIntOctal:
-	  formatInt(arg.i, buf, sizeof(buf), zeroFill, width, 8, &str, &len);
-	  break;
-	case fmtIntBinary:
-	  formatInt(arg.i, buf, sizeof(buf), zeroFill, width, 2, &str, &len);
-	  break;
-	case fmtUIntDecimal:
-	  formatUInt(arg.ui, buf, sizeof(buf), zeroFill, width, 10,
-		     &str, &len);
-	  break;
-	case fmtUIntHex:
-	  formatUInt(arg.ui, buf, sizeof(buf), zeroFill, width, 16,
-		     &str, &len);
-	  break;
-	case fmtUIntOctal:
-	  formatUInt(arg.ui, buf, sizeof(buf), zeroFill, width, 8, &str, &len);
-	  break;
-	case fmtUIntBinary:
-	  formatUInt(arg.ui, buf, sizeof(buf), zeroFill, width, 2, &str, &len);
-	  break;
-	case fmtLongDecimal:
-	  formatInt(arg.l, buf, sizeof(buf), zeroFill, width, 10, &str, &len);
-	  break;
-	case fmtLongHex:
-	  formatInt(arg.l, buf, sizeof(buf), zeroFill, width, 16, &str, &len);
-	  break;
-	case fmtLongOctal:
-	  formatInt(arg.l, buf, sizeof(buf), zeroFill, width, 8, &str, &len);
-	  break;
-	case fmtLongBinary:
-	  formatInt(arg.l, buf, sizeof(buf), zeroFill, width, 2, &str, &len);
-	  break;
-	case fmtULongDecimal:
-	  formatUInt(arg.ul, buf, sizeof(buf), zeroFill, width, 10,
-		     &str, &len);
-	  break;
-	case fmtULongHex:
-	  formatUInt(arg.ul, buf, sizeof(buf), zeroFill, width, 16,
-		     &str, &len);
-	  break;
-	case fmtULongOctal:
-	  formatUInt(arg.ul, buf, sizeof(buf), zeroFill, width, 8, &str, &len);
-	  break;
-	case fmtULongBinary:
-	  formatUInt(arg.ul, buf, sizeof(buf), zeroFill, width, 2, &str, &len);
-	  break;
-	case fmtDouble:
-	  formatDouble(arg.f, buf, sizeof(buf), prec, gFalse, &str, &len);
-	  break;
-	case fmtDoubleTrim:
-	  formatDouble(arg.f, buf, sizeof(buf), prec, gTrue, &str, &len);
-	  break;
-	case fmtChar:
-	  buf[0] = arg.c;
-	  str = buf;
-	  len = 1;
-	  reverseAlign = !reverseAlign;
-	  break;
-	case fmtString:
-	  str = arg.s;
-	  len = strlen(str);
-	  reverseAlign = !reverseAlign;
-	  break;
-	case fmtGString:
-	  str = arg.gs->getCString();
-	  len = arg.gs->getLength();
-	  reverseAlign = !reverseAlign;
-	  break;
-	case fmtSpace:
-	  str = buf;
-	  len = 0;
-	  width = arg.i;
-	  break;
-	}
+    // format the argument
+    arg = args[idx];
+    switch (ft) {
+    case fmtIntDecimal:
+      formatInt(arg.i, buf, sizeof(buf), zeroFill, width, 10, &str, &len);
+      break;
+    case fmtIntHex:
+      formatInt(arg.i, buf, sizeof(buf), zeroFill, width, 16, &str, &len);
+      break;
+    case fmtIntOctal:
+      formatInt(arg.i, buf, sizeof(buf), zeroFill, width, 8, &str, &len);
+      break;
+    case fmtIntBinary:
+      formatInt(arg.i, buf, sizeof(buf), zeroFill, width, 2, &str, &len);
+      break;
+    case fmtUIntDecimal:
+      formatUInt(arg.ui, buf, sizeof(buf), zeroFill, width, 10,
+             &str, &len);
+      break;
+    case fmtUIntHex:
+      formatUInt(arg.ui, buf, sizeof(buf), zeroFill, width, 16,
+             &str, &len);
+      break;
+    case fmtUIntOctal:
+      formatUInt(arg.ui, buf, sizeof(buf), zeroFill, width, 8, &str, &len);
+      break;
+    case fmtUIntBinary:
+      formatUInt(arg.ui, buf, sizeof(buf), zeroFill, width, 2, &str, &len);
+      break;
+    case fmtLongDecimal:
+      formatInt(arg.l, buf, sizeof(buf), zeroFill, width, 10, &str, &len);
+      break;
+    case fmtLongHex:
+      formatInt(arg.l, buf, sizeof(buf), zeroFill, width, 16, &str, &len);
+      break;
+    case fmtLongOctal:
+      formatInt(arg.l, buf, sizeof(buf), zeroFill, width, 8, &str, &len);
+      break;
+    case fmtLongBinary:
+      formatInt(arg.l, buf, sizeof(buf), zeroFill, width, 2, &str, &len);
+      break;
+    case fmtULongDecimal:
+      formatUInt(arg.ul, buf, sizeof(buf), zeroFill, width, 10,
+             &str, &len);
+      break;
+    case fmtULongHex:
+      formatUInt(arg.ul, buf, sizeof(buf), zeroFill, width, 16,
+             &str, &len);
+      break;
+    case fmtULongOctal:
+      formatUInt(arg.ul, buf, sizeof(buf), zeroFill, width, 8, &str, &len);
+      break;
+    case fmtULongBinary:
+      formatUInt(arg.ul, buf, sizeof(buf), zeroFill, width, 2, &str, &len);
+      break;
+    case fmtDouble:
+      formatDouble(arg.f, buf, sizeof(buf), prec, gFalse, &str, &len);
+      break;
+    case fmtDoubleTrim:
+      formatDouble(arg.f, buf, sizeof(buf), prec, gTrue, &str, &len);
+      break;
+    case fmtChar:
+      buf[0] = arg.c;
+      str = buf;
+      len = 1;
+      reverseAlign = !reverseAlign;
+      break;
+    case fmtString:
+      str = arg.s;
+      len = strlen(str);
+      reverseAlign = !reverseAlign;
+      break;
+    case fmtGString:
+      str = arg.gs->getCString();
+      len = arg.gs->getLength();
+      reverseAlign = !reverseAlign;
+      break;
+    case fmtSpace:
+      str = buf;
+      len = 0;
+      width = arg.i;
+      break;
+    }
 
-	// append the formatted arg, handling width and alignment
-	if (!reverseAlign && len < width) {
-	  for (i = len; i < width; ++i) {
-	    append(' ');
-	  }
-	}
-	append(str, len);
-	if (reverseAlign && len < width) {
-	  for (i = len; i < width; ++i) {
-	    append(' ');
-	  }
-	}
+    // append the formatted arg, handling width and alignment
+    if (!reverseAlign && len < width) {
+      for (i = len; i < width; ++i) {
+        append(' ');
+      }
+    }
+    append(str, len);
+    if (reverseAlign && len < width) {
+      for (i = len; i < width; ++i) {
+        append(' ');
+      }
+    }
       }
 
     } else if (*p0 == '}') {
       ++p0;
       if (*p0 == '}') {
-	++p0;
+    ++p0;
       }
       append('}');
       
@@ -464,8 +464,8 @@ GString *GString::appendfv(char *fmt, va_list argList) {
 }
 
 void GString::formatInt(long x, char *buf, int bufSize,
-			GBool zeroFill, int width, int base,
-			char **p, int *len) {
+            GBool zeroFill, int width, int base,
+            char **p, int *len) {
   static char vals[17] = "0123456789abcdef";
   GBool neg;
   int start, i, j;
@@ -496,8 +496,8 @@ void GString::formatInt(long x, char *buf, int bufSize,
 }
 
 void GString::formatUInt(Gulong x, char *buf, int bufSize,
-			 GBool zeroFill, int width, int base,
-			 char **p, int *len) {
+             GBool zeroFill, int width, int base,
+             char **p, int *len) {
   static char vals[17] = "0123456789abcdef";
   int i, j;
 
@@ -520,7 +520,7 @@ void GString::formatUInt(Gulong x, char *buf, int bufSize,
 }
 
 void GString::formatDouble(double x, char *buf, int bufSize, int prec,
-			   GBool trim, char **p, int *len) {
+               GBool trim, char **p, int *len) {
   GBool neg, started;
   double x2;
   int d, i, j;

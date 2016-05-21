@@ -40,15 +40,15 @@
 
 //------------------------------------------------------------------------
 
-#define headerSearchSize 1024	// read this many bytes at beginning of
-				//   file to look for '%PDF'
+#define headerSearchSize 1024    // read this many bytes at beginning of
+                //   file to look for '%PDF'
 
 //------------------------------------------------------------------------
 // PDFDoc
 //------------------------------------------------------------------------
 
 PDFDoc::PDFDoc(GString *fileNameA, GString *ownerPassword,
-	       GString *userPassword, void *guiDataA) {
+           GString *userPassword, void *guiDataA) {
   Object obj;
   GString *fileName1, *fileName2;
 
@@ -84,10 +84,10 @@ PDFDoc::PDFDoc(GString *fileNameA, GString *ownerPassword,
     if (!(file = fopen(fileName2->getCString(), "rb"))) {
       fileName2->upperCase();
       if (!(file = fopen(fileName2->getCString(), "rb"))) {
-	error(-1, "Couldn't open file '%s'", fileName->getCString());
-	delete fileName2;
-	errCode = errOpenFile;
-	return;
+    error(-1, "Couldn't open file '%s'", fileName->getCString());
+    delete fileName2;
+    errCode = errOpenFile;
+    return;
       }
     }
     delete fileName2;
@@ -103,7 +103,7 @@ PDFDoc::PDFDoc(GString *fileNameA, GString *ownerPassword,
 
 #ifdef WIN32
 PDFDoc::PDFDoc(wchar_t *fileNameA, int fileNameLen, GString *ownerPassword,
-	       GString *userPassword, void *guiDataA) {
+           GString *userPassword, void *guiDataA) {
   OSVERSIONINFO version;
   wchar_t fileName2[_MAX_PATH + 1];
   Object obj;
@@ -158,7 +158,7 @@ PDFDoc::PDFDoc(wchar_t *fileNameA, int fileNameLen, GString *ownerPassword,
 #endif
 
 PDFDoc::PDFDoc(BaseStream *strA, GString *ownerPassword,
-	       GString *userPassword, void *guiDataA) {
+           GString *userPassword, void *guiDataA) {
   ok = gFalse;
   errCode = errNone;
   guiData = guiDataA;
@@ -267,7 +267,7 @@ void PDFDoc::checkHeader() {
   if (!(hdrBuf[i+5] >= '0' && hdrBuf[i+5] <= '9') ||
       pdfVersion > supportedPDFVersionNum + 0.0001) {
     error(-1, "PDF version %s -- xpdf supports version %s"
-	  " (continuing anyway)", p, supportedPDFVersionStr);
+      " (continuing anyway)", p, supportedPDFVersionStr);
   }
 }
 
@@ -281,17 +281,17 @@ GBool PDFDoc::checkEncryption(GString *ownerPassword, GString *userPassword) {
   if ((encrypted = encrypt.isDict())) {
     if ((secHdlr = SecurityHandler::make(this, &encrypt))) {
       if (secHdlr->checkEncryption(ownerPassword, userPassword)) {
-	// authorization succeeded
-       	xref->setEncryption(secHdlr->getPermissionFlags(),
-			    secHdlr->getOwnerPasswordOk(),
-			    secHdlr->getFileKey(),
-			    secHdlr->getFileKeyLength(),
-			    secHdlr->getEncVersion(),
-			    secHdlr->getEncAlgorithm());
-	ret = gTrue;
+    // authorization succeeded
+           xref->setEncryption(secHdlr->getPermissionFlags(),
+                secHdlr->getOwnerPasswordOk(),
+                secHdlr->getFileKey(),
+                secHdlr->getFileKeyLength(),
+                secHdlr->getEncVersion(),
+                secHdlr->getEncAlgorithm());
+    ret = gTrue;
       } else {
-	// authorization failed
-	ret = gFalse;
+    // authorization failed
+    ret = gFalse;
       }
       delete secHdlr;
     } else {
@@ -307,44 +307,44 @@ GBool PDFDoc::checkEncryption(GString *ownerPassword, GString *userPassword) {
 }
 
 void PDFDoc::displayPage(OutputDev *out, int page,
-			 double hDPI, double vDPI, int rotate,
-			 GBool useMediaBox, GBool crop, GBool printing,
-			 GBool (*abortCheckCbk)(void *data),
-			 void *abortCheckCbkData) {
+             double hDPI, double vDPI, int rotate,
+             GBool useMediaBox, GBool crop, GBool printing,
+             GBool (*abortCheckCbk)(void *data),
+             void *abortCheckCbkData) {
   if (globalParams->getPrintCommands()) {
     printf("***** page %d *****\n", page);
   }
     
     
   catalog->getPage(page)->display(out, hDPI, vDPI,
-				  rotate, useMediaBox, crop, getLinks(page), printing, catalog,
-				  abortCheckCbk, abortCheckCbkData);
+                  rotate, useMediaBox, crop, getLinks(page), printing, catalog,
+                  abortCheckCbk, abortCheckCbkData);
 }
 
 void PDFDoc::displayPages(OutputDev *out, int firstPage, int lastPage,
-			  double hDPI, double vDPI, int rotate,
-			  GBool useMediaBox, GBool crop, GBool printing,
-			  GBool (*abortCheckCbk)(void *data),
-			  void *abortCheckCbkData) {
+              double hDPI, double vDPI, int rotate,
+              GBool useMediaBox, GBool crop, GBool printing,
+              GBool (*abortCheckCbk)(void *data),
+              void *abortCheckCbkData) {
   int page;
 
   for (page = firstPage; page <= lastPage; ++page) {
     displayPage(out, page, hDPI, vDPI, rotate, useMediaBox, crop, printing,
-		abortCheckCbk, abortCheckCbkData);
+        abortCheckCbk, abortCheckCbkData);
   }
 }
 
 void PDFDoc::displayPageSlice(OutputDev *out, int page,
-			      double hDPI, double vDPI, int rotate,
-			      GBool useMediaBox, GBool crop, GBool printing,
-			      int sliceX, int sliceY, int sliceW, int sliceH,
-			      GBool (*abortCheckCbk)(void *data),
-			      void *abortCheckCbkData) {
+                  double hDPI, double vDPI, int rotate,
+                  GBool useMediaBox, GBool crop, GBool printing,
+                  int sliceX, int sliceY, int sliceW, int sliceH,
+                  GBool (*abortCheckCbk)(void *data),
+                  void *abortCheckCbkData) {
   catalog->getPage(page)->displaySlice(out, hDPI, vDPI,
-				       rotate, useMediaBox, crop,
-				       sliceX, sliceY, sliceW, sliceH,
-				       getLinks(page), printing, catalog,
-				       abortCheckCbk, abortCheckCbkData);
+                       rotate, useMediaBox, crop,
+                       sliceX, sliceY, sliceW, sliceH,
+                       getLinks(page), printing, catalog,
+                       abortCheckCbk, abortCheckCbkData);
 }
 
 Links *PDFDoc::getLinks(int page) {
@@ -363,9 +363,9 @@ GBool PDFDoc::isLinearized() {
   lin = gFalse;
   obj1.initNull();
   parser = new Parser(xref,
-	     new Lexer(xref,
-	       str->makeSubStream(str->getStart(), gFalse, 0, &obj1)),
-	     gTrue);
+         new Lexer(xref,
+           str->makeSubStream(str->getStart(), gFalse, 0, &obj1)),
+         gTrue);
   parser->getObj(&obj1);
   parser->getObj(&obj2);
   parser->getObj(&obj3);

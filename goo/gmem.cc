@@ -202,28 +202,28 @@ void gfree(void *p) {
   if (p) {
     hdr = (GMemHdr *)((char *)p - gMemHdrSize);
     if (hdr->magic == gMemMagic &&
-	((hdr->prev == NULL) == (hdr == gMemHead)) &&
-	((hdr->next == NULL) == (hdr == gMemTail))) {
+    ((hdr->prev == NULL) == (hdr == gMemHead)) &&
+    ((hdr->next == NULL) == (hdr == gMemTail))) {
       if (hdr->prev) {
-	hdr->prev->next = hdr->next;
+    hdr->prev->next = hdr->next;
       } else {
-	gMemHead = hdr->next;
+    gMemHead = hdr->next;
       }
       if (hdr->next) {
-	hdr->next->prev = hdr->prev;
+    hdr->next->prev = hdr->prev;
       } else {
-	gMemTail = hdr->prev;
+    gMemTail = hdr->prev;
       }
       --gMemAlloc;
       gMemInUse -= hdr->size;
       size = gMemDataSize(hdr->size);
       trl = (unsigned long *)((char *)hdr + gMemHdrSize + size);
       if (*trl != gMemDeadVal) {
-	fprintf(stderr, "Overwrite past end of block %d at address %p\n",
-		hdr->index, p);
+    fprintf(stderr, "Overwrite past end of block %d at address %p\n",
+        hdr->index, p);
       }
       for (clr = (unsigned long *)hdr; clr <= trl; ++clr) {
-	*clr = gMemDeadVal;
+    *clr = gMemDeadVal;
       }
       free(hdr);
     } else {

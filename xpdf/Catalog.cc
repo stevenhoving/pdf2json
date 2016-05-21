@@ -53,14 +53,14 @@ Catalog::Catalog(XRef *xrefA) {
   // PDF file where the /Type entry is missing.
   if (!pagesDict.isDict()) {
     error(-1, "Top-level pages object is wrong type (%s)",
-	  pagesDict.getTypeName());
+      pagesDict.getTypeName());
     goto err2;
   }
   pagesDict.dictLookup("Count", &obj);
   // some PDF files actually use real numbers here ("/Count 9.0")
   if (!obj.isNum()) {
     error(-1, "Page count in top-level pages object is wrong type (%s)",
-	  obj.getTypeName());
+      obj.getTypeName());
     goto err3;
   }
   pagesSize = numPages0 = (int)obj.getNum();
@@ -138,7 +138,7 @@ Catalog::~Catalog() {
   if (pages) {
     for (i = 0; i < pagesSize; ++i) {
       if (pages[i]) {
-	delete pages[i];
+    delete pages[i];
       }
     }
     gfree(pages);
@@ -167,7 +167,7 @@ GString *Catalog::readMetadata() {
   dict = metadata.streamGetDict();
   if (!dict->lookup("Subtype", &obj)->isName("XML")) {
     error(-1, "Unknown Metadata type: '%s'",
-	  obj.isName() ? obj.getName() : "???");
+      obj.isName() ? obj.getName() : "???");
   }
   obj.free();
   s = new GString();
@@ -180,7 +180,7 @@ GString *Catalog::readMetadata() {
 }
 
 int Catalog::readPageTree(Dict *pagesDict, PageAttrs *attrs, int start,
-			  char *alreadyRead) {
+              char *alreadyRead) {
   Object kids;
   Object kid;
   Object kidRef;
@@ -192,18 +192,18 @@ int Catalog::readPageTree(Dict *pagesDict, PageAttrs *attrs, int start,
   pagesDict->lookup("Kids", &kids);
   if (!kids.isArray()) {
     error(-1, "Kids object (page %d) is wrong type (%s)",
-	  start+1, kids.getTypeName());
+      start+1, kids.getTypeName());
     goto err1;
   }
   for (i = 0; i < kids.arrayGetLength(); ++i) {
     kids.arrayGetNF(i, &kidRef);
     if (kidRef.isRef() &&
-	kidRef.getRefNum() >= 0 &&
-	kidRef.getRefNum() < xref->getNumObjects()) {
+    kidRef.getRefNum() >= 0 &&
+    kidRef.getRefNum() < xref->getNumObjects()) {
       if (alreadyRead[kidRef.getRefNum()]) {
-	error(-1, "Loop in Pages tree");
-	kidRef.free();
-	continue;
+    error(-1, "Loop in Pages tree");
+    kidRef.free();
+    continue;
       }
       alreadyRead[kidRef.getRefNum()] = 1;
     }
@@ -212,34 +212,34 @@ int Catalog::readPageTree(Dict *pagesDict, PageAttrs *attrs, int start,
       attrs2 = new PageAttrs(attrs1, kid.getDict());
       page = new Page(xref, start+1, kid.getDict(), attrs2);
       if (!page->isOk()) {
-	++start;
-	goto err3;
+    ++start;
+    goto err3;
       }
       if (start >= pagesSize) {
-	pagesSize += 32;
-	pages = (Page **)greallocn(pages, pagesSize, sizeof(Page *));
-	pageRefs = (Ref *)greallocn(pageRefs, pagesSize, sizeof(Ref));
-	for (j = pagesSize - 32; j < pagesSize; ++j) {
-	  pages[j] = NULL;
-	  pageRefs[j].num = -1;
-	  pageRefs[j].gen = -1;
-	}
+    pagesSize += 32;
+    pages = (Page **)greallocn(pages, pagesSize, sizeof(Page *));
+    pageRefs = (Ref *)greallocn(pageRefs, pagesSize, sizeof(Ref));
+    for (j = pagesSize - 32; j < pagesSize; ++j) {
+      pages[j] = NULL;
+      pageRefs[j].num = -1;
+      pageRefs[j].gen = -1;
+    }
       }
       pages[start] = page;
       if (kidRef.isRef()) {
-	pageRefs[start].num = kidRef.getRefNum();
-	pageRefs[start].gen = kidRef.getRefGen();
+    pageRefs[start].num = kidRef.getRefNum();
+    pageRefs[start].gen = kidRef.getRefGen();
       }
       ++start;
     // This should really be isDict("Pages"), but I've seen at least one
     // PDF file where the /Type entry is missing.
     } else if (kid.isDict()) {
       if ((start = readPageTree(kid.getDict(), attrs1, start, alreadyRead))
-	  < 0)
-	goto err2;
+      < 0)
+    goto err2;
     } else {
       error(-1, "Kid object (page %d) is wrong type (%s)",
-	    start+1, kid.getTypeName());
+        start+1, kid.getTypeName());
     }
     kid.free();
     kidRef.free();
@@ -324,14 +324,14 @@ Object *Catalog::findDestInTree(Object *tree, GString *name, Object *obj) {
     done = found = gFalse;
     for (i = 0; !done && i < names.arrayGetLength(); i += 2) {
       if (names.arrayGet(i, &name1)->isString()) {
-	cmp = name->cmp(name1.getString());
-	if (cmp == 0) {
-	  names.arrayGet(i+1, obj);
-	  found = gTrue;
-	  done = gTrue;
-	} else if (cmp < 0) {
-	  done = gTrue;
-	}
+    cmp = name->cmp(name1.getString());
+    if (cmp == 0) {
+      names.arrayGet(i+1, obj);
+      found = gTrue;
+      done = gTrue;
+    } else if (cmp < 0) {
+      done = gTrue;
+    }
       }
       name1.free();
     }
@@ -347,19 +347,19 @@ Object *Catalog::findDestInTree(Object *tree, GString *name, Object *obj) {
   if (tree->dictLookup("Kids", &kids)->isArray()) {
     for (i = 0; !done && i < kids.arrayGetLength(); ++i) {
       if (kids.arrayGet(i, &kid)->isDict()) {
-	if (kid.dictLookup("Limits", &limits)->isArray()) {
-	  if (limits.arrayGet(0, &low)->isString() &&
-	      name->cmp(low.getString()) >= 0) {
-	    if (limits.arrayGet(1, &high)->isString() &&
-		name->cmp(high.getString()) <= 0) {
-	      findDestInTree(&kid, name, obj);
-	      done = gTrue;
-	    }
-	    high.free();
-	  }
-	  low.free();
-	}
-	limits.free();
+    if (kid.dictLookup("Limits", &limits)->isArray()) {
+      if (limits.arrayGet(0, &low)->isString() &&
+          name->cmp(low.getString()) >= 0) {
+        if (limits.arrayGet(1, &high)->isString() &&
+        name->cmp(high.getString()) <= 0) {
+          findDestInTree(&kid, name, obj);
+          done = gTrue;
+        }
+        high.free();
+      }
+      low.free();
+    }
+    limits.free();
       }
       kid.free();
     }

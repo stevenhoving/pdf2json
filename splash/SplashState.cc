@@ -28,7 +28,7 @@ int splashColorModeNComps[] = {
 };
 
 SplashState::SplashState(int width, int height, GBool vectorAntialias,
-			 SplashScreenParams *screenParams) {
+             SplashScreenParams *screenParams) {
   SplashColor color;
 
   matrix[0] = 1;  matrix[1] = 0;
@@ -58,7 +58,7 @@ SplashState::SplashState(int width, int height, GBool vectorAntialias,
 }
 
 SplashState::SplashState(int width, int height, GBool vectorAntialias,
-			 SplashScreen *screenA) {
+             SplashScreen *screenA) {
   SplashColor color;
 
   matrix[0] = 1;  matrix[1] = 0;
@@ -144,7 +144,7 @@ void SplashState::setScreen(SplashScreen *screenA) {
 }
 
 void SplashState::setLineDash(SplashCoord *lineDashA, int lineDashLengthA,
-			      SplashCoord lineDashPhaseA) {
+                  SplashCoord lineDashPhaseA) {
   gfree(lineDash);
   lineDashLength = lineDashLengthA;
   if (lineDashLength > 0) {

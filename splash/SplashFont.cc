@@ -21,9 +21,9 @@
 
 struct SplashFontCacheTag {
   int c;
-  short xFrac, yFrac;		// x and y fractions
-  int mru;			// valid bit (0x80000000) and MRU index
-  int x, y, w, h;		// offset and size of glyph
+  short xFrac, yFrac;        // x and y fractions
+  int mru;            // valid bit (0x80000000) and MRU index
+  int x, y, w, h;        // offset and size of glyph
 };
 
 //------------------------------------------------------------------------
@@ -31,7 +31,7 @@ struct SplashFontCacheTag {
 //------------------------------------------------------------------------
 
 SplashFont::SplashFont(SplashFontFile *fontFileA, SplashCoord *matA,
-		       SplashCoord *textMatA, GBool aaA) {
+               SplashCoord *textMatA, GBool aaA) {
   fontFile = fontFileA;
   fontFile->incRefCnt();
   mat[0] = matA[0];
@@ -76,7 +76,7 @@ void SplashFont::initCache() {
   }
   cache = (Guchar *)gmallocn(cacheSets * cacheAssoc, glyphSize);
   cacheTags = (SplashFontCacheTag *)gmallocn(cacheSets * cacheAssoc,
-					     sizeof(SplashFontCacheTag));
+                         sizeof(SplashFontCacheTag));
   for (i = 0; i < cacheSets * cacheAssoc; ++i) {
     cacheTags[i].mru = i & (cacheAssoc - 1);
   }
@@ -93,7 +93,7 @@ SplashFont::~SplashFont() {
 }
 
 GBool SplashFont::getGlyph(int c, int xFrac, int yFrac,
-			   SplashGlyphBitmap *bitmap) {
+               SplashGlyphBitmap *bitmap) {
   SplashGlyphBitmap bitmap2;
   int size;
   Guchar *p;
@@ -109,19 +109,19 @@ GBool SplashFont::getGlyph(int c, int xFrac, int yFrac,
   i = (c & (cacheSets - 1)) * cacheAssoc;
   for (j = 0; j < cacheAssoc; ++j) {
     if ((cacheTags[i+j].mru & 0x80000000) &&
-	cacheTags[i+j].c == c &&
-	(int)cacheTags[i+j].xFrac == xFrac &&
-	(int)cacheTags[i+j].yFrac == yFrac) {
+    cacheTags[i+j].c == c &&
+    (int)cacheTags[i+j].xFrac == xFrac &&
+    (int)cacheTags[i+j].yFrac == yFrac) {
       bitmap->x = cacheTags[i+j].x;
       bitmap->y = cacheTags[i+j].y;
       bitmap->w = cacheTags[i+j].w;
       bitmap->h = cacheTags[i+j].h;
       for (k = 0; k < cacheAssoc; ++k) {
-	if (k != j &&
-	    (cacheTags[i+k].mru & 0x7fffffff) <
-	      (cacheTags[i+j].mru & 0x7fffffff)) {
-	  ++cacheTags[i+k].mru;
-	}
+    if (k != j &&
+        (cacheTags[i+k].mru & 0x7fffffff) <
+          (cacheTags[i+j].mru & 0x7fffffff)) {
+      ++cacheTags[i+k].mru;
+    }
       }
       cacheTags[i+j].mru = 0x80000000;
       bitmap->aa = aa;

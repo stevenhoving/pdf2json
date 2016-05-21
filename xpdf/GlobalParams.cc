@@ -128,7 +128,7 @@ GlobalParams *globalParams = NULL;
 //------------------------------------------------------------------------
 
 DisplayFontParam::DisplayFontParam(GString *nameA,
-				   DisplayFontParamKind kindA) {
+                   DisplayFontParamKind kindA) {
   name = nameA;
   kind = kindA;
   switch (kind) {
@@ -169,15 +169,15 @@ public:
   GBool bold, italic;
 
   static WinFontInfo *make(GString *nameA, GBool boldA, GBool italicA,
-			   HKEY regKey, char *winFontDir);
+               HKEY regKey, char *winFontDir);
   WinFontInfo(GString *nameA, GBool boldA, GBool italicA,
-	      GString *fileNameA);
+          GString *fileNameA);
   virtual ~WinFontInfo();
   GBool equals(WinFontInfo *fi);
 };
 
 WinFontInfo *WinFontInfo::make(GString *nameA, GBool boldA, GBool italicA,
-			       HKEY regKey, char *winFontDir) {
+                   HKEY regKey, char *winFontDir) {
   GString *regName;
   GString *fileNameA;
   char buf[MAX_PATH];
@@ -197,7 +197,7 @@ WinFontInfo *WinFontInfo::make(GString *nameA, GBool boldA, GBool italicA,
   regName->append(" (TrueType)");
   n = sizeof(buf);
   if (RegQueryValueEx(regKey, regName->getCString(), NULL, NULL,
-		      (LPBYTE)buf, &n) == ERROR_SUCCESS) {
+              (LPBYTE)buf, &n) == ERROR_SUCCESS) {
     fileNameA = new GString(winFontDir);
     fileNameA->append('\\')->append(buf);
   }
@@ -222,7 +222,7 @@ WinFontInfo *WinFontInfo::make(GString *nameA, GBool boldA, GBool italicA,
 }
 
 WinFontInfo::WinFontInfo(GString *nameA, GBool boldA, GBool italicA,
-			 GString *fileNameA):
+             GString *fileNameA):
   DisplayFontParam(nameA, displayFontTT)
 {
   bold = boldA;
@@ -252,16 +252,16 @@ private:
 
   void add(WinFontInfo *fi);
   static int CALLBACK enumFunc1(CONST LOGFONT *font,
-				CONST TEXTMETRIC *metrics,
-				DWORD type, LPARAM data);
+                CONST TEXTMETRIC *metrics,
+                DWORD type, LPARAM data);
   static int CALLBACK enumFunc2(CONST LOGFONT *font,
-				CONST TEXTMETRIC *metrics,
-				DWORD type, LPARAM data);
+                CONST TEXTMETRIC *metrics,
+                DWORD type, LPARAM data);
 
-  GList *fonts;			// [WinFontInfo]
-  HDC dc;			// (only used during enumeration)
-  HKEY regKey;			// (only used during enumeration)
-  char *winFontDir;		// (only used during enumeration)
+  GList *fonts;            // [WinFontInfo]
+  HDC dc;            // (only used during enumeration)
+  HKEY regKey;            // (only used during enumeration)
+  char *winFontDir;        // (only used during enumeration)
 };
 
 WinFontList::WinFontList(char *winFontDirA) {
@@ -279,8 +279,8 @@ WinFontList::WinFontList(char *winFontDirA) {
     path = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Fonts\\";
   }
   if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, path, 0,
-		   KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS,
-		   &regKey) == ERROR_SUCCESS) {
+           KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS,
+           &regKey) == ERROR_SUCCESS) {
     EnumFonts(dc, NULL, &WinFontList::enumFunc1, (LPARAM)this);
     RegCloseKey(regKey);
   }
@@ -375,8 +375,8 @@ WinFontInfo *WinFontList::find(GString *font) {
 }
 
 int CALLBACK WinFontList::enumFunc1(CONST LOGFONT *font,
-				    CONST TEXTMETRIC *metrics,
-				    DWORD type, LPARAM data) {
+                    CONST TEXTMETRIC *metrics,
+                    DWORD type, LPARAM data) {
   WinFontList *fl = (WinFontList *)data;
 
   EnumFonts(fl->dc, font->lfFaceName, &WinFontList::enumFunc2, (LPARAM)fl);
@@ -384,16 +384,16 @@ int CALLBACK WinFontList::enumFunc1(CONST LOGFONT *font,
 }
 
 int CALLBACK WinFontList::enumFunc2(CONST LOGFONT *font,
-				    CONST TEXTMETRIC *metrics,
-				    DWORD type, LPARAM data) {
+                    CONST TEXTMETRIC *metrics,
+                    DWORD type, LPARAM data) {
   WinFontList *fl = (WinFontList *)data;
   WinFontInfo *fi;
 
   if (type & TRUETYPE_FONTTYPE) {
     if ((fi = WinFontInfo::make(new GString(font->lfFaceName),
-				font->lfWeight >= 600,
-				font->lfItalic ? gTrue : gFalse,
-				fl->regKey, fl->winFontDir))) {
+                font->lfWeight >= 600,
+                font->lfItalic ? gTrue : gFalse,
+                fl->regKey, fl->winFontDir))) {
       fl->add(fi);
     }
   }
@@ -407,7 +407,7 @@ int CALLBACK WinFontList::enumFunc2(CONST LOGFONT *font,
 //------------------------------------------------------------------------
 
 PSFontParam::PSFontParam(GString *pdfFontNameA, int wModeA,
-			 GString *psFontNameA, GString *encodingA) {
+             GString *psFontNameA, GString *encodingA) {
   pdfFontName = pdfFontNameA;
   wMode = wModeA;
   psFontName = psFontNameA;
@@ -435,7 +435,7 @@ KeyBinding::KeyBinding(int codeA, int modsA, int contextA, char *cmd0) {
 }
 
 KeyBinding::KeyBinding(int codeA, int modsA, int contextA,
-		       char *cmd0, char *cmd1) {
+               char *cmd0, char *cmd1) {
   code = codeA;
   mods = modsA;
   context = contextA;
@@ -497,13 +497,13 @@ Plugin *Plugin::load(char *type, char *name) {
   path->append(".dll");
   if (!(libA = LoadLibrary(path->getCString()))) {
     error(-1, "Failed to load plugin '%s'",
-	  path->getCString());
+      path->getCString());
     goto err1;
   }
   if (!(vt = (XpdfPluginVecTable *)
-	         GetProcAddress(libA, "xpdfPluginVecTable"))) {
+             GetProcAddress(libA, "xpdfPluginVecTable"))) {
     error(-1, "Failed to find xpdfPluginVecTable in plugin '%s'",
-	  path->getCString());
+      path->getCString());
     goto err2;
   }
 #else
@@ -511,12 +511,12 @@ Plugin *Plugin::load(char *type, char *name) {
   path->append(".so");
   if (!(dlA = dlopen(path->getCString(), RTLD_NOW))) {
     error(-1, "Failed to load plugin '%s': %s",
-	  path->getCString(), dlerror());
+      path->getCString(), dlerror());
     goto err1;
   }
   if (!(vt = (XpdfPluginVecTable *)dlsym(dlA, "xpdfPluginVecTable"))) {
     error(-1, "Failed to find xpdfPluginVecTable in plugin '%s'",
-	  path->getCString());
+      path->getCString());
     goto err2;
   }
 #endif
@@ -529,22 +529,22 @@ Plugin *Plugin::load(char *type, char *name) {
 
 #ifdef WIN32
   if (!(xpdfInitPlugin = (XpdfBool (*)(void))
-	                     GetProcAddress(libA, "xpdfInitPlugin"))) {
+                         GetProcAddress(libA, "xpdfInitPlugin"))) {
     error(-1, "Failed to find xpdfInitPlugin in plugin '%s'",
-	  path->getCString());
+      path->getCString());
     goto err2;
   }
 #else
   if (!(xpdfInitPlugin = (XpdfBool (*)(void))dlsym(dlA, "xpdfInitPlugin"))) {
     error(-1, "Failed to find xpdfInitPlugin in plugin '%s'",
-	  path->getCString());
+      path->getCString());
     goto err2;
   }
 #endif
 
   if (!(*xpdfInitPlugin)()) {
     error(-1, "Initialization of plugin '%s' failed",
-	  path->getCString());
+      path->getCString());
     goto err2;
   }
 
@@ -732,16 +732,16 @@ GlobalParams::GlobalParams(char *cfgFileName) {
 
   // set up the residentUnicodeMaps table
   map = new UnicodeMap("Latin1", gFalse,
-		       latin1UnicodeMapRanges, latin1UnicodeMapLen);
+               latin1UnicodeMapRanges, latin1UnicodeMapLen);
   residentUnicodeMaps->add(map->getEncodingName(), map);
   map = new UnicodeMap("ASCII7", gFalse,
-		       ascii7UnicodeMapRanges, ascii7UnicodeMapLen);
+               ascii7UnicodeMapRanges, ascii7UnicodeMapLen);
   residentUnicodeMaps->add(map->getEncodingName(), map);
   map = new UnicodeMap("Symbol", gFalse,
-		       symbolUnicodeMapRanges, symbolUnicodeMapLen);
+               symbolUnicodeMapRanges, symbolUnicodeMapLen);
   residentUnicodeMaps->add(map->getEncodingName(), map);
   map = new UnicodeMap("ZapfDingbats", gFalse, zapfDingbatsUnicodeMapRanges,
-		       zapfDingbatsUnicodeMapLen);
+               zapfDingbatsUnicodeMapLen);
   residentUnicodeMaps->add(map->getEncodingName(), map);
   map = new UnicodeMap("UTF-8", gTrue, &mapUTF8);
   residentUnicodeMaps->add(map->getEncodingName(), map);
@@ -792,122 +792,122 @@ void GlobalParams::createDefaultKeyBindings() {
 
   //----- mouse buttons
   keyBindings->append(new KeyBinding(xpdfKeyCodeMousePress1, xpdfKeyModNone,
-				     xpdfKeyContextAny, "startSelection"));
+                     xpdfKeyContextAny, "startSelection"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeMouseRelease1, xpdfKeyModNone,
-				     xpdfKeyContextAny, "endSelection",
-				     "followLinkNoSel"));
+                     xpdfKeyContextAny, "endSelection",
+                     "followLinkNoSel"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeMousePress2, xpdfKeyModNone,
-				     xpdfKeyContextAny, "startPan"));
+                     xpdfKeyContextAny, "startPan"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeMouseRelease2, xpdfKeyModNone,
-				     xpdfKeyContextAny, "endPan"));
+                     xpdfKeyContextAny, "endPan"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeMousePress3, xpdfKeyModNone,
-				     xpdfKeyContextAny, "postPopupMenu"));
+                     xpdfKeyContextAny, "postPopupMenu"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeMousePress4, xpdfKeyModNone,
-				     xpdfKeyContextAny,
-				     "scrollUpPrevPage(16)"));
+                     xpdfKeyContextAny,
+                     "scrollUpPrevPage(16)"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeMousePress5, xpdfKeyModNone,
-				     xpdfKeyContextAny,
-				     "scrollDownNextPage(16)"));
+                     xpdfKeyContextAny,
+                     "scrollDownNextPage(16)"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeMousePress6, xpdfKeyModNone,
-				     xpdfKeyContextAny, "scrollLeft(16)"));
+                     xpdfKeyContextAny, "scrollLeft(16)"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeMousePress7, xpdfKeyModNone,
-				     xpdfKeyContextAny, "scrollRight(16)"));
+                     xpdfKeyContextAny, "scrollRight(16)"));
 
   //----- keys
   keyBindings->append(new KeyBinding(xpdfKeyCodeHome, xpdfKeyModCtrl,
-				     xpdfKeyContextAny, "gotoPage(1)"));
+                     xpdfKeyContextAny, "gotoPage(1)"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeHome, xpdfKeyModNone,
-				     xpdfKeyContextAny, "scrollToTopLeft"));
+                     xpdfKeyContextAny, "scrollToTopLeft"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeEnd, xpdfKeyModCtrl,
-				     xpdfKeyContextAny, "gotoLastPage"));
+                     xpdfKeyContextAny, "gotoLastPage"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeEnd, xpdfKeyModNone,
-				     xpdfKeyContextAny,
-				     "scrollToBottomRight"));
+                     xpdfKeyContextAny,
+                     "scrollToBottomRight"));
   keyBindings->append(new KeyBinding(xpdfKeyCodePgUp, xpdfKeyModNone,
-				     xpdfKeyContextAny, "pageUp"));
+                     xpdfKeyContextAny, "pageUp"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeBackspace, xpdfKeyModNone,
-				     xpdfKeyContextAny, "pageUp"));
+                     xpdfKeyContextAny, "pageUp"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeDelete, xpdfKeyModNone,
-				     xpdfKeyContextAny, "pageUp"));
+                     xpdfKeyContextAny, "pageUp"));
   keyBindings->append(new KeyBinding(xpdfKeyCodePgDn, xpdfKeyModNone,
-				     xpdfKeyContextAny, "pageDown"));
+                     xpdfKeyContextAny, "pageDown"));
   keyBindings->append(new KeyBinding(' ', xpdfKeyModNone,
-				     xpdfKeyContextAny, "pageDown"));
+                     xpdfKeyContextAny, "pageDown"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeLeft, xpdfKeyModNone,
-				     xpdfKeyContextAny, "scrollLeft(16)"));
+                     xpdfKeyContextAny, "scrollLeft(16)"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeRight, xpdfKeyModNone,
-				     xpdfKeyContextAny, "scrollRight(16)"));
+                     xpdfKeyContextAny, "scrollRight(16)"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeUp, xpdfKeyModNone,
-				     xpdfKeyContextAny, "scrollUp(16)"));
+                     xpdfKeyContextAny, "scrollUp(16)"));
   keyBindings->append(new KeyBinding(xpdfKeyCodeDown, xpdfKeyModNone,
-				     xpdfKeyContextAny, "scrollDown(16)"));
+                     xpdfKeyContextAny, "scrollDown(16)"));
   keyBindings->append(new KeyBinding('o', xpdfKeyModNone,
-				     xpdfKeyContextAny, "open"));
+                     xpdfKeyContextAny, "open"));
   keyBindings->append(new KeyBinding('O', xpdfKeyModNone,
-				     xpdfKeyContextAny, "open"));
+                     xpdfKeyContextAny, "open"));
   keyBindings->append(new KeyBinding('r', xpdfKeyModNone,
-				     xpdfKeyContextAny, "reload"));
+                     xpdfKeyContextAny, "reload"));
   keyBindings->append(new KeyBinding('R', xpdfKeyModNone,
-				     xpdfKeyContextAny, "reload"));
+                     xpdfKeyContextAny, "reload"));
   keyBindings->append(new KeyBinding('f', xpdfKeyModNone,
-				     xpdfKeyContextAny, "find"));
+                     xpdfKeyContextAny, "find"));
   keyBindings->append(new KeyBinding('F', xpdfKeyModNone,
-				     xpdfKeyContextAny, "find"));
+                     xpdfKeyContextAny, "find"));
   keyBindings->append(new KeyBinding('f', xpdfKeyModCtrl,
-				     xpdfKeyContextAny, "find"));
+                     xpdfKeyContextAny, "find"));
   keyBindings->append(new KeyBinding('g', xpdfKeyModCtrl,
-				     xpdfKeyContextAny, "findNext"));
+                     xpdfKeyContextAny, "findNext"));
   keyBindings->append(new KeyBinding('p', xpdfKeyModCtrl,
-				     xpdfKeyContextAny, "print"));
+                     xpdfKeyContextAny, "print"));
   keyBindings->append(new KeyBinding('n', xpdfKeyModNone,
-				     xpdfKeyContextScrLockOff, "nextPage"));
+                     xpdfKeyContextScrLockOff, "nextPage"));
   keyBindings->append(new KeyBinding('N', xpdfKeyModNone,
-				     xpdfKeyContextScrLockOff, "nextPage"));
+                     xpdfKeyContextScrLockOff, "nextPage"));
   keyBindings->append(new KeyBinding('n', xpdfKeyModNone,
-				     xpdfKeyContextScrLockOn,
-				     "nextPageNoScroll"));
+                     xpdfKeyContextScrLockOn,
+                     "nextPageNoScroll"));
   keyBindings->append(new KeyBinding('N', xpdfKeyModNone,
-				     xpdfKeyContextScrLockOn,
-				     "nextPageNoScroll"));
+                     xpdfKeyContextScrLockOn,
+                     "nextPageNoScroll"));
   keyBindings->append(new KeyBinding('p', xpdfKeyModNone,
-				     xpdfKeyContextScrLockOff, "prevPage"));
+                     xpdfKeyContextScrLockOff, "prevPage"));
   keyBindings->append(new KeyBinding('P', xpdfKeyModNone,
-				     xpdfKeyContextScrLockOff, "prevPage"));
+                     xpdfKeyContextScrLockOff, "prevPage"));
   keyBindings->append(new KeyBinding('p', xpdfKeyModNone,
-				     xpdfKeyContextScrLockOn,
-				     "prevPageNoScroll"));
+                     xpdfKeyContextScrLockOn,
+                     "prevPageNoScroll"));
   keyBindings->append(new KeyBinding('P', xpdfKeyModNone,
-				     xpdfKeyContextScrLockOn,
-				     "prevPageNoScroll"));
+                     xpdfKeyContextScrLockOn,
+                     "prevPageNoScroll"));
   keyBindings->append(new KeyBinding('v', xpdfKeyModNone,
-				     xpdfKeyContextAny, "goForward"));
+                     xpdfKeyContextAny, "goForward"));
   keyBindings->append(new KeyBinding('b', xpdfKeyModNone,
-				     xpdfKeyContextAny, "goBackward"));
+                     xpdfKeyContextAny, "goBackward"));
   keyBindings->append(new KeyBinding('g', xpdfKeyModNone,
-				     xpdfKeyContextAny, "focusToPageNum"));
+                     xpdfKeyContextAny, "focusToPageNum"));
   keyBindings->append(new KeyBinding('0', xpdfKeyModNone,
-				     xpdfKeyContextAny, "zoomPercent(125)"));
+                     xpdfKeyContextAny, "zoomPercent(125)"));
   keyBindings->append(new KeyBinding('+', xpdfKeyModNone,
-				     xpdfKeyContextAny, "zoomIn"));
+                     xpdfKeyContextAny, "zoomIn"));
   keyBindings->append(new KeyBinding('-', xpdfKeyModNone,
-				     xpdfKeyContextAny, "zoomOut"));
+                     xpdfKeyContextAny, "zoomOut"));
   keyBindings->append(new KeyBinding('z', xpdfKeyModNone,
-				     xpdfKeyContextAny, "zoomFitPage"));
+                     xpdfKeyContextAny, "zoomFitPage"));
   keyBindings->append(new KeyBinding('w', xpdfKeyModNone,
-				     xpdfKeyContextAny, "zoomFitWidth"));
+                     xpdfKeyContextAny, "zoomFitWidth"));
   keyBindings->append(new KeyBinding('f', xpdfKeyModAlt,
-				     xpdfKeyContextAny,
-				     "toggleFullScreenMode"));
+                     xpdfKeyContextAny,
+                     "toggleFullScreenMode"));
   keyBindings->append(new KeyBinding('l', xpdfKeyModCtrl,
-				     xpdfKeyContextAny, "redraw"));
+                     xpdfKeyContextAny, "redraw"));
   keyBindings->append(new KeyBinding('w', xpdfKeyModCtrl,
-				     xpdfKeyContextAny, "closeWindow"));
+                     xpdfKeyContextAny, "closeWindow"));
   keyBindings->append(new KeyBinding('?', xpdfKeyModNone,
-				     xpdfKeyContextAny, "about"));
+                     xpdfKeyContextAny, "about"));
   keyBindings->append(new KeyBinding('q', xpdfKeyModNone,
-				     xpdfKeyContextAny, "quit"));
+                     xpdfKeyContextAny, "quit"));
   keyBindings->append(new KeyBinding('Q', xpdfKeyModNone,
-				     xpdfKeyContextAny, "quit"));
+                     xpdfKeyContextAny, "quit"));
 }
 
 void GlobalParams::parseFile(GString *fileName, FILE *f) {
@@ -951,17 +951,17 @@ void GlobalParams::parseLine(char *buf, GString *fileName, int line) {
     cmd = (GString *)tokens->get(0);
     if (!cmd->cmp("include")) {
       if (tokens->getLength() == 2) {
-	incFile = (GString *)tokens->get(1);
-	if ((f2 = fopen(incFile->getCString(), "r"))) {
-	  parseFile(incFile, f2);
-	  fclose(f2);
-	} else {
-	  error(-1, "Couldn't find included config file: '%s' (%s:%d)",
-		incFile->getCString(), fileName->getCString(), line);
-	}
+    incFile = (GString *)tokens->get(1);
+    if ((f2 = fopen(incFile->getCString(), "r"))) {
+      parseFile(incFile, f2);
+      fclose(f2);
+    } else {
+      error(-1, "Couldn't find included config file: '%s' (%s:%d)",
+        incFile->getCString(), fileName->getCString(), line);
+    }
       } else {
-	error(-1, "Bad 'include' config file command (%s:%d)",
-	      fileName->getCString(), line);
+    error(-1, "Bad 'include' config file command (%s:%d)",
+          fileName->getCString(), line);
       }
     } else if (!cmd->cmp("nameToUnicode")) {
       parseNameToUnicode(tokens, fileName, line);
@@ -981,23 +981,23 @@ void GlobalParams::parseLine(char *buf, GString *fileName, int line) {
       parseDisplayFont(tokens, displayFonts, displayFontTT, fileName, line);
     } else if (!cmd->cmp("displayNamedCIDFontT1")) {
       parseDisplayFont(tokens, displayNamedCIDFonts,
-		       displayFontT1, fileName, line);
+               displayFontT1, fileName, line);
     } else if (!cmd->cmp("displayCIDFontT1")) {
       parseDisplayFont(tokens, displayCIDFonts,
-		       displayFontT1, fileName, line);
+               displayFontT1, fileName, line);
     } else if (!cmd->cmp("displayNamedCIDFontTT")) {
       parseDisplayFont(tokens, displayNamedCIDFonts,
-		       displayFontTT, fileName, line);
+               displayFontTT, fileName, line);
     } else if (!cmd->cmp("displayCIDFontTT")) {
       parseDisplayFont(tokens, displayCIDFonts,
-		       displayFontTT, fileName, line);
+               displayFontTT, fileName, line);
     } else if (!cmd->cmp("psFile")) {
       parsePSFile(tokens, fileName, line);
     } else if (!cmd->cmp("psFont")) {
       parsePSFont(tokens, fileName, line);
     } else if (!cmd->cmp("psNamedFont16")) {
       parsePSFont16("psNamedFont16", psNamedFonts16,
-		    tokens, fileName, line);
+            tokens, fileName, line);
     } else if (!cmd->cmp("psFont16")) {
       parsePSFont16("psFont16", psFonts16, tokens, fileName, line);
     } else if (!cmd->cmp("psPaperSize")) {
@@ -1008,7 +1008,7 @@ void GlobalParams::parseLine(char *buf, GString *fileName, int line) {
       parseYesNo("psCrop", &psCrop, tokens, fileName, line);
     } else if (!cmd->cmp("psExpandSmaller")) {
       parseYesNo("psExpandSmaller", &psExpandSmaller,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("psShrinkLarger")) {
       parseYesNo("psShrinkLarger", &psShrinkLarger, tokens, fileName, line);
     } else if (!cmd->cmp("psCenter")) {
@@ -1021,13 +1021,13 @@ void GlobalParams::parseLine(char *buf, GString *fileName, int line) {
       parseYesNo("psEmbedType1", &psEmbedType1, tokens, fileName, line);
     } else if (!cmd->cmp("psEmbedTrueTypeFonts")) {
       parseYesNo("psEmbedTrueType", &psEmbedTrueType,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("psEmbedCIDPostScriptFonts")) {
       parseYesNo("psEmbedCIDPostScript", &psEmbedCIDPostScript,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("psEmbedCIDTrueTypeFonts")) {
       parseYesNo("psEmbedCIDTrueType", &psEmbedCIDTrueType,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("psPreload")) {
       parseYesNo("psPreload", &psPreload, tokens, fileName, line);
     } else if (!cmd->cmp("psOPI")) {
@@ -1040,10 +1040,10 @@ void GlobalParams::parseLine(char *buf, GString *fileName, int line) {
       parseTextEOL(tokens, fileName, line);
     } else if (!cmd->cmp("textPageBreaks")) {
       parseYesNo("textPageBreaks", &textPageBreaks,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("textKeepTinyChars")) {
       parseYesNo("textKeepTinyChars", &textKeepTinyChars,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("fontDir")) {
       parseFontDir(tokens, fileName, line);
     } else if (!cmd->cmp("initialZoom")) {
@@ -1058,7 +1058,7 @@ void GlobalParams::parseLine(char *buf, GString *fileName, int line) {
       parseYesNo("antialias", &antialias, tokens, fileName, line);
     } else if (!cmd->cmp("vectorAntialias")) {
       parseYesNo("vectorAntialias", &vectorAntialias,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("strokeAdjust")) {
       parseYesNo("strokeAdjust", &strokeAdjust, tokens, fileName, line);
     } else if (!cmd->cmp("screenType")) {
@@ -1067,26 +1067,26 @@ void GlobalParams::parseLine(char *buf, GString *fileName, int line) {
       parseInteger("screenSize", &screenSize, tokens, fileName, line);
     } else if (!cmd->cmp("screenDotRadius")) {
       parseInteger("screenDotRadius", &screenDotRadius,
-		   tokens, fileName, line);
+           tokens, fileName, line);
     } else if (!cmd->cmp("screenGamma")) {
       parseFloat("screenGamma", &screenGamma,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("screenBlackThreshold")) {
       parseFloat("screenBlackThreshold", &screenBlackThreshold,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("screenWhiteThreshold")) {
       parseFloat("screenWhiteThreshold", &screenWhiteThreshold,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("urlCommand")) {
       parseCommand("urlCommand", &urlCommand, tokens, fileName, line);
     } else if (!cmd->cmp("movieCommand")) {
       parseCommand("movieCommand", &movieCommand, tokens, fileName, line);
     } else if (!cmd->cmp("mapNumericCharNames")) {
       parseYesNo("mapNumericCharNames", &mapNumericCharNames,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("mapUnknownCharNames")) {
       parseYesNo("mapUnknownCharNames", &mapUnknownCharNames,
-		 tokens, fileName, line);
+         tokens, fileName, line);
     } else if (!cmd->cmp("bind")) {
       parseBind(tokens, fileName, line);
     } else if (!cmd->cmp("unbind")) {
@@ -1097,16 +1097,16 @@ void GlobalParams::parseLine(char *buf, GString *fileName, int line) {
       parseYesNo("errQuiet", &errQuiet, tokens, fileName, line);
     } else {
       error(-1, "Unknown config file command '%s' (%s:%d)",
-	    cmd->getCString(), fileName->getCString(), line);
+        cmd->getCString(), fileName->getCString(), line);
       if (!cmd->cmp("displayFontX") ||
-	  !cmd->cmp("displayNamedCIDFontX") ||
-	  !cmd->cmp("displayCIDFontX")) {
-	error(-1, "-- Xpdf no longer supports X fonts");
+      !cmd->cmp("displayNamedCIDFontX") ||
+      !cmd->cmp("displayCIDFontX")) {
+    error(-1, "-- Xpdf no longer supports X fonts");
       } else if (!cmd->cmp("t1libControl") || !cmd->cmp("freetypeControl")) {
-	error(-1, "-- The t1libControl and freetypeControl options have been replaced");
-	error(-1, "   by the enableT1lib, enableFreeType, and antialias options");
+    error(-1, "-- The t1libControl and freetypeControl options have been replaced");
+    error(-1, "   by the enableT1lib, enableFreeType, and antialias options");
       } else if (!cmd->cmp("fontpath") || !cmd->cmp("fontmap")) {
-	error(-1, "-- the config file format has changed since Xpdf 0.9x");
+    error(-1, "-- the config file format has changed since Xpdf 0.9x");
       }
     }
   }
@@ -1115,7 +1115,7 @@ void GlobalParams::parseLine(char *buf, GString *fileName, int line) {
 }
 
 void GlobalParams::parseNameToUnicode(GList *tokens, GString *fileName,
-					 int line) {
+                     int line) {
   GString *name;
   char *tok1, *tok2;
   FILE *f;
@@ -1125,13 +1125,13 @@ void GlobalParams::parseNameToUnicode(GList *tokens, GString *fileName,
 
   if (tokens->getLength() != 2) {
     error(-1, "Bad 'nameToUnicode' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   name = (GString *)tokens->get(1);
   if (!(f = fopen(name->getCString(), "r"))) {
     error(-1, "Couldn't open 'nameToUnicode' file '%s'",
-	  name->getCString());
+      name->getCString());
     return;
   }
   line2 = 1;
@@ -1150,12 +1150,12 @@ void GlobalParams::parseNameToUnicode(GList *tokens, GString *fileName,
 }
 
 void GlobalParams::parseCIDToUnicode(GList *tokens, GString *fileName,
-				     int line) {
+                     int line) {
   GString *collection, *name, *old;
 
   if (tokens->getLength() != 3) {
     error(-1, "Bad 'cidToUnicode' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   collection = (GString *)tokens->get(1);
@@ -1167,12 +1167,12 @@ void GlobalParams::parseCIDToUnicode(GList *tokens, GString *fileName,
 }
 
 void GlobalParams::parseUnicodeToUnicode(GList *tokens, GString *fileName,
-					 int line) {
+                     int line) {
   GString *font, *file, *old;
 
   if (tokens->getLength() != 3) {
     error(-1, "Bad 'unicodeToUnicode' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   font = (GString *)tokens->get(1);
@@ -1184,12 +1184,12 @@ void GlobalParams::parseUnicodeToUnicode(GList *tokens, GString *fileName,
 }
 
 void GlobalParams::parseUnicodeMap(GList *tokens, GString *fileName,
-				   int line) {
+                   int line) {
   GString *encodingName, *name, *old;
 
   if (tokens->getLength() != 3) {
     error(-1, "Bad 'unicodeMap' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   encodingName = (GString *)tokens->get(1);
@@ -1206,7 +1206,7 @@ void GlobalParams::parseCMapDir(GList *tokens, GString *fileName, int line) {
 
   if (tokens->getLength() != 3) {
     error(-1, "Bad 'cMapDir' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   collection = (GString *)tokens->get(1);
@@ -1219,18 +1219,18 @@ void GlobalParams::parseCMapDir(GList *tokens, GString *fileName, int line) {
 }
 
 void GlobalParams::parseToUnicodeDir(GList *tokens, GString *fileName,
-				     int line) {
+                     int line) {
   if (tokens->getLength() != 2) {
     error(-1, "Bad 'toUnicodeDir' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   toUnicodeDirs->append(((GString *)tokens->get(1))->copy());
 }
 
 void GlobalParams::parseDisplayFont(GList *tokens, GHash *fontHash,
-				    DisplayFontParamKind kind,
-				    GString *fileName, int line) {
+                    DisplayFontParamKind kind,
+                    GString *fileName, int line) {
   DisplayFontParam *param, *old;
 
   if (tokens->getLength() < 2) {
@@ -1263,18 +1263,18 @@ void GlobalParams::parseDisplayFont(GList *tokens, GHash *fontHash,
   delete param;
  err1:
   error(-1, "Bad 'display*Font*' config file command (%s:%d)",
-	fileName->getCString(), line);
+    fileName->getCString(), line);
 }
 
 void GlobalParams::parsePSPaperSize(GList *tokens, GString *fileName,
-				    int line) {
+                    int line) {
   GString *tok;
 
   if (tokens->getLength() == 2) {
     tok = (GString *)tokens->get(1);
     if (!setPSPaperSize(tok->getCString())) {
       error(-1, "Bad 'psPaperSize' config file command (%s:%d)",
-	    fileName->getCString(), line);
+        fileName->getCString(), line);
     }
   } else if (tokens->getLength() == 3) {
     tok = (GString *)tokens->get(1);
@@ -1286,15 +1286,15 @@ void GlobalParams::parsePSPaperSize(GList *tokens, GString *fileName,
     psImageableURY = psPaperHeight;
   } else {
     error(-1, "Bad 'psPaperSize' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
   }
 }
 
 void GlobalParams::parsePSImageableArea(GList *tokens, GString *fileName,
-					int line) {
+                    int line) {
   if (tokens->getLength() != 5) {
     error(-1, "Bad 'psImageableArea' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   psImageableLLX = atoi(((GString *)tokens->get(1))->getCString());
@@ -1308,7 +1308,7 @@ void GlobalParams::parsePSLevel(GList *tokens, GString *fileName, int line) {
 
   if (tokens->getLength() != 2) {
     error(-1, "Bad 'psLevel' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   tok = (GString *)tokens->get(1);
@@ -1326,14 +1326,14 @@ void GlobalParams::parsePSLevel(GList *tokens, GString *fileName, int line) {
     psLevel = psLevel3Sep;
   } else {
     error(-1, "Bad 'psLevel' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
   }
 }
 
 void GlobalParams::parsePSFile(GList *tokens, GString *fileName, int line) {
   if (tokens->getLength() != 2) {
     error(-1, "Bad 'psFile' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   if (psFile) {
@@ -1347,23 +1347,23 @@ void GlobalParams::parsePSFont(GList *tokens, GString *fileName, int line) {
 
   if (tokens->getLength() != 3) {
     error(-1, "Bad 'psFont' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   param = new PSFontParam(((GString *)tokens->get(1))->copy(), 0,
-			  ((GString *)tokens->get(2))->copy(), NULL);
+              ((GString *)tokens->get(2))->copy(), NULL);
   psFonts->add(param->pdfFontName, param);
 }
 
 void GlobalParams::parsePSFont16(char *cmdName, GList *fontList,
-				 GList *tokens, GString *fileName, int line) {
+                 GList *tokens, GString *fileName, int line) {
   PSFontParam *param;
   int wMode;
   GString *tok;
 
   if (tokens->getLength() != 5) {
     error(-1, "Bad '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
     return;
   }
   tok = (GString *)tokens->get(2);
@@ -1373,21 +1373,21 @@ void GlobalParams::parsePSFont16(char *cmdName, GList *fontList,
     wMode = 1;
   } else {
     error(-1, "Bad '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
     return;
   }
   param = new PSFontParam(((GString *)tokens->get(1))->copy(),
-			  wMode,
-			  ((GString *)tokens->get(3))->copy(),
-			  ((GString *)tokens->get(4))->copy());
+              wMode,
+              ((GString *)tokens->get(3))->copy(),
+              ((GString *)tokens->get(4))->copy());
   fontList->append(param);
 }
 
 void GlobalParams::parseTextEncoding(GList *tokens, GString *fileName,
-				     int line) {
+                     int line) {
   if (tokens->getLength() != 2) {
     error(-1, "Bad 'textEncoding' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   delete textEncoding;
@@ -1399,7 +1399,7 @@ void GlobalParams::parseTextEOL(GList *tokens, GString *fileName, int line) {
 
   if (tokens->getLength() != 2) {
     error(-1, "Bad 'textEOL' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   tok = (GString *)tokens->get(1);
@@ -1411,24 +1411,24 @@ void GlobalParams::parseTextEOL(GList *tokens, GString *fileName, int line) {
     textEOL = eolMac;
   } else {
     error(-1, "Bad 'textEOL' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
   }
 }
 
 void GlobalParams::parseFontDir(GList *tokens, GString *fileName, int line) {
   if (tokens->getLength() != 2) {
     error(-1, "Bad 'fontDir' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   fontDirs->append(((GString *)tokens->get(1))->copy());
 }
 
 void GlobalParams::parseInitialZoom(GList *tokens,
-				    GString *fileName, int line) {
+                    GString *fileName, int line) {
   if (tokens->getLength() != 2) {
     error(-1, "Bad 'initialZoom' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   delete initialZoom;
@@ -1436,12 +1436,12 @@ void GlobalParams::parseInitialZoom(GList *tokens,
 }
 
 void GlobalParams::parseScreenType(GList *tokens, GString *fileName,
-				   int line) {
+                   int line) {
   GString *tok;
 
   if (tokens->getLength() != 2) {
     error(-1, "Bad 'screenType' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   tok = (GString *)tokens->get(1);
@@ -1453,7 +1453,7 @@ void GlobalParams::parseScreenType(GList *tokens, GString *fileName,
     screenType = screenStochasticClustered;
   } else {
     error(-1, "Bad 'screenType' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
   }
 }
 
@@ -1464,19 +1464,19 @@ void GlobalParams::parseBind(GList *tokens, GString *fileName, int line) {
 
   if (tokens->getLength() < 4) {
     error(-1, "Bad 'bind' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   if (!parseKey((GString *)tokens->get(1), (GString *)tokens->get(2),
-		&code, &mods, &context,
-		"bind", tokens, fileName, line)) {
+        &code, &mods, &context,
+        "bind", tokens, fileName, line)) {
     return;
   }
   for (i = 0; i < keyBindings->getLength(); ++i) {
     binding = (KeyBinding *)keyBindings->get(i);
     if (binding->code == code &&
-	binding->mods == mods &&
-	binding->context == context) {
+    binding->mods == mods &&
+    binding->context == context) {
       delete (KeyBinding *)keyBindings->del(i);
       break;
     }
@@ -1494,19 +1494,19 @@ void GlobalParams::parseUnbind(GList *tokens, GString *fileName, int line) {
 
   if (tokens->getLength() != 3) {
     error(-1, "Bad 'unbind' config file command (%s:%d)",
-	  fileName->getCString(), line);
+      fileName->getCString(), line);
     return;
   }
   if (!parseKey((GString *)tokens->get(1), (GString *)tokens->get(2),
-		&code, &mods, &context,
-		"unbind", tokens, fileName, line)) {
+        &code, &mods, &context,
+        "unbind", tokens, fileName, line)) {
     return;
   }
   for (i = 0; i < keyBindings->getLength(); ++i) {
     binding = (KeyBinding *)keyBindings->get(i);
     if (binding->code == code &&
-	binding->mods == mods &&
-	binding->context == context) {
+    binding->mods == mods &&
+    binding->context == context) {
       delete (KeyBinding *)keyBindings->del(i);
       break;
     }
@@ -1514,9 +1514,9 @@ void GlobalParams::parseUnbind(GList *tokens, GString *fileName, int line) {
 }
 
 GBool GlobalParams::parseKey(GString *modKeyStr, GString *contextStr,
-			     int *code, int *mods, int *context,
-			     char *cmdName,
-			     GList *tokens, GString *fileName, int line) {
+                 int *code, int *mods, int *context,
+                 char *cmdName,
+                 GList *tokens, GString *fileName, int line) {
   char *p0;
 
   *mods = xpdfKeyModNone;
@@ -1569,21 +1569,21 @@ GBool GlobalParams::parseKey(GString *modKeyStr, GString *contextStr,
   } else if (p0[0] == 'f' && p0[1] >= '1' && p0[1] <= '9' && !p0[2]) {
     *code = xpdfKeyCodeF1 + (p0[1] - '1');
   } else if (p0[0] == 'f' &&
-	     ((p0[1] >= '1' && p0[1] <= '2' && p0[2] >= '0' && p0[2] <= '9') ||
-	      (p0[1] == '3' && p0[2] >= '0' && p0[2] <= '5')) &&
-	     !p0[3]) {
+         ((p0[1] >= '1' && p0[1] <= '2' && p0[2] >= '0' && p0[2] <= '9') ||
+          (p0[1] == '3' && p0[2] >= '0' && p0[2] <= '5')) &&
+         !p0[3]) {
     *code = xpdfKeyCodeF1 + 10 * (p0[1] - '0') + (p0[2] - '0') - 1;
   } else if (!strncmp(p0, "mousePress", 10) &&
-	     p0[10] >= '1' && p0[10] <= '7' && !p0[11]) {
+         p0[10] >= '1' && p0[10] <= '7' && !p0[11]) {
     *code = xpdfKeyCodeMousePress1 + (p0[10] - '1');
   } else if (!strncmp(p0, "mouseRelease", 12) &&
-	     p0[12] >= '1' && p0[12] <= '7' && !p0[13]) {
+         p0[12] >= '1' && p0[12] <= '7' && !p0[13]) {
     *code = xpdfKeyCodeMouseRelease1 + (p0[12] - '1');
   } else if (*p0 >= 0x20 && *p0 <= 0x7e && !p0[1]) {
     *code = (int)*p0;
   } else {
     error(-1, "Bad key/modifier in '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
     return gFalse;
   }
 
@@ -1594,47 +1594,47 @@ GBool GlobalParams::parseKey(GString *modKeyStr, GString *contextStr,
     *context = xpdfKeyContextAny;
     while (1) {
       if (!strncmp(p0, "fullScreen", 10)) {
-	*context |= xpdfKeyContextFullScreen;
-	p0 += 10;
+    *context |= xpdfKeyContextFullScreen;
+    p0 += 10;
       } else if (!strncmp(p0, "window", 6)) {
-	*context |= xpdfKeyContextWindow;
-	p0 += 6;
+    *context |= xpdfKeyContextWindow;
+    p0 += 6;
       } else if (!strncmp(p0, "continuous", 10)) {
-	*context |= xpdfKeyContextContinuous;
-	p0 += 10;
+    *context |= xpdfKeyContextContinuous;
+    p0 += 10;
       } else if (!strncmp(p0, "singlePage", 10)) {
-	*context |= xpdfKeyContextSinglePage;
-	p0 += 10;
+    *context |= xpdfKeyContextSinglePage;
+    p0 += 10;
       } else if (!strncmp(p0, "overLink", 8)) {
-	*context |= xpdfKeyContextOverLink;
-	p0 += 8;
+    *context |= xpdfKeyContextOverLink;
+    p0 += 8;
       } else if (!strncmp(p0, "offLink", 7)) {
-	*context |= xpdfKeyContextOffLink;
-	p0 += 7;
+    *context |= xpdfKeyContextOffLink;
+    p0 += 7;
       } else if (!strncmp(p0, "outline", 7)) {
-	*context |= xpdfKeyContextOutline;
-	p0 += 7;
+    *context |= xpdfKeyContextOutline;
+    p0 += 7;
       } else if (!strncmp(p0, "mainWin", 7)) {
-	*context |= xpdfKeyContextMainWin;
-	p0 += 7;
+    *context |= xpdfKeyContextMainWin;
+    p0 += 7;
       } else if (!strncmp(p0, "scrLockOn", 9)) {
-	*context |= xpdfKeyContextScrLockOn;
-	p0 += 9;
+    *context |= xpdfKeyContextScrLockOn;
+    p0 += 9;
       } else if (!strncmp(p0, "scrLockOff", 10)) {
-	*context |= xpdfKeyContextScrLockOff;
-	p0 += 10;
+    *context |= xpdfKeyContextScrLockOff;
+    p0 += 10;
       } else {
-	error(-1, "Bad context in '%s' config file command (%s:%d)",
-	      cmdName, fileName->getCString(), line);
-	return gFalse;
+    error(-1, "Bad context in '%s' config file command (%s:%d)",
+          cmdName, fileName->getCString(), line);
+    return gFalse;
       }
       if (!*p0) {
-	break;
+    break;
       }
       if (*p0 != ',') {
-	error(-1, "Bad context in '%s' config file command (%s:%d)",
-	      cmdName, fileName->getCString(), line);
-	return gFalse;
+    error(-1, "Bad context in '%s' config file command (%s:%d)",
+          cmdName, fileName->getCString(), line);
+    return gFalse;
       }
       ++p0;
     }
@@ -1644,10 +1644,10 @@ GBool GlobalParams::parseKey(GString *modKeyStr, GString *contextStr,
 }
 
 void GlobalParams::parseCommand(char *cmdName, GString **val,
-				GList *tokens, GString *fileName, int line) {
+                GList *tokens, GString *fileName, int line) {
   if (tokens->getLength() != 2) {
     error(-1, "Bad '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
     return;
   }
   if (*val) {
@@ -1657,18 +1657,18 @@ void GlobalParams::parseCommand(char *cmdName, GString **val,
 }
 
 void GlobalParams::parseYesNo(char *cmdName, GBool *flag,
-			      GList *tokens, GString *fileName, int line) {
+                  GList *tokens, GString *fileName, int line) {
   GString *tok;
 
   if (tokens->getLength() != 2) {
     error(-1, "Bad '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
     return;
   }
   tok = (GString *)tokens->get(1);
   if (!parseYesNo2(tok->getCString(), flag)) {
     error(-1, "Bad '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
   }
 }
 
@@ -1684,19 +1684,19 @@ GBool GlobalParams::parseYesNo2(char *token, GBool *flag) {
 }
 
 void GlobalParams::parseInteger(char *cmdName, int *val,
-				GList *tokens, GString *fileName, int line) {
+                GList *tokens, GString *fileName, int line) {
   GString *tok;
   int i;
 
   if (tokens->getLength() != 2) {
     error(-1, "Bad '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
     return;
   }
   tok = (GString *)tokens->get(1);
   if (tok->getLength() == 0) {
     error(-1, "Bad '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
     return;
   }
   if (tok->getChar(0) == '-') {
@@ -1707,7 +1707,7 @@ void GlobalParams::parseInteger(char *cmdName, int *val,
   for (; i < tok->getLength(); ++i) {
     if (tok->getChar(i) < '0' || tok->getChar(i) > '9') {
       error(-1, "Bad '%s' config file command (%s:%d)",
-	    cmdName, fileName->getCString(), line);
+        cmdName, fileName->getCString(), line);
       return;
     }
   }
@@ -1715,19 +1715,19 @@ void GlobalParams::parseInteger(char *cmdName, int *val,
 }
 
 void GlobalParams::parseFloat(char *cmdName, double *val,
-			      GList *tokens, GString *fileName, int line) {
+                  GList *tokens, GString *fileName, int line) {
   GString *tok;
   int i;
 
   if (tokens->getLength() != 2) {
     error(-1, "Bad '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
     return;
   }
   tok = (GString *)tokens->get(1);
   if (tok->getLength() == 0) {
     error(-1, "Bad '%s' config file command (%s:%d)",
-	  cmdName, fileName->getCString(), line);
+      cmdName, fileName->getCString(), line);
     return;
   }
   if (tok->getChar(0) == '-') {
@@ -1737,9 +1737,9 @@ void GlobalParams::parseFloat(char *cmdName, double *val,
   }
   for (; i < tok->getLength(); ++i) {
     if (!((tok->getChar(i) >= '0' && tok->getChar(i) <= '9') ||
-	  tok->getChar(i) == '.')) {
+      tok->getChar(i) == '.')) {
       error(-1, "Bad '%s' config file command (%s:%d)",
-	    cmdName, fileName->getCString(), line);
+        cmdName, fileName->getCString(), line);
       return;
     }
   }
@@ -1823,9 +1823,9 @@ void GlobalParams::setupBaseFonts(char *dir) {
 #ifdef WIN32
   HMODULE shell32Lib;
   BOOL (__stdcall *SHGetSpecialFolderPathFunc)(HWND hwndOwner,
-					       LPTSTR lpszPath,
-					       int nFolder,
-					       BOOL fCreate);
+                           LPTSTR lpszPath,
+                           int nFolder,
+                           BOOL fCreate);
   char winFontDir[MAX_PATH];
 #endif
   FILE *f;
@@ -1839,12 +1839,12 @@ void GlobalParams::setupBaseFonts(char *dir) {
   winFontDir[0] = '\0';
   if ((shell32Lib = LoadLibrary("shell32.dll"))) {
     if ((SHGetSpecialFolderPathFunc = 
-	 (BOOL (__stdcall *)(HWND hwndOwner, LPTSTR lpszPath,
-			     int nFolder, BOOL fCreate))
-	 GetProcAddress(shell32Lib, "SHGetSpecialFolderPathA"))) {
+     (BOOL (__stdcall *)(HWND hwndOwner, LPTSTR lpszPath,
+                 int nFolder, BOOL fCreate))
+     GetProcAddress(shell32Lib, "SHGetSpecialFolderPathA"))) {
       if (!(*SHGetSpecialFolderPathFunc)(NULL, winFontDir,
-					 CSIDL_FONTS, FALSE)) {
-	winFontDir[0] = '\0';
+                     CSIDL_FONTS, FALSE)) {
+    winFontDir[0] = '\0';
       }
     }
   }
@@ -1861,22 +1861,22 @@ void GlobalParams::setupBaseFonts(char *dir) {
       fileName = appendToPath(new GString(dir), displayFontTab[i].t1FileName);
       kind = displayFontT1;
       if ((f = fopen(fileName->getCString(), "rb"))) {
-	fclose(f);
+    fclose(f);
       } else {
-	delete fileName;
-	fileName = NULL;
+    delete fileName;
+    fileName = NULL;
       }
     }
 #ifdef WIN32
     if (!fileName && winFontDir[0] && displayFontTab[i].ttFileName) {
       fileName = appendToPath(new GString(winFontDir),
-			      displayFontTab[i].ttFileName);
+                  displayFontTab[i].ttFileName);
       kind = displayFontTT;
       if ((f = fopen(fileName->getCString(), "rb"))) {
-	fclose(f);
+    fclose(f);
       } else {
-	delete fileName;
-	fileName = NULL;
+    delete fileName;
+    fileName = NULL;
       }
     }
     // SHGetSpecialFolderPath(CSIDL_FONTS) doesn't work on Win 2k Server
@@ -1884,27 +1884,27 @@ void GlobalParams::setupBaseFonts(char *dir) {
     // the "standard" directories
     if (displayFontTab[i].ttFileName) {
       for (j = 0; !fileName && displayFontDirs[j]; ++j) {
-	fileName = appendToPath(new GString(displayFontDirs[j]),
-				displayFontTab[i].ttFileName);
-	kind = displayFontTT;
-	if ((f = fopen(fileName->getCString(), "rb"))) {
-	  fclose(f);
-	} else {
-	  delete fileName;
-	  fileName = NULL;
-	}
+    fileName = appendToPath(new GString(displayFontDirs[j]),
+                displayFontTab[i].ttFileName);
+    kind = displayFontTT;
+    if ((f = fopen(fileName->getCString(), "rb"))) {
+      fclose(f);
+    } else {
+      delete fileName;
+      fileName = NULL;
+    }
       }
     }
 #else
     for (j = 0; !fileName && displayFontDirs[j]; ++j) {
       fileName = appendToPath(new GString(displayFontDirs[j]),
-			      displayFontTab[i].t1FileName);
+                  displayFontTab[i].t1FileName);
       kind = displayFontT1;
       if ((f = fopen(fileName->getCString(), "rb"))) {
-	fclose(f);
+    fclose(f);
       } else {
-	delete fileName;
-	fileName = NULL;
+    delete fileName;
+    fileName = NULL;
       }
     }
 #endif
@@ -2035,7 +2035,7 @@ DisplayFontParam *GlobalParams::getDisplayFont(GString *fontName) {
 }
 
 DisplayFontParam *GlobalParams::getDisplayCIDFont(GString *fontName,
-						  GString *collection) {
+                          GString *collection) {
   DisplayFontParam *dfp;
 
   lockGlobalParams;
@@ -2156,7 +2156,7 @@ PSFontParam *GlobalParams::getPSFont(GString *fontName) {
 }
 
 PSFontParam *GlobalParams::getPSFont16(GString *fontName,
-				       GString *collection, int wMode) {
+                       GString *collection, int wMode) {
   PSFontParam *p;
   int i;
 
@@ -2166,8 +2166,8 @@ PSFontParam *GlobalParams::getPSFont16(GString *fontName,
     for (i = 0; i < psNamedFonts16->getLength(); ++i) {
       p = (PSFontParam *)psNamedFonts16->get(i);
       if (!p->pdfFontName->cmp(fontName) &&
-	  p->wMode == wMode) {
-	break;
+      p->wMode == wMode) {
+    break;
       }
       p = NULL;
     }
@@ -2176,8 +2176,8 @@ PSFontParam *GlobalParams::getPSFont16(GString *fontName,
     for (i = 0; i < psFonts16->getLength(); ++i) {
       p = (PSFontParam *)psFonts16->get(i);
       if (!p->pdfFontName->cmp(collection) &&
-	  p->wMode == wMode) {
-	break;
+      p->wMode == wMode) {
+    break;
       }
       p = NULL;
     }
@@ -2298,9 +2298,9 @@ GString *GlobalParams::findFontFile(GString *fontName, char **exts) {
       fileName = appendToPath(dir->copy(), fontName->getCString());
       fileName->append(*ext);
       if ((f = fopen(fileName->getCString(), "rb"))) {
-	fclose(f);
-	unlockGlobalParams;
-	return fileName;
+    fclose(f);
+    unlockGlobalParams;
+    return fileName;
       }
       delete fileName;
     }
@@ -2458,11 +2458,11 @@ GList *GlobalParams::getKeyBinding(int code, int mods, int context) {
   for (i = 0; i < keyBindings->getLength(); ++i) {
     binding = (KeyBinding *)keyBindings->get(i);
     if (binding->code == code &&
-	(binding->mods & modMask) == (mods & modMask) &&
-	(~binding->context | context) == ~0) {
+    (binding->mods & modMask) == (mods & modMask) &&
+    (~binding->context | context) == ~0) {
       cmds = new GList();
       for (j = 0; j < binding->cmds->getLength(); ++j) {
-	cmds->append(((GString *)binding->cmds->get(j))->copy());
+    cmds->append(((GString *)binding->cmds->get(j))->copy());
       }
       break;
     }
@@ -2493,7 +2493,7 @@ CharCodeToUnicode *GlobalParams::getCIDToUnicode(GString *collection) {
   lockGlobalParams;
   if (!(ctu = cidToUnicodeCache->getCharCodeToUnicode(collection))) {
     if ((fileName = (GString *)cidToUnicodes->lookup(collection)) &&
-	(ctu = CharCodeToUnicode::parseCIDToUnicode(fileName, collection))) {
+    (ctu = CharCodeToUnicode::parseCIDToUnicode(fileName, collection))) {
       cidToUnicodeCache->add(ctu);
     }
   }
@@ -2519,7 +2519,7 @@ CharCodeToUnicode *GlobalParams::getUnicodeToUnicode(GString *fontName) {
   if (fileName) {
     if (!(ctu = unicodeToUnicodeCache->getCharCodeToUnicode(fileName))) {
       if ((ctu = CharCodeToUnicode::parseUnicodeToUnicode(fileName))) {
-	unicodeToUnicodeCache->add(ctu);
+    unicodeToUnicodeCache->add(ctu);
       }
     }
   } else {

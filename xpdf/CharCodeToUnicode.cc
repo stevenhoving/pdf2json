@@ -55,7 +55,7 @@ static int getCharFromFile(void *data) {
 //------------------------------------------------------------------------
 
 CharCodeToUnicode *CharCodeToUnicode::parseCIDToUnicode(GString *fileName,
-							GString *collection) {
+                            GString *collection) {
   FILE *f;
   Unicode *mapA;
   CharCode size, mapLenA;
@@ -65,7 +65,7 @@ CharCodeToUnicode *CharCodeToUnicode::parseCIDToUnicode(GString *fileName,
 
   if (!(f = fopen(fileName->getCString(), "r"))) {
     error(-1, "Couldn't open cidToUnicode file '%s'",
-	  fileName->getCString());
+      fileName->getCString());
     return NULL;
   }
 
@@ -82,7 +82,7 @@ CharCodeToUnicode *CharCodeToUnicode::parseCIDToUnicode(GString *fileName,
       mapA[mapLenA] = u;
     } else {
       error(-1, "Bad line (%d) in cidToUnicode file '%s'",
-	    (int)(mapLenA + 1), fileName->getCString());
+        (int)(mapLenA + 1), fileName->getCString());
       mapA[mapLenA] = 0;
     }
     ++mapLenA;
@@ -90,13 +90,13 @@ CharCodeToUnicode *CharCodeToUnicode::parseCIDToUnicode(GString *fileName,
   fclose(f);
 
   ctu = new CharCodeToUnicode(collection->copy(), mapA, mapLenA, gTrue,
-			      NULL, 0, 0);
+                  NULL, 0, 0);
   gfree(mapA);
   return ctu;
 }
 
 CharCodeToUnicode *CharCodeToUnicode::parseUnicodeToUnicode(
-						    GString *fileName) {
+                            GString *fileName) {
   FILE *f;
   Unicode *mapA;
   CharCodeToUnicodeString *sMapA;
@@ -110,7 +110,7 @@ CharCodeToUnicode *CharCodeToUnicode::parseUnicodeToUnicode(
 
   if (!(f = fopen(fileName->getCString(), "r"))) {
     error(-1, "Couldn't open unicodeToUnicode file '%s'",
-	  fileName->getCString());
+      fileName->getCString());
     return NULL;
   }
 
@@ -125,32 +125,32 @@ CharCodeToUnicode *CharCodeToUnicode::parseUnicodeToUnicode(
   while (getLine(buf, sizeof(buf), f)) {
     ++line;
     if (!(tok = strtok(buf, " \t\r\n")) ||
-	sscanf(tok, "%x", &u0) != 1) {
+    sscanf(tok, "%x", &u0) != 1) {
       error(-1, "Bad line (%d) in unicodeToUnicode file '%s'",
-	    line, fileName->getCString());
+        line, fileName->getCString());
       continue;
     }
     n = 0;
     while (n < maxUnicodeString) {
       if (!(tok = strtok(NULL, " \t\r\n"))) {
-	break;
+    break;
       }
       if (sscanf(tok, "%x", &uBuf[n]) != 1) {
-	error(-1, "Bad line (%d) in unicodeToUnicode file '%s'",
-	      line, fileName->getCString());
-	break;
+    error(-1, "Bad line (%d) in unicodeToUnicode file '%s'",
+          line, fileName->getCString());
+    break;
       }
       ++n;
     }
     if (n < 1) {
       error(-1, "Bad line (%d) in unicodeToUnicode file '%s'",
-	    line, fileName->getCString());
+        line, fileName->getCString());
       continue;
     }
     if (u0 >= size) {
       oldSize = size;
       while (u0 >= size) {
-	size *= 2;
+    size *= 2;
       }
       mapA = (Unicode *)greallocn(mapA, size, sizeof(Unicode));
       memset(mapA + oldSize, 0, (size - oldSize) * sizeof(Unicode));
@@ -160,13 +160,13 @@ CharCodeToUnicode *CharCodeToUnicode::parseUnicodeToUnicode(
     } else {
       mapA[u0] = 0;
       if (sMapLenA == sMapSizeA) {
-	sMapSizeA += 16;
-	sMapA = (CharCodeToUnicodeString *)
-	          greallocn(sMapA, sMapSizeA, sizeof(CharCodeToUnicodeString));
+    sMapSizeA += 16;
+    sMapA = (CharCodeToUnicodeString *)
+              greallocn(sMapA, sMapSizeA, sizeof(CharCodeToUnicodeString));
       }
       sMapA[sMapLenA].c = u0;
       for (i = 0; i < n; ++i) {
-	sMapA[sMapLenA].u[i] = uBuf[i];
+    sMapA[sMapLenA].u[i] = uBuf[i];
       }
       sMapA[sMapLenA].len = n;
       ++sMapLenA;
@@ -178,7 +178,7 @@ CharCodeToUnicode *CharCodeToUnicode::parseUnicodeToUnicode(
   fclose(f);
 
   ctu = new CharCodeToUnicode(fileName->copy(), mapA, len, gTrue,
-			      sMapA, sMapLenA, sMapSizeA);
+                  sMapA, sMapLenA, sMapSizeA);
   gfree(mapA);
   return ctu;
 }
@@ -205,7 +205,7 @@ void CharCodeToUnicode::mergeCMap(GString *buf, int nBits) {
 }
 
 void CharCodeToUnicode::parseCMap1(int (*getCharFunc)(void *), void *data,
-				   int nBits) {
+                   int nBits) {
   PSTokenizer *pst;
   char tok1[256], tok2[256], tok3[256];
   int nDigits, n1, n2, n3;
@@ -220,87 +220,87 @@ void CharCodeToUnicode::parseCMap1(int (*getCharFunc)(void *), void *data,
   while (pst->getToken(tok2, sizeof(tok2), &n2)) {
     if (!strcmp(tok2, "usecmap")) {
       if (tok1[0] == '/') {
-	name = new GString(tok1 + 1);
-	if ((f = globalParams->findToUnicodeFile(name))) {
-	  parseCMap1(&getCharFromFile, f, nBits);
-	  fclose(f);
-	} else {
-	  error(-1, "Couldn't find ToUnicode CMap file for '%s'",
-		name->getCString());
-	}
-	delete name;
+    name = new GString(tok1 + 1);
+    if ((f = globalParams->findToUnicodeFile(name))) {
+      parseCMap1(&getCharFromFile, f, nBits);
+      fclose(f);
+    } else {
+      error(-1, "Couldn't find ToUnicode CMap file for '%s'",
+        name->getCString());
+    }
+    delete name;
       }
       pst->getToken(tok1, sizeof(tok1), &n1);
     } else if (!strcmp(tok2, "beginbfchar")) {
       while (pst->getToken(tok1, sizeof(tok1), &n1)) {
-	if (!strcmp(tok1, "endbfchar")) {
-	  break;
-	}
-	if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
-	    !strcmp(tok2, "endbfchar")) {
-	  error(-1, "Illegal entry in bfchar block in ToUnicode CMap");
-	  break;
-	}
-	if (!(n1 == 2 + nDigits && tok1[0] == '<' && tok1[n1 - 1] == '>' &&
-	      tok2[0] == '<' && tok2[n2 - 1] == '>')) {
-	  error(-1, "Illegal entry in bfchar block in ToUnicode CMap");
-	  continue;
-	}
-	tok1[n1 - 1] = tok2[n2 - 1] = '\0';
-	if (sscanf(tok1 + 1, "%x", &code1) != 1) {
-	  error(-1, "Illegal entry in bfchar block in ToUnicode CMap");
-	  continue;
-	}
-	addMapping(code1, tok2 + 1, n2 - 2, 0);
+    if (!strcmp(tok1, "endbfchar")) {
+      break;
+    }
+    if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
+        !strcmp(tok2, "endbfchar")) {
+      error(-1, "Illegal entry in bfchar block in ToUnicode CMap");
+      break;
+    }
+    if (!(n1 == 2 + nDigits && tok1[0] == '<' && tok1[n1 - 1] == '>' &&
+          tok2[0] == '<' && tok2[n2 - 1] == '>')) {
+      error(-1, "Illegal entry in bfchar block in ToUnicode CMap");
+      continue;
+    }
+    tok1[n1 - 1] = tok2[n2 - 1] = '\0';
+    if (sscanf(tok1 + 1, "%x", &code1) != 1) {
+      error(-1, "Illegal entry in bfchar block in ToUnicode CMap");
+      continue;
+    }
+    addMapping(code1, tok2 + 1, n2 - 2, 0);
       }
       pst->getToken(tok1, sizeof(tok1), &n1);
     } else if (!strcmp(tok2, "beginbfrange")) {
       while (pst->getToken(tok1, sizeof(tok1), &n1)) {
-	if (!strcmp(tok1, "endbfrange")) {
-	  break;
-	}
-	if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
-	    !strcmp(tok2, "endbfrange") ||
-	    !pst->getToken(tok3, sizeof(tok3), &n3) ||
-	    !strcmp(tok3, "endbfrange")) {
-	  error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
-	  break;
-	}
-	if (!(n1 == 2 + nDigits && tok1[0] == '<' && tok1[n1 - 1] == '>' &&
-	      n2 == 2 + nDigits && tok2[0] == '<' && tok2[n2 - 1] == '>')) {
-	  error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
-	  continue;
-	}
-	tok1[n1 - 1] = tok2[n2 - 1] = '\0';
-	if (sscanf(tok1 + 1, "%x", &code1) != 1 ||
-	    sscanf(tok2 + 1, "%x", &code2) != 1) {
-	  error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
-	  continue;
-	}
-	if (!strcmp(tok3, "[")) {
-	  i = 0;
-	  while (pst->getToken(tok1, sizeof(tok1), &n1) &&
-		 code1 + i <= code2) {
-	    if (!strcmp(tok1, "]")) {
-	      break;
-	    }
-	    if (tok1[0] == '<' && tok1[n1 - 1] == '>') {
-	      tok1[n1 - 1] = '\0';
-	      addMapping(code1 + i, tok1 + 1, n1 - 2, 0);
-	    } else {
-	      error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
-	    }
-	    ++i;
-	  }
-	} else if (tok3[0] == '<' && tok3[n3 - 1] == '>') {
-	  tok3[n3 - 1] = '\0';
-	  for (i = 0; code1 <= code2; ++code1, ++i) {
-	    addMapping(code1, tok3 + 1, n3 - 2, i);
-	  }
+    if (!strcmp(tok1, "endbfrange")) {
+      break;
+    }
+    if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
+        !strcmp(tok2, "endbfrange") ||
+        !pst->getToken(tok3, sizeof(tok3), &n3) ||
+        !strcmp(tok3, "endbfrange")) {
+      error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
+      break;
+    }
+    if (!(n1 == 2 + nDigits && tok1[0] == '<' && tok1[n1 - 1] == '>' &&
+          n2 == 2 + nDigits && tok2[0] == '<' && tok2[n2 - 1] == '>')) {
+      error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
+      continue;
+    }
+    tok1[n1 - 1] = tok2[n2 - 1] = '\0';
+    if (sscanf(tok1 + 1, "%x", &code1) != 1 ||
+        sscanf(tok2 + 1, "%x", &code2) != 1) {
+      error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
+      continue;
+    }
+    if (!strcmp(tok3, "[")) {
+      i = 0;
+      while (pst->getToken(tok1, sizeof(tok1), &n1) &&
+         code1 + i <= code2) {
+        if (!strcmp(tok1, "]")) {
+          break;
+        }
+        if (tok1[0] == '<' && tok1[n1 - 1] == '>') {
+          tok1[n1 - 1] = '\0';
+          addMapping(code1 + i, tok1 + 1, n1 - 2, 0);
+        } else {
+          error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
+        }
+        ++i;
+      }
+    } else if (tok3[0] == '<' && tok3[n3 - 1] == '>') {
+      tok3[n3 - 1] = '\0';
+      for (i = 0; code1 <= code2; ++code1, ++i) {
+        addMapping(code1, tok3 + 1, n3 - 2, i);
+      }
 
-	} else {
-	  error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
-	}
+    } else {
+      error(-1, "Illegal entry in bfrange block in ToUnicode CMap");
+    }
       }
       pst->getToken(tok1, sizeof(tok1), &n1);
     } else {
@@ -311,7 +311,7 @@ void CharCodeToUnicode::parseCMap1(int (*getCharFunc)(void *), void *data,
 }
 
 void CharCodeToUnicode::addMapping(CharCode code, char *uStr, int n,
-				   int offset) {
+                   int offset) {
   CharCode oldLen, i;
   Unicode u;
   char uHex[5];
@@ -335,7 +335,7 @@ void CharCodeToUnicode::addMapping(CharCode code, char *uStr, int n,
     if (sMapLen >= sMapSize) {
       sMapSize = sMapSize + 16;
       sMap = (CharCodeToUnicodeString *)
-	       greallocn(sMap, sMapSize, sizeof(CharCodeToUnicodeString));
+           greallocn(sMap, sMapSize, sizeof(CharCodeToUnicodeString));
     }
     map[code] = 0;
     sMap[sMapLen].c = code;
@@ -344,7 +344,7 @@ void CharCodeToUnicode::addMapping(CharCode code, char *uStr, int n,
       strncpy(uHex, uStr + j*4, 4);
       uHex[4] = '\0';
       if (sscanf(uHex, "%x", &sMap[sMapLen].u[j]) != 1) {
-	error(-1, "Illegal entry in ToUnicode CMap");
+    error(-1, "Illegal entry in ToUnicode CMap");
       }
     }
     sMap[sMapLen].u[sMap[sMapLen].len - 1] += offset;
@@ -370,9 +370,9 @@ CharCodeToUnicode::CharCodeToUnicode(GString *tagA) {
 }
 
 CharCodeToUnicode::CharCodeToUnicode(GString *tagA, Unicode *mapA,
-				     CharCode mapLenA, GBool copyMap,
-				     CharCodeToUnicodeString *sMapA,
-				     int sMapLenA, int sMapSizeA) {
+                     CharCode mapLenA, GBool copyMap,
+                     CharCodeToUnicodeString *sMapA,
+                     int sMapLenA, int sMapSizeA) {
   tag = tagA;
   mapLen = mapLenA;
   if (copyMap) {
@@ -440,14 +440,14 @@ void CharCodeToUnicode::setMapping(CharCode c, Unicode *u, int len) {
   } else {
     for (i = 0; i < sMapLen; ++i) {
       if (sMap[i].c == c) {
-	break;
+    break;
       }
     }
     if (i == sMapLen) {
       if (sMapLen == sMapSize) {
-	sMapSize += 8;
-	sMap = (CharCodeToUnicodeString *)
-	         greallocn(sMap, sMapSize, sizeof(CharCodeToUnicodeString));
+    sMapSize += 8;
+    sMap = (CharCodeToUnicodeString *)
+             greallocn(sMap, sMapSize, sizeof(CharCodeToUnicodeString));
       }
       ++sMapLen;
     }
@@ -473,7 +473,7 @@ int CharCodeToUnicode::mapToUnicode(CharCode c, Unicode *u, int size) {
   for (i = 0; i < sMapLen; ++i) {
     if (sMap[i].c == c) {
       for (j = 0; j < sMap[i].len && j < size; ++j) {
-	u[j] = sMap[i].u[j];
+    u[j] = sMap[i].u[j];
       }
       return j;
     }
@@ -516,7 +516,7 @@ CharCodeToUnicode *CharCodeToUnicodeCache::getCharCodeToUnicode(GString *tag) {
     if (cache[i] && cache[i]->match(tag)) {
       ctu = cache[i];
       for (j = i; j >= 1; --j) {
-	cache[j] = cache[j - 1];
+    cache[j] = cache[j - 1];
       }
       cache[0] = ctu;
       ctu->incRefCnt();

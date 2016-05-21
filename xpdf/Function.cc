@@ -90,7 +90,7 @@ GBool Function::init(Dict *dict) {
   m = obj1.arrayGetLength() / 2;
   if (m > funcMaxInputs) {
     error(-1, "Functions with more than %d inputs are unsupported",
-	  funcMaxInputs);
+      funcMaxInputs);
     goto err2;
   }
   for (i = 0; i < m; ++i) {
@@ -119,21 +119,21 @@ GBool Function::init(Dict *dict) {
     n = obj1.arrayGetLength() / 2;
     if (n > funcMaxOutputs) {
       error(-1, "Functions with more than %d outputs are unsupported",
-	    funcMaxOutputs);
+        funcMaxOutputs);
       goto err2;
     }
     for (i = 0; i < n; ++i) {
       obj1.arrayGet(2*i, &obj2);
       if (!obj2.isNum()) {
-	error(-1, "Illegal value in function range array");
-	goto err1;
+    error(-1, "Illegal value in function range array");
+    goto err1;
       }
       range[i][0] = obj2.getNum();
       obj2.free();
       obj1.arrayGet(2*i+1, &obj2);
       if (!obj2.isNum()) {
-	error(-1, "Illegal value in function range array");
-	goto err1;
+    error(-1, "Illegal value in function range array");
+    goto err1;
       }
       range[i][1] = obj2.getNum();
       obj2.free();
@@ -207,7 +207,7 @@ SampledFunction::SampledFunction(Object *funcObj, Dict *dict) {
   }
   if (m > sampledFuncMaxInputs) {
     error(-1, "Sampled functions with more than %d inputs are unsupported",
-	  sampledFuncMaxInputs);
+      sampledFuncMaxInputs);
     goto err1;
   }
 
@@ -257,15 +257,15 @@ SampledFunction::SampledFunction(Object *funcObj, Dict *dict) {
     for (i = 0; i < m; ++i) {
       obj1.arrayGet(2*i, &obj2);
       if (!obj2.isNum()) {
-	error(-1, "Illegal value in function encode array");
-	goto err3;
+    error(-1, "Illegal value in function encode array");
+    goto err3;
       }
       encode[i][0] = obj2.getNum();
       obj2.free();
       obj1.arrayGet(2*i+1, &obj2);
       if (!obj2.isNum()) {
-	error(-1, "Illegal value in function encode array");
-	goto err3;
+    error(-1, "Illegal value in function encode array");
+    goto err3;
       }
       encode[i][1] = obj2.getNum();
       obj2.free();
@@ -288,15 +288,15 @@ SampledFunction::SampledFunction(Object *funcObj, Dict *dict) {
     for (i = 0; i < n; ++i) {
       obj1.arrayGet(2*i, &obj2);
       if (!obj2.isNum()) {
-	error(-1, "Illegal value in function decode array");
-	goto err3;
+    error(-1, "Illegal value in function decode array");
+    goto err3;
       }
       decode[i][0] = obj2.getNum();
       obj2.free();
       obj1.arrayGet(2*i+1, &obj2);
       if (!obj2.isNum()) {
-	error(-1, "Illegal value in function decode array");
-	goto err3;
+    error(-1, "Illegal value in function decode array");
+    goto err3;
       }
       decode[i][1] = obj2.getNum();
       obj2.free();
@@ -331,8 +331,8 @@ SampledFunction::SampledFunction(Object *funcObj, Dict *dict) {
       s = (s << 8) + str->getChar();
     } else {
       while (bits < sampleBits) {
-	buf = (buf << 8) | (str->getChar() & 0xff);
-	bits += 8;
+    buf = (buf << 8) | (str->getChar() & 0xff);
+    bits += 8;
       }
       s = (buf >> (bits - sampleBits)) & bitMask;
       bits -= sampleBits;
@@ -399,7 +399,7 @@ void SampledFunction::transform(double *in, double *out) {
     for (j = 0; j < (1<<m); ++j) {
       idx = i;
       for (k = 0, t = j; k < m; ++k, t >>= 1) {
-	idx += idxMul[k] * (e[k][t & 1]);
+    idx += idxMul[k] * (e[k][t & 1]);
       }
       sBuf[j] = samples[idx];
     }
@@ -407,7 +407,7 @@ void SampledFunction::transform(double *in, double *out) {
     // do m sets of interpolations
     for (j = 0, t = (1<<m); j < m; ++j, t >>= 1) {
       for (k = 0; k < t; k += 2) {
-	sBuf[k >> 1] = efrac0[j] * sBuf[k] + efrac1[j] * sBuf[k+1];
+    sBuf[k >> 1] = efrac0[j] * sBuf[k] + efrac1[j] * sBuf[k+1];
       }
     }
 
@@ -450,8 +450,8 @@ ExponentialFunction::ExponentialFunction(Object *funcObj, Dict *dict) {
     for (i = 0; i < n; ++i) {
       obj1.arrayGet(i, &obj2);
       if (!obj2.isNum()) {
-	error(-1, "Illegal value in function C0 array");
-	goto err3;
+    error(-1, "Illegal value in function C0 array");
+    goto err3;
       }
       c0[i] = obj2.getNum();
       obj2.free();
@@ -475,8 +475,8 @@ ExponentialFunction::ExponentialFunction(Object *funcObj, Dict *dict) {
     for (i = 0; i < n; ++i) {
       obj1.arrayGet(i, &obj2);
       if (!obj2.isNum()) {
-	error(-1, "Illegal value in function C1 array");
-	goto err3;
+    error(-1, "Illegal value in function C1 array");
+    goto err3;
       }
       c1[i] = obj2.getNum();
       obj2.free();
@@ -531,9 +531,9 @@ void ExponentialFunction::transform(double *in, double *out) {
     out[i] = c0[i] + pow(x, e) * (c1[i] - c0[i]);
     if (hasRange) {
       if (out[i] < range[i][0]) {
-	out[i] = range[i][0];
+    out[i] = range[i][0];
       } else if (out[i] > range[i][1]) {
-	out[i] = range[i][1];
+    out[i] = range[i][1];
       }
     }
   }
@@ -581,7 +581,7 @@ StitchingFunction::StitchingFunction(Object *funcObj, Dict *dict) {
       goto err2;
     }
     if (i > 0 && (funcs[i]->getInputSize() != 1 ||
-		  funcs[i]->getOutputSize() != funcs[0]->getOutputSize())) {
+          funcs[i]->getOutputSize() != funcs[0]->getOutputSize())) {
       error(-1, "Incompatible subfunctions in stitching function");
       goto err2;
     }
@@ -666,7 +666,7 @@ StitchingFunction::~StitchingFunction() {
   if (funcs) {
     for (i = 0; i < k; ++i) {
       if (funcs[i]) {
-	delete funcs[i];
+    delete funcs[i];
       }
     }
   }
@@ -827,11 +827,11 @@ enum PSObjectType {
 struct PSObject {
   PSObjectType type;
   union {
-    GBool booln;		// boolean (stack only)
-    int intg;			// integer (stack and code)
-    double real;		// real (stack and code)
-    PSOp op;			// operator (code only)
-    int blk;			// if/ifelse block pointer (code only)
+    GBool booln;        // boolean (stack only)
+    int intg;            // integer (stack and code)
+    double real;        // real (stack and code)
+    PSOp op;            // operator (code only)
+    int blk;            // if/ifelse block pointer (code only)
   };
 };
 
@@ -851,13 +851,13 @@ public:
   GBool topIsInt() { return sp < psStackSize && stack[sp].type == psInt; }
   GBool topTwoAreInts()
     { return sp < psStackSize - 1 &&
-	     stack[sp].type == psInt &&
+         stack[sp].type == psInt &&
              stack[sp+1].type == psInt; }
   GBool topIsReal() { return sp < psStackSize && stack[sp].type == psReal; }
   GBool topTwoAreNums()
     { return sp < psStackSize - 1 &&
-	     (stack[sp].type == psInt || stack[sp].type == psReal) &&
-	     (stack[sp+1].type == psInt || stack[sp+1].type == psReal); }
+         (stack[sp].type == psInt || stack[sp].type == psReal) &&
+         (stack[sp+1].type == psInt || stack[sp+1].type == psReal); }
   void copy(int n);
   void roll(int n, int j);
   void index(int i);
@@ -1100,18 +1100,18 @@ GBool PostScriptFunction::parseCode(Stream *str, int *codePtr) {
     if (isdigit(*p) || *p == '.' || *p == '-') {
       isReal = gFalse;
       for (++p; *p; ++p) {
-	if (*p == '.') {
-	  isReal = gTrue;
-	  break;
-	}
+    if (*p == '.') {
+      isReal = gTrue;
+      break;
+    }
       }
       resizeCode(*codePtr);
       if (isReal) {
-	code[*codePtr].type = psReal;
-	code[*codePtr].real = atof(tok->getCString());
+    code[*codePtr].type = psReal;
+    code[*codePtr].real = atof(tok->getCString());
       } else {
-	code[*codePtr].type = psInt;
-	code[*codePtr].intg = atoi(tok->getCString());
+    code[*codePtr].type = psInt;
+    code[*codePtr].intg = atoi(tok->getCString());
       }
       ++*codePtr;
       delete tok;
@@ -1121,49 +1121,49 @@ GBool PostScriptFunction::parseCode(Stream *str, int *codePtr) {
       *codePtr += 3;
       resizeCode(opPtr + 2);
       if (!parseCode(str, codePtr)) {
-	return gFalse;
+    return gFalse;
       }
       if (!(tok = getToken(str))) {
-	error(-1, "Unexpected end of PostScript function stream");
-	return gFalse;
+    error(-1, "Unexpected end of PostScript function stream");
+    return gFalse;
       }
       if (!tok->cmp("{")) {
-	elsePtr = *codePtr;
-	if (!parseCode(str, codePtr)) {
-	  return gFalse;
-	}
-	delete tok;
-	if (!(tok = getToken(str))) {
-	  error(-1, "Unexpected end of PostScript function stream");
-	  return gFalse;
-	}
+    elsePtr = *codePtr;
+    if (!parseCode(str, codePtr)) {
+      return gFalse;
+    }
+    delete tok;
+    if (!(tok = getToken(str))) {
+      error(-1, "Unexpected end of PostScript function stream");
+      return gFalse;
+    }
       } else {
-	elsePtr = -1;
+    elsePtr = -1;
       }
       if (!tok->cmp("if")) {
-	if (elsePtr >= 0) {
-	  error(-1, "Got 'if' operator with two blocks in PostScript function");
-	  return gFalse;
-	}
-	code[opPtr].type = psOperator;
-	code[opPtr].op = psOpIf;
-	code[opPtr+2].type = psBlock;
-	code[opPtr+2].blk = *codePtr;
+    if (elsePtr >= 0) {
+      error(-1, "Got 'if' operator with two blocks in PostScript function");
+      return gFalse;
+    }
+    code[opPtr].type = psOperator;
+    code[opPtr].op = psOpIf;
+    code[opPtr+2].type = psBlock;
+    code[opPtr+2].blk = *codePtr;
       } else if (!tok->cmp("ifelse")) {
-	if (elsePtr < 0) {
-	  error(-1, "Got 'ifelse' operator with one blocks in PostScript function");
-	  return gFalse;
-	}
-	code[opPtr].type = psOperator;
-	code[opPtr].op = psOpIfelse;
-	code[opPtr+1].type = psBlock;
-	code[opPtr+1].blk = elsePtr;
-	code[opPtr+2].type = psBlock;
-	code[opPtr+2].blk = *codePtr;
+    if (elsePtr < 0) {
+      error(-1, "Got 'ifelse' operator with one blocks in PostScript function");
+      return gFalse;
+    }
+    code[opPtr].type = psOperator;
+    code[opPtr].op = psOpIfelse;
+    code[opPtr+1].type = psBlock;
+    code[opPtr+1].blk = elsePtr;
+    code[opPtr+2].type = psBlock;
+    code[opPtr+2].blk = *codePtr;
       } else {
-	error(-1, "Expected if/ifelse operator in PostScript function");
-	delete tok;
-	return gFalse;
+    error(-1, "Expected if/ifelse operator in PostScript function");
+    delete tok;
+    return gFalse;
       }
       delete tok;
     } else if (!tok->cmp("}")) {
@@ -1178,21 +1178,21 @@ GBool PostScriptFunction::parseCode(Stream *str, int *codePtr) {
       b = nPSOps;
       // invariant: psOpNames[a] < tok < psOpNames[b]
       while (b - a > 1) {
-	mid = (a + b) / 2;
-	cmp = tok->cmp(psOpNames[mid]);
-	if (cmp > 0) {
-	  a = mid;
-	} else if (cmp < 0) {
-	  b = mid;
-	} else {
-	  a = b = mid;
-	}
+    mid = (a + b) / 2;
+    cmp = tok->cmp(psOpNames[mid]);
+    if (cmp > 0) {
+      a = mid;
+    } else if (cmp < 0) {
+      b = mid;
+    } else {
+      a = b = mid;
+    }
       }
       if (cmp != 0) {
-	error(-1, "Unknown operator '%s' in PostScript function",
-	      tok->getCString());
-	delete tok;
-	return gFalse;
+    error(-1, "Unknown operator '%s' in PostScript function",
+          tok->getCString());
+    delete tok;
+    return gFalse;
       }
       delete tok;
       resizeCode(*codePtr);
@@ -1218,7 +1218,7 @@ GString *PostScriptFunction::getToken(Stream *str) {
     codeString->append(c);
     if (comment) {
       if (c == '\x0a' || c == '\x0d') {
-	comment = gFalse;
+    comment = gFalse;
       }
     } else if (c == '%') {
       comment = gTrue;
@@ -1233,7 +1233,7 @@ GString *PostScriptFunction::getToken(Stream *str) {
       s->append((char)c);
       c = str->lookChar();
       if (c == EOF || !(isdigit(c) || c == '.' || c == '-')) {
-	break;
+    break;
       }
       str->getChar();
       codeString->append(c);
@@ -1243,7 +1243,7 @@ GString *PostScriptFunction::getToken(Stream *str) {
       s->append((char)c);
       c = str->lookChar();
       if (c == EOF || !isalnum(c)) {
-	break;
+    break;
       }
       str->getChar();
       codeString->append(c);
@@ -1275,294 +1275,294 @@ void PostScriptFunction::exec(PSStack *stack, int codePtr) {
     case psOperator:
       switch (code[codePtr++].op) {
       case psOpAbs:
-	if (stack->topIsInt()) {
-	  stack->pushInt(abs(stack->popInt()));
-	} else {
-	  stack->pushReal(fabs(stack->popNum()));
-	}
-	break;
+    if (stack->topIsInt()) {
+      stack->pushInt(abs(stack->popInt()));
+    } else {
+      stack->pushReal(fabs(stack->popNum()));
+    }
+    break;
       case psOpAdd:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushInt(i1 + i2);
-	} else {
-	  r2 = stack->popNum();
-	  r1 = stack->popNum();
-	  stack->pushReal(r1 + r2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushInt(i1 + i2);
+    } else {
+      r2 = stack->popNum();
+      r1 = stack->popNum();
+      stack->pushReal(r1 + r2);
+    }
+    break;
       case psOpAnd:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushInt(i1 & i2);
-	} else {
-	  b2 = stack->popBool();
-	  b1 = stack->popBool();
-	  stack->pushBool(b1 && b2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushInt(i1 & i2);
+    } else {
+      b2 = stack->popBool();
+      b1 = stack->popBool();
+      stack->pushBool(b1 && b2);
+    }
+    break;
       case psOpAtan:
-	r2 = stack->popNum();
-	r1 = stack->popNum();
-	stack->pushReal(atan2(r1, r2));
-	break;
+    r2 = stack->popNum();
+    r1 = stack->popNum();
+    stack->pushReal(atan2(r1, r2));
+    break;
       case psOpBitshift:
-	i2 = stack->popInt();
-	i1 = stack->popInt();
-	if (i2 > 0) {
-	  stack->pushInt(i1 << i2);
-	} else if (i2 < 0) {
-	  stack->pushInt((int)((Guint)i1 >> i2));
-	} else {
-	  stack->pushInt(i1);
-	}
-	break;
+    i2 = stack->popInt();
+    i1 = stack->popInt();
+    if (i2 > 0) {
+      stack->pushInt(i1 << i2);
+    } else if (i2 < 0) {
+      stack->pushInt((int)((Guint)i1 >> i2));
+    } else {
+      stack->pushInt(i1);
+    }
+    break;
       case psOpCeiling:
-	if (!stack->topIsInt()) {
-	  stack->pushReal(ceil(stack->popNum()));
-	}
-	break;
+    if (!stack->topIsInt()) {
+      stack->pushReal(ceil(stack->popNum()));
+    }
+    break;
       case psOpCopy:
-	stack->copy(stack->popInt());
-	break;
+    stack->copy(stack->popInt());
+    break;
       case psOpCos:
-	stack->pushReal(cos(stack->popNum()));
-	break;
+    stack->pushReal(cos(stack->popNum()));
+    break;
       case psOpCvi:
-	if (!stack->topIsInt()) {
-	  stack->pushInt((int)stack->popNum());
-	}
-	break;
+    if (!stack->topIsInt()) {
+      stack->pushInt((int)stack->popNum());
+    }
+    break;
       case psOpCvr:
-	if (!stack->topIsReal()) {
-	  stack->pushReal(stack->popNum());
-	}
-	break;
+    if (!stack->topIsReal()) {
+      stack->pushReal(stack->popNum());
+    }
+    break;
       case psOpDiv:
-	r2 = stack->popNum();
-	r1 = stack->popNum();
-	stack->pushReal(r1 / r2);
-	break;
+    r2 = stack->popNum();
+    r1 = stack->popNum();
+    stack->pushReal(r1 / r2);
+    break;
       case psOpDup:
-	stack->copy(1);
-	break;
+    stack->copy(1);
+    break;
       case psOpEq:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushBool(i1 == i2);
-	} else if (stack->topTwoAreNums()) {
-	  r2 = stack->popNum();
-	  r1 = stack->popNum();
-	  stack->pushBool(r1 == r2);
-	} else {
-	  b2 = stack->popBool();
-	  b1 = stack->popBool();
-	  stack->pushBool(b1 == b2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushBool(i1 == i2);
+    } else if (stack->topTwoAreNums()) {
+      r2 = stack->popNum();
+      r1 = stack->popNum();
+      stack->pushBool(r1 == r2);
+    } else {
+      b2 = stack->popBool();
+      b1 = stack->popBool();
+      stack->pushBool(b1 == b2);
+    }
+    break;
       case psOpExch:
-	stack->roll(2, 1);
-	break;
+    stack->roll(2, 1);
+    break;
       case psOpExp:
-	r2 = stack->popNum();
-	r1 = stack->popNum();
-	stack->pushReal(pow(r1, r2));
-	break;
+    r2 = stack->popNum();
+    r1 = stack->popNum();
+    stack->pushReal(pow(r1, r2));
+    break;
       case psOpFalse:
-	stack->pushBool(gFalse);
-	break;
+    stack->pushBool(gFalse);
+    break;
       case psOpFloor:
-	if (!stack->topIsInt()) {
-	  stack->pushReal(floor(stack->popNum()));
-	}
-	break;
+    if (!stack->topIsInt()) {
+      stack->pushReal(floor(stack->popNum()));
+    }
+    break;
       case psOpGe:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushBool(i1 >= i2);
-	} else {
-	  r2 = stack->popNum();
-	  r1 = stack->popNum();
-	  stack->pushBool(r1 >= r2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushBool(i1 >= i2);
+    } else {
+      r2 = stack->popNum();
+      r1 = stack->popNum();
+      stack->pushBool(r1 >= r2);
+    }
+    break;
       case psOpGt:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushBool(i1 > i2);
-	} else {
-	  r2 = stack->popNum();
-	  r1 = stack->popNum();
-	  stack->pushBool(r1 > r2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushBool(i1 > i2);
+    } else {
+      r2 = stack->popNum();
+      r1 = stack->popNum();
+      stack->pushBool(r1 > r2);
+    }
+    break;
       case psOpIdiv:
-	i2 = stack->popInt();
-	i1 = stack->popInt();
-	stack->pushInt(i1 / i2);
-	break;
+    i2 = stack->popInt();
+    i1 = stack->popInt();
+    stack->pushInt(i1 / i2);
+    break;
       case psOpIndex:
-	stack->index(stack->popInt());
-	break;
+    stack->index(stack->popInt());
+    break;
       case psOpLe:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushBool(i1 <= i2);
-	} else {
-	  r2 = stack->popNum();
-	  r1 = stack->popNum();
-	  stack->pushBool(r1 <= r2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushBool(i1 <= i2);
+    } else {
+      r2 = stack->popNum();
+      r1 = stack->popNum();
+      stack->pushBool(r1 <= r2);
+    }
+    break;
       case psOpLn:
-	stack->pushReal(log(stack->popNum()));
-	break;
+    stack->pushReal(log(stack->popNum()));
+    break;
       case psOpLog:
-	stack->pushReal(log10(stack->popNum()));
-	break;
+    stack->pushReal(log10(stack->popNum()));
+    break;
       case psOpLt:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushBool(i1 < i2);
-	} else {
-	  r2 = stack->popNum();
-	  r1 = stack->popNum();
-	  stack->pushBool(r1 < r2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushBool(i1 < i2);
+    } else {
+      r2 = stack->popNum();
+      r1 = stack->popNum();
+      stack->pushBool(r1 < r2);
+    }
+    break;
       case psOpMod:
-	i2 = stack->popInt();
-	i1 = stack->popInt();
-	stack->pushInt(i1 % i2);
-	break;
+    i2 = stack->popInt();
+    i1 = stack->popInt();
+    stack->pushInt(i1 % i2);
+    break;
       case psOpMul:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  //~ should check for out-of-range, and push a real instead
-	  stack->pushInt(i1 * i2);
-	} else {
-	  r2 = stack->popNum();
-	  r1 = stack->popNum();
-	  stack->pushReal(r1 * r2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      //~ should check for out-of-range, and push a real instead
+      stack->pushInt(i1 * i2);
+    } else {
+      r2 = stack->popNum();
+      r1 = stack->popNum();
+      stack->pushReal(r1 * r2);
+    }
+    break;
       case psOpNe:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushBool(i1 != i2);
-	} else if (stack->topTwoAreNums()) {
-	  r2 = stack->popNum();
-	  r1 = stack->popNum();
-	  stack->pushBool(r1 != r2);
-	} else {
-	  b2 = stack->popBool();
-	  b1 = stack->popBool();
-	  stack->pushBool(b1 != b2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushBool(i1 != i2);
+    } else if (stack->topTwoAreNums()) {
+      r2 = stack->popNum();
+      r1 = stack->popNum();
+      stack->pushBool(r1 != r2);
+    } else {
+      b2 = stack->popBool();
+      b1 = stack->popBool();
+      stack->pushBool(b1 != b2);
+    }
+    break;
       case psOpNeg:
-	if (stack->topIsInt()) {
-	  stack->pushInt(-stack->popInt());
-	} else {
-	  stack->pushReal(-stack->popNum());
-	}
-	break;
+    if (stack->topIsInt()) {
+      stack->pushInt(-stack->popInt());
+    } else {
+      stack->pushReal(-stack->popNum());
+    }
+    break;
       case psOpNot:
-	if (stack->topIsInt()) {
-	  stack->pushInt(~stack->popInt());
-	} else {
-	  stack->pushBool(!stack->popBool());
-	}
-	break;
+    if (stack->topIsInt()) {
+      stack->pushInt(~stack->popInt());
+    } else {
+      stack->pushBool(!stack->popBool());
+    }
+    break;
       case psOpOr:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushInt(i1 | i2);
-	} else {
-	  b2 = stack->popBool();
-	  b1 = stack->popBool();
-	  stack->pushBool(b1 || b2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushInt(i1 | i2);
+    } else {
+      b2 = stack->popBool();
+      b1 = stack->popBool();
+      stack->pushBool(b1 || b2);
+    }
+    break;
       case psOpPop:
-	stack->pop();
-	break;
+    stack->pop();
+    break;
       case psOpRoll:
-	i2 = stack->popInt();
-	i1 = stack->popInt();
-	stack->roll(i1, i2);
-	break;
+    i2 = stack->popInt();
+    i1 = stack->popInt();
+    stack->roll(i1, i2);
+    break;
       case psOpRound:
-	if (!stack->topIsInt()) {
-	  r1 = stack->popNum();
-	  stack->pushReal((r1 >= 0) ? floor(r1 + 0.5) : ceil(r1 - 0.5));
-	}
-	break;
+    if (!stack->topIsInt()) {
+      r1 = stack->popNum();
+      stack->pushReal((r1 >= 0) ? floor(r1 + 0.5) : ceil(r1 - 0.5));
+    }
+    break;
       case psOpSin:
-	stack->pushReal(sin(stack->popNum()));
-	break;
+    stack->pushReal(sin(stack->popNum()));
+    break;
       case psOpSqrt:
-	stack->pushReal(sqrt(stack->popNum()));
-	break;
+    stack->pushReal(sqrt(stack->popNum()));
+    break;
       case psOpSub:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushInt(i1 - i2);
-	} else {
-	  r2 = stack->popNum();
-	  r1 = stack->popNum();
-	  stack->pushReal(r1 - r2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushInt(i1 - i2);
+    } else {
+      r2 = stack->popNum();
+      r1 = stack->popNum();
+      stack->pushReal(r1 - r2);
+    }
+    break;
       case psOpTrue:
-	stack->pushBool(gTrue);
-	break;
+    stack->pushBool(gTrue);
+    break;
       case psOpTruncate:
-	if (!stack->topIsInt()) {
-	  r1 = stack->popNum();
-	  stack->pushReal((r1 >= 0) ? floor(r1) : ceil(r1));
-	}
-	break;
+    if (!stack->topIsInt()) {
+      r1 = stack->popNum();
+      stack->pushReal((r1 >= 0) ? floor(r1) : ceil(r1));
+    }
+    break;
       case psOpXor:
-	if (stack->topTwoAreInts()) {
-	  i2 = stack->popInt();
-	  i1 = stack->popInt();
-	  stack->pushInt(i1 ^ i2);
-	} else {
-	  b2 = stack->popBool();
-	  b1 = stack->popBool();
-	  stack->pushBool(b1 ^ b2);
-	}
-	break;
+    if (stack->topTwoAreInts()) {
+      i2 = stack->popInt();
+      i1 = stack->popInt();
+      stack->pushInt(i1 ^ i2);
+    } else {
+      b2 = stack->popBool();
+      b1 = stack->popBool();
+      stack->pushBool(b1 ^ b2);
+    }
+    break;
       case psOpIf:
-	b1 = stack->popBool();
-	if (b1) {
-	  exec(stack, codePtr + 2);
-	}
-	codePtr = code[codePtr + 1].blk;
-	break;
+    b1 = stack->popBool();
+    if (b1) {
+      exec(stack, codePtr + 2);
+    }
+    codePtr = code[codePtr + 1].blk;
+    break;
       case psOpIfelse:
-	b1 = stack->popBool();
-	if (b1) {
-	  exec(stack, codePtr + 2);
-	} else {
-	  exec(stack, code[codePtr].blk);
-	}
-	codePtr = code[codePtr + 1].blk;
-	break;
+    b1 = stack->popBool();
+    if (b1) {
+      exec(stack, codePtr + 2);
+    } else {
+      exec(stack, code[codePtr].blk);
+    }
+    codePtr = code[codePtr + 1].blk;
+    break;
       case psOpReturn:
-	return;
+    return;
       }
       break;
     default:

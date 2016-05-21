@@ -24,15 +24,15 @@
 // SplashClip.flags
 //------------------------------------------------------------------------
 
-#define splashClipEO       0x01	// use even-odd rule
+#define splashClipEO       0x01    // use even-odd rule
 
 //------------------------------------------------------------------------
 // SplashClip
 //------------------------------------------------------------------------
 
 SplashClip::SplashClip(SplashCoord x0, SplashCoord y0,
-		       SplashCoord x1, SplashCoord y1,
-		       GBool antialiasA) {
+               SplashCoord x1, SplashCoord y1,
+               GBool antialiasA) {
   antialias = antialiasA;
   if (x0 < x1) {
     xMin = x0;
@@ -111,7 +111,7 @@ void SplashClip::grow(int nPaths) {
 }
 
 void SplashClip::resetToRect(SplashCoord x0, SplashCoord y0,
-			     SplashCoord x1, SplashCoord y1) {
+                 SplashCoord x1, SplashCoord y1) {
   int i;
 
   for (i = 0; i < length; ++i) {
@@ -147,7 +147,7 @@ void SplashClip::resetToRect(SplashCoord x0, SplashCoord y0,
 }
 
 SplashError SplashClip::clipToRect(SplashCoord x0, SplashCoord y0,
-				   SplashCoord x1, SplashCoord y1) {
+                   SplashCoord x1, SplashCoord y1) {
   if (x0 < x1) {
     if (x0 > xMin) {
       xMin = x0;
@@ -190,7 +190,7 @@ SplashError SplashClip::clipToRect(SplashCoord x0, SplashCoord y0,
 }
 
 SplashError SplashClip::clipToPath(SplashPath *path, SplashCoord *matrix,
-				   SplashCoord flatness, GBool eo) {
+                   SplashCoord flatness, GBool eo) {
   SplashXPath *xPath;
 
   xPath = new SplashXPath(path, matrix, flatness, gTrue);
@@ -205,32 +205,32 @@ SplashError SplashClip::clipToPath(SplashPath *path, SplashCoord *matrix,
 
   // check for a rectangle
   } else if (xPath->length == 4 &&
-	     ((xPath->segs[0].x0 == xPath->segs[0].x1 &&
-	       xPath->segs[0].x0 == xPath->segs[1].x0 &&
-	       xPath->segs[0].x0 == xPath->segs[3].x1 &&
-	       xPath->segs[2].x0 == xPath->segs[2].x1 &&
-	       xPath->segs[2].x0 == xPath->segs[1].x1 &&
-	       xPath->segs[2].x0 == xPath->segs[3].x0 &&
-	       xPath->segs[1].y0 == xPath->segs[1].y1 &&
-	       xPath->segs[1].y0 == xPath->segs[0].y1 &&
-	       xPath->segs[1].y0 == xPath->segs[2].y0 &&
-	       xPath->segs[3].y0 == xPath->segs[3].y1 &&
-	       xPath->segs[3].y0 == xPath->segs[0].y0 &&
-	       xPath->segs[3].y0 == xPath->segs[2].y1) ||
-	      (xPath->segs[0].y0 == xPath->segs[0].y1 &&
-	       xPath->segs[0].y0 == xPath->segs[1].y0 &&
-	       xPath->segs[0].y0 == xPath->segs[3].y1 &&
-	       xPath->segs[2].y0 == xPath->segs[2].y1 &&
-	       xPath->segs[2].y0 == xPath->segs[1].y1 &&
-	       xPath->segs[2].y0 == xPath->segs[3].y0 &&
-	       xPath->segs[1].x0 == xPath->segs[1].x1 &&
-	       xPath->segs[1].x0 == xPath->segs[0].x1 &&
-	       xPath->segs[1].x0 == xPath->segs[2].x0 &&
-	       xPath->segs[3].x0 == xPath->segs[3].x1 &&
-	       xPath->segs[3].x0 == xPath->segs[0].x0 &&
-	       xPath->segs[3].x0 == xPath->segs[2].x1))) {
+         ((xPath->segs[0].x0 == xPath->segs[0].x1 &&
+           xPath->segs[0].x0 == xPath->segs[1].x0 &&
+           xPath->segs[0].x0 == xPath->segs[3].x1 &&
+           xPath->segs[2].x0 == xPath->segs[2].x1 &&
+           xPath->segs[2].x0 == xPath->segs[1].x1 &&
+           xPath->segs[2].x0 == xPath->segs[3].x0 &&
+           xPath->segs[1].y0 == xPath->segs[1].y1 &&
+           xPath->segs[1].y0 == xPath->segs[0].y1 &&
+           xPath->segs[1].y0 == xPath->segs[2].y0 &&
+           xPath->segs[3].y0 == xPath->segs[3].y1 &&
+           xPath->segs[3].y0 == xPath->segs[0].y0 &&
+           xPath->segs[3].y0 == xPath->segs[2].y1) ||
+          (xPath->segs[0].y0 == xPath->segs[0].y1 &&
+           xPath->segs[0].y0 == xPath->segs[1].y0 &&
+           xPath->segs[0].y0 == xPath->segs[3].y1 &&
+           xPath->segs[2].y0 == xPath->segs[2].y1 &&
+           xPath->segs[2].y0 == xPath->segs[1].y1 &&
+           xPath->segs[2].y0 == xPath->segs[3].y0 &&
+           xPath->segs[1].x0 == xPath->segs[1].x1 &&
+           xPath->segs[1].x0 == xPath->segs[0].x1 &&
+           xPath->segs[1].x0 == xPath->segs[2].x0 &&
+           xPath->segs[3].x0 == xPath->segs[3].x1 &&
+           xPath->segs[3].x0 == xPath->segs[0].x0 &&
+           xPath->segs[3].x0 == xPath->segs[2].x1))) {
     clipToRect(xPath->segs[0].x0, xPath->segs[0].y0,
-	       xPath->segs[2].x0, xPath->segs[2].y0);
+           xPath->segs[2].x0, xPath->segs[2].y0);
     delete xPath;
 
   } else {
@@ -260,13 +260,13 @@ GBool SplashClip::test(int x, int y) {
   if (antialias) {
     for (i = 0; i < length; ++i) {
       if (!scanners[i]->test(x * splashAASize, y * splashAASize)) {
-	return gFalse;
+    return gFalse;
       }
     }
   } else {
     for (i = 0; i < length; ++i) {
       if (!scanners[i]->test(x, y)) {
-	return gFalse;
+    return gFalse;
       }
     }
   }
@@ -275,7 +275,7 @@ GBool SplashClip::test(int x, int y) {
 }
 
 SplashClipResult SplashClip::testRect(int rectXMin, int rectYMin,
-				      int rectXMax, int rectYMax) {
+                      int rectXMax, int rectYMax) {
   // This tests the rectangle:
   //     x = [rectXMin, rectXMax + 1)    (note: rect coords are ints)
   //     y = [rectYMin, rectYMax + 1)
@@ -308,21 +308,21 @@ SplashClipResult SplashClip::testSpan(int spanXMin, int spanXMax, int spanY) {
     return splashClipAllOutside;
   }
   if (!((SplashCoord)spanXMin >= xMin && (SplashCoord)(spanXMax + 1) <= xMax &&
-	(SplashCoord)spanY >= yMin && (SplashCoord)(spanY + 1) <= yMax)) {
+    (SplashCoord)spanY >= yMin && (SplashCoord)(spanY + 1) <= yMax)) {
     return splashClipPartial;
   }
   if (antialias) {
     for (i = 0; i < length; ++i) {
       if (!scanners[i]->testSpan(spanXMin * splashAASize,
-				 spanXMax * splashAASize + (splashAASize - 1),
-				 spanY * splashAASize)) {
-	return splashClipPartial;
+                 spanXMax * splashAASize + (splashAASize - 1),
+                 spanY * splashAASize)) {
+    return splashClipPartial;
       }
     }
   } else {
     for (i = 0; i < length; ++i) {
       if (!scanners[i]->testSpan(spanXMin, spanXMax, spanY)) {
-	return splashClipPartial;
+    return splashClipPartial;
       }
     }
   }
@@ -344,10 +344,10 @@ void SplashClip::clipAALine(SplashBitmap *aaBuf, int *x0, int *x1, int y) {
     for (yy = 0; yy < splashAASize; ++yy) {
       p = aaBuf->getDataPtr() + yy * aaBuf->getRowSize() + (xx0 >> 3);
       for (xx = xx0; xx + 7 < xx1; xx += 8) {
-	*p++ = 0;
+    *p++ = 0;
       }
       if (xx < xx1) {
-	*p &= 0xff >> (xx1 & 7);
+    *p &= 0xff >> (xx1 & 7);
       }
     }
     *x0 = splashFloor(xMin);
@@ -364,12 +364,12 @@ void SplashClip::clipAALine(SplashBitmap *aaBuf, int *x0, int *x1, int y) {
       p = aaBuf->getDataPtr() + yy * aaBuf->getRowSize() + (xx0 >> 3);
       xx = xx0;
       if (xx & 7) {
-	*p &= 0xff00 >> (xx & 7);
-	xx = (xx & ~7) + 8;
-	++p;
+    *p &= 0xff00 >> (xx & 7);
+    xx = (xx & ~7) + 8;
+    ++p;
       }
       for (; xx < xx1; xx += 8) {
-	*p++ = 0;
+    *p++ = 0;
       }
     }
     *x1 = splashFloor(xMax);

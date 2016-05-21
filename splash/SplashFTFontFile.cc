@@ -22,10 +22,10 @@
 //------------------------------------------------------------------------
 
 SplashFontFile *SplashFTFontFile::loadType1Font(SplashFTFontEngine *engineA,
-						SplashFontFileID *idA,
-						char *fileNameA,
-						GBool deleteFileA,
-						char **encA) {
+                        SplashFontFileID *idA,
+                        char *fileNameA,
+                        GBool deleteFileA,
+                        char **encA) {
   FT_Face faceA;
   Gushort *codeToGIDA;
   char *name;
@@ -43,15 +43,15 @@ SplashFontFile *SplashFTFontFile::loadType1Font(SplashFTFontEngine *engineA,
   }
 
   return new SplashFTFontFile(engineA, idA, fileNameA, deleteFileA,
-			      faceA, codeToGIDA, 256, gFalse);
+                  faceA, codeToGIDA, 256, gFalse);
 }
 
 SplashFontFile *SplashFTFontFile::loadCIDFont(SplashFTFontEngine *engineA,
-					      SplashFontFileID *idA,
-					      char *fileNameA,
-					      GBool deleteFileA,
-					      Gushort *codeToGIDA,
-					      int codeToGIDLenA) {
+                          SplashFontFileID *idA,
+                          char *fileNameA,
+                          GBool deleteFileA,
+                          Gushort *codeToGIDA,
+                          int codeToGIDLenA) {
   FT_Face faceA;
 
   if (FT_New_Face(engineA->lib, fileNameA, 0, &faceA)) {
@@ -59,15 +59,15 @@ SplashFontFile *SplashFTFontFile::loadCIDFont(SplashFTFontEngine *engineA,
   }
 
   return new SplashFTFontFile(engineA, idA, fileNameA, deleteFileA,
-			      faceA, codeToGIDA, codeToGIDLenA, gFalse);
+                  faceA, codeToGIDA, codeToGIDLenA, gFalse);
 }
 
 SplashFontFile *SplashFTFontFile::loadTrueTypeFont(SplashFTFontEngine *engineA,
-						   SplashFontFileID *idA,
-						   char *fileNameA,
-						   GBool deleteFileA,
-						   Gushort *codeToGIDA,
-						   int codeToGIDLenA) {
+                           SplashFontFileID *idA,
+                           char *fileNameA,
+                           GBool deleteFileA,
+                           Gushort *codeToGIDA,
+                           int codeToGIDLenA) {
   FT_Face faceA;
 
   if (FT_New_Face(engineA->lib, fileNameA, 0, &faceA)) {
@@ -75,15 +75,15 @@ SplashFontFile *SplashFTFontFile::loadTrueTypeFont(SplashFTFontEngine *engineA,
   }
 
   return new SplashFTFontFile(engineA, idA, fileNameA, deleteFileA,
-			      faceA, codeToGIDA, codeToGIDLenA, gTrue);
+                  faceA, codeToGIDA, codeToGIDLenA, gTrue);
 }
 
 SplashFTFontFile::SplashFTFontFile(SplashFTFontEngine *engineA,
-				   SplashFontFileID *idA,
-				   char *fileNameA, GBool deleteFileA,
-				   FT_Face faceA,
-				   Gushort *codeToGIDA, int codeToGIDLenA,
-				   GBool trueTypeA):
+                   SplashFontFileID *idA,
+                   char *fileNameA, GBool deleteFileA,
+                   FT_Face faceA,
+                   Gushort *codeToGIDA, int codeToGIDLenA,
+                   GBool trueTypeA):
   SplashFontFile(idA, fileNameA, deleteFileA)
 {
   engine = engineA;
@@ -103,7 +103,7 @@ SplashFTFontFile::~SplashFTFontFile() {
 }
 
 SplashFont *SplashFTFontFile::makeFont(SplashCoord *mat,
-				       SplashCoord *textMat) {
+                       SplashCoord *textMat) {
   SplashFont *font;
 
   font = new SplashFTFont(this, mat, textMat);

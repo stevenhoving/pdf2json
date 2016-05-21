@@ -55,7 +55,7 @@ GHash::~GHash() {
       p = tab[h];
       tab[h] = p->next;
       if (deleteKeys) {
-	delete p->key;
+    delete p->key;
       }
       delete p;
     }

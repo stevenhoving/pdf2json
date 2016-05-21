@@ -114,8 +114,8 @@ SplashError SplashPath::lineTo(SplashCoord x, SplashCoord y) {
 }
 
 SplashError SplashPath::curveTo(SplashCoord x1, SplashCoord y1,
-				SplashCoord x2, SplashCoord y2,
-				SplashCoord x3, SplashCoord y3) {
+                SplashCoord x2, SplashCoord y2,
+                SplashCoord x3, SplashCoord y3) {
   if (noCurrentPoint()) {
     return splashErrNoCurPt;
   }
@@ -152,11 +152,11 @@ SplashError SplashPath::close() {
 }
 
 void SplashPath::addStrokeAdjustHint(int ctrl0, int ctrl1,
-				     int firstPt, int lastPt) {
+                     int firstPt, int lastPt) {
   if (hintsLength == hintsSize) {
     hintsSize = hintsLength ? 2 * hintsLength : 8;
     hints = (SplashPathHint *)greallocn(hints, hintsSize,
-					sizeof(SplashPathHint));
+                    sizeof(SplashPathHint));
   }
   hints[hintsLength].ctrl0 = ctrl0;
   hints[hintsLength].ctrl1 = ctrl1;

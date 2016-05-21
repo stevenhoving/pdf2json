@@ -174,7 +174,7 @@ void Object::print(FILE *f) {
     fprintf(f, "[");
     for (i = 0; i < arrayGetLength(); ++i) {
       if (i > 0)
-	fprintf(f, " ");
+    fprintf(f, " ");
       arrayGetNF(i, &obj);
       obj.print(f);
       obj.free();
@@ -224,7 +224,7 @@ void Object::memCheck(FILE *f) {
     fprintf(f, "Allocated objects:\n");
     for (i = 0; i < numObjTypes; ++i) {
       if (numAlloc[i] > 0)
-	fprintf(f, "  %-20s: %6d\n", objTypeNames[i], numAlloc[i]);
+    fprintf(f, "  %-20s: %6d\n", objTypeNames[i], numAlloc[i]);
     }
   }
 #endif

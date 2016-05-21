@@ -41,12 +41,12 @@ extern "C" int unlink(char *filename);
 
 SplashFontEngine::SplashFontEngine(
 #if HAVE_T1LIB_H
-				   GBool enableT1lib,
+                   GBool enableT1lib,
 #endif
 #if HAVE_FREETYPE_FREETYPE_H || HAVE_FREETYPE_H
-				   GBool enableFreeType,
+                   GBool enableFreeType,
 #endif
-				   GBool aa) {
+                   GBool aa) {
   int i;
 
   for (i = 0; i < splashFontCacheSize; ++i) {
@@ -98,7 +98,7 @@ SplashFontFile *SplashFontEngine::getFontFile(SplashFontFileID *id) {
     if (fontCache[i]) {
       fontFile = fontCache[i]->getFontFile();
       if (fontFile && fontFile->getID()->matches(id)) {
-	return fontFile;
+    return fontFile;
       }
     }
   }
@@ -106,8 +106,8 @@ SplashFontFile *SplashFontEngine::getFontFile(SplashFontFileID *id) {
 }
 
 SplashFontFile *SplashFontEngine::loadType1Font(SplashFontFileID *idA,
-						char *fileName,
-						GBool deleteFile, char **enc) {
+                        char *fileName,
+                        GBool deleteFile, char **enc) {
   SplashFontFile *fontFile;
 
   fontFile = NULL;
@@ -136,9 +136,9 @@ SplashFontFile *SplashFontEngine::loadType1Font(SplashFontFileID *idA,
 }
 
 SplashFontFile *SplashFontEngine::loadType1CFont(SplashFontFileID *idA,
-						 char *fileName,
-						 GBool deleteFile,
-						 char **enc) {
+                         char *fileName,
+                         GBool deleteFile,
+                         char **enc) {
   SplashFontFile *fontFile;
 
   fontFile = NULL;
@@ -167,9 +167,9 @@ SplashFontFile *SplashFontEngine::loadType1CFont(SplashFontFileID *idA,
 }
 
 SplashFontFile *SplashFontEngine::loadOpenTypeT1CFont(SplashFontFileID *idA,
-						      char *fileName,
-						      GBool deleteFile,
-						      char **enc) {
+                              char *fileName,
+                              GBool deleteFile,
+                              char **enc) {
   SplashFontFile *fontFile;
 
   fontFile = NULL;
@@ -193,8 +193,8 @@ SplashFontFile *SplashFontEngine::loadOpenTypeT1CFont(SplashFontFileID *idA,
 }
 
 SplashFontFile *SplashFontEngine::loadCIDFont(SplashFontFileID *idA,
-					      char *fileName,
-					      GBool deleteFile) {
+                          char *fileName,
+                          GBool deleteFile) {
   SplashFontFile *fontFile;
 
   fontFile = NULL;
@@ -218,8 +218,8 @@ SplashFontFile *SplashFontEngine::loadCIDFont(SplashFontFileID *idA,
 }
 
 SplashFontFile *SplashFontEngine::loadOpenTypeCFFFont(SplashFontFileID *idA,
-						      char *fileName,
-						      GBool deleteFile) {
+                              char *fileName,
+                              GBool deleteFile) {
   SplashFontFile *fontFile;
 
   fontFile = NULL;
@@ -243,17 +243,17 @@ SplashFontFile *SplashFontEngine::loadOpenTypeCFFFont(SplashFontFileID *idA,
 }
 
 SplashFontFile *SplashFontEngine::loadTrueTypeFont(SplashFontFileID *idA,
-						   char *fileName,
-						   GBool deleteFile,
-						   Gushort *codeToGID,
-						   int codeToGIDLen) {
+                           char *fileName,
+                           GBool deleteFile,
+                           Gushort *codeToGID,
+                           int codeToGIDLen) {
   SplashFontFile *fontFile;
 
   fontFile = NULL;
 #if HAVE_FREETYPE_FREETYPE_H || HAVE_FREETYPE_H
   if (!fontFile && ftEngine) {
     fontFile = ftEngine->loadTrueTypeFont(idA, fileName, deleteFile,
-					  codeToGID, codeToGIDLen);
+                      codeToGID, codeToGIDLen);
   }
 #endif
 
@@ -275,8 +275,8 @@ SplashFontFile *SplashFontEngine::loadTrueTypeFont(SplashFontFileID *idA,
 }
 
 SplashFont *SplashFontEngine::getFont(SplashFontFile *fontFile,
-				      SplashCoord *textMat,
-				      SplashCoord *ctm) {
+                      SplashCoord *textMat,
+                      SplashCoord *ctm) {
   SplashCoord mat[4];
   SplashFont *font;
   int i, j;
@@ -299,7 +299,7 @@ SplashFont *SplashFontEngine::getFont(SplashFontFile *fontFile,
     font = fontCache[i];
     if (font && font->matches(fontFile, mat, textMat)) {
       for (j = i; j > 0; --j) {
-	fontCache[j] = fontCache[j-1];
+    fontCache[j] = fontCache[j-1];
       }
       fontCache[0] = font;
       return font;

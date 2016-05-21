@@ -64,7 +64,7 @@ static Guchar bitReverse[256] = {
 //------------------------------------------------------------------------
 
 SplashT1Font::SplashT1Font(SplashT1FontFile *fontFileA, SplashCoord *matA,
-			   SplashCoord *textMatA):
+               SplashCoord *textMatA):
   SplashFont(fontFileA, matA, textMatA, fontFileA->engine->aa)
 {
   T1_TMATRIX matrix;
@@ -176,12 +176,12 @@ SplashT1Font::~SplashT1Font() {
 }
 
 GBool SplashT1Font::getGlyph(int c, int xFrac, int yFrac,
-			     SplashGlyphBitmap *bitmap) {
+                 SplashGlyphBitmap *bitmap) {
   return SplashFont::getGlyph(c, 0, 0, bitmap);
 }
 
 GBool SplashT1Font::makeGlyph(int c, int xFrac, int yFrac,
-			      SplashGlyphBitmap *bitmap) {
+                  SplashGlyphBitmap *bitmap) {
   GLYPH *glyph;
   int n, i;
 
@@ -226,7 +226,7 @@ SplashPath *SplashT1Font::getGlyphPath(int c) {
   if (outlineID < 0) {
     outlineID = T1_CopyFont(((SplashT1FontFile *)fontFile)->t1libID);
     outlineSize = (float)splashSqrt(textMat[2]*textMat[2] +
-				    textMat[3]*textMat[3]);
+                    textMat[3]*textMat[3]);
     matrix.cxx = (double)textMat[0] / outlineSize;
     matrix.cxy = (double)textMat[1] / outlineSize;
     matrix.cyx = (double)textMat[2] / outlineSize;
@@ -246,33 +246,33 @@ SplashPath *SplashT1Font::getGlyphPath(int c) {
     for (seg = outline; seg; seg = seg->link) {
       switch (seg->type) {
       case T1_PATHTYPE_MOVE:
-	if (needClose) {
-	  path->close();
-	  needClose = gFalse;
-	}
-	x += seg->dest.x * outlineMul;
-	y += seg->dest.y * outlineMul;
-	path->moveTo(x, -y);
-	break;
+    if (needClose) {
+      path->close();
+      needClose = gFalse;
+    }
+    x += seg->dest.x * outlineMul;
+    y += seg->dest.y * outlineMul;
+    path->moveTo(x, -y);
+    break;
       case T1_PATHTYPE_LINE:
-	x += seg->dest.x * outlineMul;
-	y += seg->dest.y * outlineMul;
-	path->lineTo(x, -y);
-	needClose = gTrue;
-	break;
+    x += seg->dest.x * outlineMul;
+    y += seg->dest.y * outlineMul;
+    path->lineTo(x, -y);
+    needClose = gTrue;
+    break;
       case T1_PATHTYPE_BEZIER:
-	bez = (T1_BEZIERSEGMENT *)seg;
-	x1 = x + (SplashCoord)(bez->dest.x * outlineMul);
-	y1 = y + (SplashCoord)(bez->dest.y * outlineMul);
-	path->curveTo(x + (SplashCoord)(bez->B.x * outlineMul),
-		      -(y + (SplashCoord)(bez->B.y * outlineMul)),
-		      x + (SplashCoord)(bez->C.x * outlineMul),
-		      -(y + (SplashCoord)(bez->C.y * outlineMul)),
-		      x1, -y1);
-	x = x1;
-	y = y1;
-	needClose = gTrue;
-	break;
+    bez = (T1_BEZIERSEGMENT *)seg;
+    x1 = x + (SplashCoord)(bez->dest.x * outlineMul);
+    y1 = y + (SplashCoord)(bez->dest.y * outlineMul);
+    path->curveTo(x + (SplashCoord)(bez->B.x * outlineMul),
+              -(y + (SplashCoord)(bez->B.y * outlineMul)),
+              x + (SplashCoord)(bez->C.x * outlineMul),
+              -(y + (SplashCoord)(bez->C.y * outlineMul)),
+              x1, -y1);
+    x = x1;
+    y = y1;
+    needClose = gTrue;
+    break;
       }
     }
     if (needClose) {

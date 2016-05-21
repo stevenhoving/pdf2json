@@ -65,7 +65,7 @@ GBool PSTokenizer::getToken(char *buf, int size, int *length) {
     }
     if (comment) {
       if (c == '\x0a' || c == '\x0d') {
-	comment = gFalse;
+    comment = gFalse;
       }
     } else if (c == '%') {
       comment = gTrue;
@@ -81,32 +81,32 @@ GBool PSTokenizer::getToken(char *buf, int size, int *length) {
     backslash = gFalse;
     while ((c = lookChar()) != EOF) {
       if (i < size - 1) {
-	buf[i++] = c;
+    buf[i++] = c;
       }
       getChar();
       if (c == '\\') {
-	backslash = gTrue;
+    backslash = gTrue;
       } else if (!backslash && c == ')') {
-	break;
+    break;
       } else {
-	backslash = gFalse;
+    backslash = gFalse;
       }
     }
   } else if (c == '<') {
     while ((c = lookChar()) != EOF) {
       getChar();
       if (i < size - 1 && specialChars[c] != 1) {
-	buf[i++] = c;
+    buf[i++] = c;
       }
       if (c == '>') {
-	break;
+    break;
       }
     }
   } else if (c != '[' && c != ']') {
     while ((c = lookChar()) != EOF && !specialChars[c]) {
       getChar();
       if (i < size - 1) {
-	buf[i++] = c;
+    buf[i++] = c;
       }
     }
   }

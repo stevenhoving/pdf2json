@@ -29,16 +29,16 @@
 static int glyphPathMoveTo(const FT_Vector *pt, void *path);
 static int glyphPathLineTo(const FT_Vector *pt, void *path);
 static int glyphPathConicTo(const FT_Vector *ctrl, const FT_Vector *pt,
-			    void *path);
+                void *path);
 static int glyphPathCubicTo(const FT_Vector *ctrl1, const FT_Vector *ctrl2,
-			    const FT_Vector *pt, void *path);
+                const FT_Vector *pt, void *path);
 
 //------------------------------------------------------------------------
 // SplashFTFont
 //------------------------------------------------------------------------
 
 SplashFTFont::SplashFTFont(SplashFTFontFile *fontFileA, SplashCoord *matA,
-			   SplashCoord *textMatA):
+               SplashCoord *textMatA):
   SplashFont(fontFileA, matA, textMatA, fontFileA->engine->aa)
 {
   FT_Face face;
@@ -63,48 +63,48 @@ SplashFTFont::SplashFTFont(SplashFTFontFile *fontFileA, SplashCoord *matA,
   // transform the four corners of the font bounding box -- the min
   // and max values form the bounding box of the transformed font
   x = (int)((mat[0] * face->bbox.xMin + mat[2] * face->bbox.yMin) /
-	    (div * face->units_per_EM));
+        (div * face->units_per_EM));
   xMin = xMax = x;
   y = (int)((mat[1] * face->bbox.xMin + mat[3] * face->bbox.yMin) /
-	    (div * face->units_per_EM));
+        (div * face->units_per_EM));
   yMin = yMax = y;
   x = (int)((mat[0] * face->bbox.xMin + mat[2] * face->bbox.yMax) /
-	    (div * face->units_per_EM));
+        (div * face->units_per_EM));
   if (x < xMin) {
     xMin = x;
   } else if (x > xMax) {
     xMax = x;
   }
   y = (int)((mat[1] * face->bbox.xMin + mat[3] * face->bbox.yMax) /
-	    (div * face->units_per_EM));
+        (div * face->units_per_EM));
   if (y < yMin) {
     yMin = y;
   } else if (y > yMax) {
     yMax = y;
   }
   x = (int)((mat[0] * face->bbox.xMax + mat[2] * face->bbox.yMin) /
-	    (div * face->units_per_EM));
+        (div * face->units_per_EM));
   if (x < xMin) {
     xMin = x;
   } else if (x > xMax) {
     xMax = x;
   }
   y = (int)((mat[1] * face->bbox.xMax + mat[3] * face->bbox.yMin) /
-	    (div * face->units_per_EM));
+        (div * face->units_per_EM));
   if (y < yMin) {
     yMin = y;
   } else if (y > yMax) {
     yMax = y;
   }
   x = (int)((mat[0] * face->bbox.xMax + mat[2] * face->bbox.yMax) /
-	    (div * face->units_per_EM));
+        (div * face->units_per_EM));
   if (x < xMin) {
     xMin = x;
   } else if (x > xMax) {
     xMax = x;
   }
   y = (int)((mat[1] * face->bbox.xMax + mat[3] * face->bbox.yMax) /
-	    (div * face->units_per_EM));
+        (div * face->units_per_EM));
   if (y < yMin) {
     yMin = y;
   } else if (y > yMax) {
@@ -147,12 +147,12 @@ SplashFTFont::~SplashFTFont() {
 }
 
 GBool SplashFTFont::getGlyph(int c, int xFrac, int yFrac,
-			     SplashGlyphBitmap *bitmap) {
+                 SplashGlyphBitmap *bitmap) {
   return SplashFont::getGlyph(c, xFrac, 0, bitmap);
 }
 
 GBool SplashFTFont::makeGlyph(int c, int xFrac, int yFrac,
-			      SplashGlyphBitmap *bitmap) {
+                  SplashGlyphBitmap *bitmap) {
   SplashFTFontFile *ff;
   FT_Vector offset;
   FT_GlyphSlot slot;
@@ -182,7 +182,7 @@ GBool SplashFTFont::makeGlyph(int c, int xFrac, int yFrac,
   // if we have the FT2 bytecode interpreter, autohinting won't be used
 #ifdef TT_CONFIG_OPTION_BYTECODE_INTERPRETER
   if (FT_Load_Glyph(ff->face, gid,
-		    aa ? FT_LOAD_NO_BITMAP : FT_LOAD_DEFAULT)) {
+            aa ? FT_LOAD_NO_BITMAP : FT_LOAD_DEFAULT)) {
     return gFalse;
   }
 #else
@@ -191,13 +191,13 @@ GBool SplashFTFont::makeGlyph(int c, int xFrac, int yFrac,
   // anti-aliasing is disabled, this seems to be a tossup - some fonts
   // look better with hinting, some without, so leave hinting on
   if (FT_Load_Glyph(ff->face, gid,
-		    aa ? FT_LOAD_NO_HINTING | FT_LOAD_NO_BITMAP
+            aa ? FT_LOAD_NO_HINTING | FT_LOAD_NO_BITMAP
                        : FT_LOAD_DEFAULT)) {
     return gFalse;
   }
 #endif
   if (FT_Render_Glyph(slot, aa ? ft_render_mode_normal
-		               : ft_render_mode_mono)) {
+                       : ft_render_mode_mono)) {
     return gFalse;
   }
 
@@ -272,7 +272,7 @@ SplashPath *SplashFTFont::getGlyphPath(int c) {
   path.textScale = textScale;
   path.needClose = gFalse;
   FT_Outline_Decompose(&((FT_OutlineGlyph)glyph)->outline,
-		       &outlineFuncs, &path);
+               &outlineFuncs, &path);
   if (path.needClose) {
     path.path->close();
   }
@@ -288,7 +288,7 @@ static int glyphPathMoveTo(const FT_Vector *pt, void *path) {
     p->needClose = gFalse;
   }
   p->path->moveTo((SplashCoord)pt->x * p->textScale / 64.0,
-		  (SplashCoord)pt->y * p->textScale / 64.0);
+          (SplashCoord)pt->y * p->textScale / 64.0);
   return 0;
 }
 
@@ -296,13 +296,13 @@ static int glyphPathLineTo(const FT_Vector *pt, void *path) {
   SplashFTFontPath *p = (SplashFTFontPath *)path;
 
   p->path->lineTo((SplashCoord)pt->x * p->textScale / 64.0,
-		  (SplashCoord)pt->y * p->textScale / 64.0);
+          (SplashCoord)pt->y * p->textScale / 64.0);
   p->needClose = gTrue;
   return 0;
 }
 
 static int glyphPathConicTo(const FT_Vector *ctrl, const FT_Vector *pt,
-			    void *path) {
+                void *path) {
   SplashFTFontPath *p = (SplashFTFontPath *)path;
   SplashCoord x0, y0, x1, y1, x2, y2, x3, y3, xc, yc;
 
@@ -341,15 +341,15 @@ static int glyphPathConicTo(const FT_Vector *ctrl, const FT_Vector *pt,
 }
 
 static int glyphPathCubicTo(const FT_Vector *ctrl1, const FT_Vector *ctrl2,
-			    const FT_Vector *pt, void *path) {
+                const FT_Vector *pt, void *path) {
   SplashFTFontPath *p = (SplashFTFontPath *)path;
 
   p->path->curveTo((SplashCoord)ctrl1->x * p->textScale / 64.0,
-		   (SplashCoord)ctrl1->y * p->textScale / 64.0,
-		   (SplashCoord)ctrl2->x * p->textScale / 64.0,
-		   (SplashCoord)ctrl2->y * p->textScale / 64.0,
-		   (SplashCoord)pt->x * p->textScale / 64.0,
-		   (SplashCoord)pt->y * p->textScale / 64.0);
+           (SplashCoord)ctrl1->y * p->textScale / 64.0,
+           (SplashCoord)ctrl2->x * p->textScale / 64.0,
+           (SplashCoord)ctrl2->y * p->textScale / 64.0,
+           (SplashCoord)pt->x * p->textScale / 64.0,
+           (SplashCoord)pt->y * p->textScale / 64.0);
   p->needClose = gTrue;
   return 0;
 }

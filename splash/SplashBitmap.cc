@@ -20,8 +20,8 @@
 //------------------------------------------------------------------------
 
 SplashBitmap::SplashBitmap(int widthA, int heightA, int rowPad,
-			   SplashColorMode modeA, GBool alphaA,
-			   GBool topDown) {
+               SplashColorMode modeA, GBool alphaA,
+               GBool topDown) {
   width = widthA;
   height = heightA;
   mode = modeA;
@@ -83,8 +83,8 @@ SplashError SplashBitmap::writePNMFile(char *fileName) {
     for (y = 0; y < height; ++y) {
       p = row;
       for (x = 0; x < width; x += 8) {
-	fputc(*p ^ 0xff, f);
-	++p;
+    fputc(*p ^ 0xff, f);
+    ++p;
       }
       row += rowSize;
     }
@@ -96,8 +96,8 @@ SplashError SplashBitmap::writePNMFile(char *fileName) {
     for (y = 0; y < height; ++y) {
       p = row;
       for (x = 0; x < width; ++x) {
-	fputc(*p, f);
-	++p;
+    fputc(*p, f);
+    ++p;
       }
       row += rowSize;
     }
@@ -109,10 +109,10 @@ SplashError SplashBitmap::writePNMFile(char *fileName) {
     for (y = 0; y < height; ++y) {
       p = row;
       for (x = 0; x < width; ++x) {
-	fputc(splashRGB8R(p), f);
-	fputc(splashRGB8G(p), f);
-	fputc(splashRGB8B(p), f);
-	p += 3;
+    fputc(splashRGB8R(p), f);
+    fputc(splashRGB8G(p), f);
+    fputc(splashRGB8B(p), f);
+    p += 3;
       }
       row += rowSize;
     }
@@ -124,10 +124,10 @@ SplashError SplashBitmap::writePNMFile(char *fileName) {
     for (y = 0; y < height; ++y) {
       p = row;
       for (x = 0; x < width; ++x) {
-	fputc(splashBGR8R(p), f);
-	fputc(splashBGR8G(p), f);
-	fputc(splashBGR8B(p), f);
-	p += 3;
+    fputc(splashBGR8R(p), f);
+    fputc(splashBGR8G(p), f);
+    fputc(splashBGR8B(p), f);
+    p += 3;
       }
       row += rowSize;
     }

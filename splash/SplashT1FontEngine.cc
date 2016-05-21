@@ -58,7 +58,7 @@ SplashT1FontEngine *SplashT1FontEngine::init(GBool aaA) {
   if (t1libInitCount == 0) {
     T1_SetBitmapPad(8);
     if (!T1_InitLib(NO_LOGFILE | IGNORE_CONFIGFILE | IGNORE_FONTDATABASE |
-		    T1_NO_AFM)) {
+            T1_NO_AFM)) {
       return NULL;
     }
     if (aaA) {
@@ -82,16 +82,16 @@ SplashT1FontEngine::~SplashT1FontEngine() {
 }
 
 SplashFontFile *SplashT1FontEngine::loadType1Font(SplashFontFileID *idA,
-						  char *fileName,
-						  GBool deleteFile,
-						  char **enc) {
+                          char *fileName,
+                          GBool deleteFile,
+                          char **enc) {
   return SplashT1FontFile::loadType1Font(this, idA, fileName, deleteFile, enc);
 }
 
 SplashFontFile *SplashT1FontEngine::loadType1CFont(SplashFontFileID *idA,
-						   char *fileName,
-						   GBool deleteFile,
-						   char **enc) {
+                           char *fileName,
+                           GBool deleteFile,
+                           char **enc) {
   FoFiType1C *ff;
   GString *tmpFileName;
   FILE *tmpFile;
@@ -109,7 +109,7 @@ SplashFontFile *SplashT1FontEngine::loadType1CFont(SplashFontFileID *idA,
   delete ff;
   fclose(tmpFile);
   ret = SplashT1FontFile::loadType1Font(this, idA, tmpFileName->getCString(),
-					gTrue, enc);
+                    gTrue, enc);
   if (ret) {
     if (deleteFile) {
       unlink(fileName);

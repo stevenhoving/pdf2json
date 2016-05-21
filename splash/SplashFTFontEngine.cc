@@ -66,29 +66,29 @@ SplashFTFontEngine::~SplashFTFontEngine() {
 }
 
 SplashFontFile *SplashFTFontEngine::loadType1Font(SplashFontFileID *idA,
-						  char *fileName,
-						  GBool deleteFile,
-						  char **enc) {
+                          char *fileName,
+                          GBool deleteFile,
+                          char **enc) {
   return SplashFTFontFile::loadType1Font(this, idA, fileName, deleteFile, enc);
 }
 
 SplashFontFile *SplashFTFontEngine::loadType1CFont(SplashFontFileID *idA,
-						   char *fileName,
-						   GBool deleteFile,
-						   char **enc) {
+                           char *fileName,
+                           GBool deleteFile,
+                           char **enc) {
   return SplashFTFontFile::loadType1Font(this, idA, fileName, deleteFile, enc);
 }
 
 SplashFontFile *SplashFTFontEngine::loadOpenTypeT1CFont(SplashFontFileID *idA,
-							char *fileName,
-							GBool deleteFile,
-							char **enc) {
+                            char *fileName,
+                            GBool deleteFile,
+                            char **enc) {
   return SplashFTFontFile::loadType1Font(this, idA, fileName, deleteFile, enc);
 }
 
 SplashFontFile *SplashFTFontEngine::loadCIDFont(SplashFontFileID *idA,
-						char *fileName,
-						GBool deleteFile) {
+                        char *fileName,
+                        GBool deleteFile) {
   FoFiType1C *ff;
   Gushort *cidToGIDMap;
   int nCIDs;
@@ -106,7 +106,7 @@ SplashFontFile *SplashFTFontEngine::loadCIDFont(SplashFontFileID *idA,
     nCIDs = 0;
   }
   ret = SplashFTFontFile::loadCIDFont(this, idA, fileName, deleteFile,
-				      cidToGIDMap, nCIDs);
+                      cidToGIDMap, nCIDs);
   if (!ret) {
     gfree(cidToGIDMap);
   }
@@ -114,8 +114,8 @@ SplashFontFile *SplashFTFontEngine::loadCIDFont(SplashFontFileID *idA,
 }
 
 SplashFontFile *SplashFTFontEngine::loadOpenTypeCFFFont(SplashFontFileID *idA,
-							char *fileName,
-							GBool deleteFile) {
+                            char *fileName,
+                            GBool deleteFile) {
   FoFiTrueType *ff;
   GBool isCID;
   Gushort *cidToGIDMap;
@@ -128,13 +128,13 @@ SplashFontFile *SplashFTFontEngine::loadOpenTypeCFFFont(SplashFontFileID *idA,
   if (!useCIDs) {
     if ((ff = FoFiTrueType::load(fileName))) {
       if (ff->isOpenTypeCFF()) {
-	cidToGIDMap = ff->getCIDToGIDMap(&nCIDs);
+    cidToGIDMap = ff->getCIDToGIDMap(&nCIDs);
       }
       delete ff;
     }
   }
   ret = SplashFTFontFile::loadCIDFont(this, idA, fileName, deleteFile,
-				      cidToGIDMap, nCIDs);
+                      cidToGIDMap, nCIDs);
   if (!ret) {
     gfree(cidToGIDMap);
   }
@@ -142,10 +142,10 @@ SplashFontFile *SplashFTFontEngine::loadOpenTypeCFFFont(SplashFontFileID *idA,
 }
 
 SplashFontFile *SplashFTFontEngine::loadTrueTypeFont(SplashFontFileID *idA,
-						     char *fileName,
-						     GBool deleteFile,
-						     Gushort *codeToGID,
-						     int codeToGIDLen) {
+                             char *fileName,
+                             GBool deleteFile,
+                             Gushort *codeToGID,
+                             int codeToGIDLen) {
   FoFiTrueType *ff;
   GString *tmpFileName;
   FILE *tmpFile;
@@ -163,8 +163,8 @@ SplashFontFile *SplashFTFontEngine::loadTrueTypeFont(SplashFontFileID *idA,
   delete ff;
   fclose(tmpFile);
   ret = SplashFTFontFile::loadTrueTypeFont(this, idA,
-					   tmpFileName->getCString(),
-					   gTrue, codeToGID, codeToGIDLen);
+                       tmpFileName->getCString(),
+                       gTrue, codeToGID, codeToGIDLen);
   if (ret) {
     if (deleteFile) {
       unlink(fileName);

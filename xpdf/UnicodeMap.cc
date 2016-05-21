@@ -27,7 +27,7 @@
 #define maxExtCode 16
 
 struct UnicodeMapExt {
-  Unicode u;			// Unicode char
+  Unicode u;            // Unicode char
   char code[maxExtCode];
   Guint nBytes;
 };
@@ -46,7 +46,7 @@ UnicodeMap *UnicodeMap::parse(GString *encodingNameA) {
 
   if (!(f = globalParams->getUnicodeMapFile(encodingNameA))) {
     error(-1, "Couldn't find unicodeMap file for the '%s' encoding",
-	  encodingNameA->getCString());
+      encodingNameA->getCString());
     return NULL;
   }
 
@@ -59,45 +59,45 @@ UnicodeMap *UnicodeMap::parse(GString *encodingNameA) {
   line = 1;
   while (getLine(buf, sizeof(buf), f)) {
     if ((tok1 = strtok(buf, " \t\r\n")) &&
-	(tok2 = strtok(NULL, " \t\r\n"))) {
+    (tok2 = strtok(NULL, " \t\r\n"))) {
       if (!(tok3 = strtok(NULL, " \t\r\n"))) {
-	tok3 = tok2;
-	tok2 = tok1;
+    tok3 = tok2;
+    tok2 = tok1;
       }
       nBytes = strlen(tok3) / 2;
       if (nBytes <= 4) {
-	if (map->len == size) {
-	  size *= 2;
-	  map->ranges = (UnicodeMapRange *)
-	    greallocn(map->ranges, size, sizeof(UnicodeMapRange));
-	}
-	range = &map->ranges[map->len];
-	sscanf(tok1, "%x", &range->start);
-	sscanf(tok2, "%x", &range->end);
-	sscanf(tok3, "%x", &range->code);
-	range->nBytes = nBytes;
-	++map->len;
+    if (map->len == size) {
+      size *= 2;
+      map->ranges = (UnicodeMapRange *)
+        greallocn(map->ranges, size, sizeof(UnicodeMapRange));
+    }
+    range = &map->ranges[map->len];
+    sscanf(tok1, "%x", &range->start);
+    sscanf(tok2, "%x", &range->end);
+    sscanf(tok3, "%x", &range->code);
+    range->nBytes = nBytes;
+    ++map->len;
       } else if (tok2 == tok1) {
-	if (map->eMapsLen == eMapsSize) {
-	  eMapsSize += 16;
-	  map->eMaps = (UnicodeMapExt *)
-	    greallocn(map->eMaps, eMapsSize, sizeof(UnicodeMapExt));
-	}
-	eMap = &map->eMaps[map->eMapsLen];
-	sscanf(tok1, "%x", &eMap->u);
-	for (i = 0; i < nBytes; ++i) {
-	  sscanf(tok3 + i*2, "%2x", &x);
-	  eMap->code[i] = (char)x;
-	}
-	eMap->nBytes = nBytes;
-	++map->eMapsLen;
+    if (map->eMapsLen == eMapsSize) {
+      eMapsSize += 16;
+      map->eMaps = (UnicodeMapExt *)
+        greallocn(map->eMaps, eMapsSize, sizeof(UnicodeMapExt));
+    }
+    eMap = &map->eMaps[map->eMapsLen];
+    sscanf(tok1, "%x", &eMap->u);
+    for (i = 0; i < nBytes; ++i) {
+      sscanf(tok3 + i*2, "%2x", &x);
+      eMap->code[i] = (char)x;
+    }
+    eMap->nBytes = nBytes;
+    ++map->eMapsLen;
       } else {
-	error(-1, "Bad line (%d) in unicodeMap file for the '%s' encoding",
-	      line, encodingNameA->getCString());
+    error(-1, "Bad line (%d) in unicodeMap file for the '%s' encoding",
+          line, encodingNameA->getCString());
       }
     } else {
       error(-1, "Bad line (%d) in unicodeMap file for the '%s' encoding",
-	    line, encodingNameA->getCString());
+        line, encodingNameA->getCString());
     }
     ++line;
   }
@@ -122,7 +122,7 @@ UnicodeMap::UnicodeMap(GString *encodingNameA) {
 }
 
 UnicodeMap::UnicodeMap(char *encodingNameA, GBool unicodeOutA,
-		       UnicodeMapRange *rangesA, int lenA) {
+               UnicodeMapRange *rangesA, int lenA) {
   encodingName = new GString(encodingNameA);
   unicodeOut = unicodeOutA;
   kind = unicodeMapResident;
@@ -137,7 +137,7 @@ UnicodeMap::UnicodeMap(char *encodingNameA, GBool unicodeOutA,
 }
 
 UnicodeMap::UnicodeMap(char *encodingNameA, GBool unicodeOutA,
-		       UnicodeMapFunc funcA) {
+               UnicodeMapFunc funcA) {
   encodingName = new GString(encodingNameA);
   unicodeOut = unicodeOutA;
   kind = unicodeMapFunc;
@@ -216,20 +216,20 @@ int UnicodeMap::mapUnicode(Unicode u, char *buf, int bufSize) {
     while (b - a > 1) {
       m = (a + b) / 2;
       if (u >= ranges[m].start) {
-	a = m;
+    a = m;
       } else if (u < ranges[m].start) {
-	b = m;
+    b = m;
       }
     }
     if (u <= ranges[a].end) {
       n = ranges[a].nBytes;
       if (n > bufSize) {
-	return 0;
+    return 0;
       }
       code = ranges[a].code + (u - ranges[a].start);
       for (i = n - 1; i >= 0; --i) {
-	buf[i] = (char)(code & 0xff);
-	code >>= 8;
+    buf[i] = (char)(code & 0xff);
+    code >>= 8;
       }
       return n;
     }
@@ -239,7 +239,7 @@ int UnicodeMap::mapUnicode(Unicode u, char *buf, int bufSize) {
     if (eMaps[i].u == u) {
       n = eMaps[i].nBytes;
       for (j = 0; j < n; ++j) {
-	buf[j] = eMaps[i].code[j];
+    buf[j] = eMaps[i].code[j];
       }
       return n;
     }
@@ -280,7 +280,7 @@ UnicodeMap *UnicodeMapCache::getUnicodeMap(GString *encodingName) {
     if (cache[i] && cache[i]->match(encodingName)) {
       map = cache[i];
       for (j = i; j >= 1; --j) {
-	cache[j] = cache[j - 1];
+    cache[j] = cache[j - 1];
       }
       cache[0] = map;
       map->incRefCnt();

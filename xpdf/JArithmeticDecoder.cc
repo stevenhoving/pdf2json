@@ -142,7 +142,7 @@ void JArithmeticDecoder::cleanup() {
 }
 
 int JArithmeticDecoder::decodeBit(Guint context,
-				  JArithmeticDecoderStats *stats) {
+                  JArithmeticDecoderStats *stats) {
   int bit;
   Guint qe;
   int iCX, mpsCX;
@@ -157,24 +157,24 @@ int JArithmeticDecoder::decodeBit(Guint context,
     } else {
       // MPS_EXCHANGE
       if (a < qe) {
-	bit = 1 - mpsCX;
-	if (switchTab[iCX]) {
-	  stats->cxTab[context] = (nlpsTab[iCX] << 1) | (1 - mpsCX);
-	} else {
-	  stats->cxTab[context] = (nlpsTab[iCX] << 1) | mpsCX;
-	}
+    bit = 1 - mpsCX;
+    if (switchTab[iCX]) {
+      stats->cxTab[context] = (nlpsTab[iCX] << 1) | (1 - mpsCX);
+    } else {
+      stats->cxTab[context] = (nlpsTab[iCX] << 1) | mpsCX;
+    }
       } else {
-	bit = mpsCX;
-	stats->cxTab[context] = (nmpsTab[iCX] << 1) | mpsCX;
+    bit = mpsCX;
+    stats->cxTab[context] = (nmpsTab[iCX] << 1) | mpsCX;
       }
       // RENORMD
       do {
-	if (ct == 0) {
-	  byteIn();
-	}
-	a <<= 1;
-	c <<= 1;
-	--ct;
+    if (ct == 0) {
+      byteIn();
+    }
+    a <<= 1;
+    c <<= 1;
+    --ct;
       } while (!(a & 0x80000000));
     }
   } else {
@@ -186,16 +186,16 @@ int JArithmeticDecoder::decodeBit(Guint context,
     } else {
       bit = 1 - mpsCX;
       if (switchTab[iCX]) {
-	stats->cxTab[context] = (nlpsTab[iCX] << 1) | (1 - mpsCX);
+    stats->cxTab[context] = (nlpsTab[iCX] << 1) | (1 - mpsCX);
       } else {
-	stats->cxTab[context] = (nlpsTab[iCX] << 1) | mpsCX;
+    stats->cxTab[context] = (nlpsTab[iCX] << 1) | mpsCX;
       }
     }
     a = qe;
     // RENORMD
     do {
       if (ct == 0) {
-	byteIn();
+    byteIn();
       }
       a <<= 1;
       c <<= 1;
@@ -206,7 +206,7 @@ int JArithmeticDecoder::decodeBit(Guint context,
 }
 
 int JArithmeticDecoder::decodeByte(Guint context,
-				   JArithmeticDecoderStats *stats) {
+                   JArithmeticDecoderStats *stats) {
   int byte;
   int i;
 
@@ -227,33 +227,33 @@ GBool JArithmeticDecoder::decodeInt(int *x, JArithmeticDecoderStats *stats) {
   if (decodeIntBit(stats)) {
     if (decodeIntBit(stats)) {
       if (decodeIntBit(stats)) {
-	if (decodeIntBit(stats)) {
-	  if (decodeIntBit(stats)) {
-	    v = 0;
-	    for (i = 0; i < 32; ++i) {
-	      v = (v << 1) | decodeIntBit(stats);
-	    }
-	    v += 4436;
-	  } else {
-	    v = 0;
-	    for (i = 0; i < 12; ++i) {
-	      v = (v << 1) | decodeIntBit(stats);
-	    }
-	    v += 340;
-	  }
-	} else {
-	  v = 0;
-	  for (i = 0; i < 8; ++i) {
-	    v = (v << 1) | decodeIntBit(stats);
-	  }
-	  v += 84;
-	}
+    if (decodeIntBit(stats)) {
+      if (decodeIntBit(stats)) {
+        v = 0;
+        for (i = 0; i < 32; ++i) {
+          v = (v << 1) | decodeIntBit(stats);
+        }
+        v += 4436;
       } else {
-	v = 0;
-	for (i = 0; i < 6; ++i) {
-	  v = (v << 1) | decodeIntBit(stats);
-	}
-	v += 20;
+        v = 0;
+        for (i = 0; i < 12; ++i) {
+          v = (v << 1) | decodeIntBit(stats);
+        }
+        v += 340;
+      }
+    } else {
+      v = 0;
+      for (i = 0; i < 8; ++i) {
+        v = (v << 1) | decodeIntBit(stats);
+      }
+      v += 84;
+    }
+      } else {
+    v = 0;
+    for (i = 0; i < 6; ++i) {
+      v = (v << 1) | decodeIntBit(stats);
+    }
+    v += 20;
       }
     } else {
       v = decodeIntBit(stats);
@@ -291,7 +291,7 @@ int JArithmeticDecoder::decodeIntBit(JArithmeticDecoderStats *stats) {
 }
 
 Guint JArithmeticDecoder::decodeIAID(Guint codeLen,
-				     JArithmeticDecoderStats *stats) {
+                     JArithmeticDecoderStats *stats) {
   Guint i;
   int bit;
 

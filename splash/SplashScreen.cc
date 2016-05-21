@@ -19,12 +19,12 @@
 //------------------------------------------------------------------------
 
 static SplashScreenParams defaultParams = {
-  splashScreenDispersed,	// type
-  2,				// size
-  2,				// dotRadius
-  1.0,				// gamma
-  0.0,				// blackThreshold
-  1.0				// whiteThreshold
+  splashScreenDispersed,    // type
+  2,                // size
+  2,                // dotRadius
+  1.0,                // gamma
+  0.0,                // blackThreshold
+  1.0                // whiteThreshold
 };
 
 //------------------------------------------------------------------------
@@ -99,7 +99,7 @@ SplashScreen::SplashScreen(SplashScreenParams *params) {
   }
   for (i = 0; i < size * size; ++i) {
     u = splashRound((SplashCoord)255.0 *
-		    splashPow((SplashCoord)mat[i] / 255.0, params->gamma));
+            splashPow((SplashCoord)mat[i] / 255.0, params->gamma));
     if (u < black) {
       u = black;
     } else if (u >= white) {
@@ -115,19 +115,19 @@ SplashScreen::SplashScreen(SplashScreenParams *params) {
 }
 
 void SplashScreen::buildDispersedMatrix(int i, int j, int val,
-					int delta, int offset) {
+                    int delta, int offset) {
   if (delta == 0) {
     // map values in [1, size^2] --> [1, 255]
     mat[i * size + j] = 1 + (254 * (val - 1)) / (size * size - 1);
   } else {
     buildDispersedMatrix(i, j,
-			 val, delta / 2, 4*offset);
+             val, delta / 2, 4*offset);
     buildDispersedMatrix((i + delta) % size, (j + delta) % size,
-			 val + offset, delta / 2, 4*offset);
+             val + offset, delta / 2, 4*offset);
     buildDispersedMatrix((i + delta) % size, j,
-			 val + 2*offset, delta / 2, 4*offset);
+             val + 2*offset, delta / 2, 4*offset);
     buildDispersedMatrix((i + 2*delta) % size, (j + delta) % size,
-			 val + 3*offset, delta / 2, 4*offset);
+             val + 3*offset, delta / 2, 4*offset);
   }
 }
 
@@ -151,11 +151,11 @@ void SplashScreen::buildClusteredMatrix() {
   for (y = 0; y < size2; ++y) {
     for (x = 0; x < size2; ++x) {
       if (x + y < size2 - 1) {
-	u = (SplashCoord)x + 0.5 - 0;
-	v = (SplashCoord)y + 0.5 - 0;
+    u = (SplashCoord)x + 0.5 - 0;
+    v = (SplashCoord)y + 0.5 - 0;
       } else {
-	u = (SplashCoord)x + 0.5 - (SplashCoord)size2;
-	v = (SplashCoord)y + 0.5 - (SplashCoord)size2;
+    u = (SplashCoord)x + 0.5 - (SplashCoord)size2;
+    v = (SplashCoord)y + 0.5 - (SplashCoord)size2;
       }
       dist[y * size2 + x] = u*u + v*v;
     }
@@ -163,11 +163,11 @@ void SplashScreen::buildClusteredMatrix() {
   for (y = 0; y < size2; ++y) {
     for (x = 0; x < size2; ++x) {
       if (x < y) {
-	u = (SplashCoord)x + 0.5 - 0;
-	v = (SplashCoord)y + 0.5 - (SplashCoord)size2;
+    u = (SplashCoord)x + 0.5 - 0;
+    v = (SplashCoord)y + 0.5 - (SplashCoord)size2;
       } else {
-	u = (SplashCoord)x + 0.5 - (SplashCoord)size2;
-	v = (SplashCoord)y + 0.5 - 0;
+    u = (SplashCoord)x + 0.5 - (SplashCoord)size2;
+    v = (SplashCoord)y + 0.5 - 0;
       }
       dist[(size2 + y) * size2 + x] = u*u + v*v;
     }
@@ -181,12 +181,12 @@ void SplashScreen::buildClusteredMatrix() {
     d = -1;
     for (y = 0; y < size; ++y) {
       for (x = 0; x < size2; ++x) {
-	if (mat[y * size + x] == 0 &&
-	    dist[y * size2 + x] > d) {
-	  x1 = x;
-	  y1 = y;
-	  d = dist[y1 * size2 + x1];
-	}
+    if (mat[y * size + x] == 0 &&
+        dist[y * size2 + x] > d) {
+      x1 = x;
+      y1 = y;
+      d = dist[y1 * size2 + x1];
+    }
       }
     }
     // map values in [0, 2*size*size2-1] --> [1, 255]
@@ -243,7 +243,7 @@ void SplashScreen::buildSCDMatrix(int r) {
   }
   for (i = 0; i < size * size; ++i) {
     j = i + (int)((double)(size * size - i) *
-		  (double)rand() / ((double)RAND_MAX + 1.0));
+          (double)rand() / ((double)RAND_MAX + 1.0));
     x = pts[i].x;
     y = pts[i].y;
     pts[i].x = pts[j].x;
@@ -277,24 +277,24 @@ void SplashScreen::buildSCDMatrix(int r) {
     y = pts[i].y;
     if (!grid[y*size + x]) {
       if (dotsLen == dotsSize) {
-	dotsSize *= 2;
-	dots = (SplashScreenPoint *)greallocn(dots, dotsSize,
-					      sizeof(SplashScreenPoint));
+    dotsSize *= 2;
+    dots = (SplashScreenPoint *)greallocn(dots, dotsSize,
+                          sizeof(SplashScreenPoint));
       }
       dots[dotsLen++] = pts[i];
       for (yy = 0; yy <= r; ++yy) {
-	y0 = (y + yy) % size;
-	y1 = (y - yy + size) % size;
-	for (xx = 0; xx <= r; ++xx) {
-	  if (tmpl[yy*(r+1) + xx]) {
-	    x0 = (x + xx) % size;
-	    x1 = (x - xx + size) % size;
-	    grid[y0*size + x0] = 1;
-	    grid[y0*size + x1] = 1;
-	    grid[y1*size + x0] = 1;
-	    grid[y1*size + x1] = 1;
-	  }
-	}
+    y0 = (y + yy) % size;
+    y1 = (y - yy + size) % size;
+    for (xx = 0; xx <= r; ++xx) {
+      if (tmpl[yy*(r+1) + xx]) {
+        x0 = (x + xx) % size;
+        x1 = (x - xx + size) % size;
+        grid[y0*size + x0] = 1;
+        grid[y0*size + x1] = 1;
+        grid[y1*size + x0] = 1;
+        grid[y1*size + x1] = 1;
+      }
+    }
       }
     }
   }
@@ -310,11 +310,11 @@ void SplashScreen::buildSCDMatrix(int r) {
       iMin = 0;
       dMin = distance(dots[0].x, dots[0].y, x, y);
       for (i = 1; i < dotsLen; ++i) {
-	d = distance(dots[i].x, dots[i].y, x, y);
-	if (d < dMin) {
-	  iMin = i;
-	  dMin = d;
-	}
+    d = distance(dots[i].x, dots[i].y, x, y);
+    if (d < dMin) {
+      iMin = i;
+      dMin = d;
+    }
       }
       region[y*size + x] = iMin;
       dist[y*size + x] = dMin;
@@ -326,12 +326,12 @@ void SplashScreen::buildSCDMatrix(int r) {
     n = 0;
     for (y = 0; y < size; ++y) {
       for (x = 0; x < size; ++x) {
-	if (region[y*size + x] == i) {
-	  pts[n].x = x;
-	  pts[n].y = y;
-	  pts[n].dist = distance(dots[i].x, dots[i].y, x, y);
-	  ++n;
-	}
+    if (region[y*size + x] == i) {
+      pts[n].x = x;
+      pts[n].y = y;
+      pts[n].dist = distance(dots[i].x, dots[i].y, x, y);
+      ++n;
+    }
       }
     }
     qsort(pts, n, sizeof(SplashScreenPoint), &cmpDistances);

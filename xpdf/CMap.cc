@@ -43,7 +43,7 @@ static int getCharFromFile(void *data) {
 //------------------------------------------------------------------------
 
 CMap *CMap::parse(CMapCache *cache, GString *collectionA,
-		  GString *cMapNameA) {
+          GString *cMapNameA) {
   FILE *f;
   CMap *cmap;
   PSTokenizer *pst;
@@ -62,7 +62,7 @@ CMap *CMap::parse(CMapCache *cache, GString *collectionA,
     }
 
     error(-1, "Couldn't find '%s' CMap file for '%s' collection",
-	  cMapNameA->getCString(), collectionA->getCString());
+      cMapNameA->getCString(), collectionA->getCString());
     return NULL;
   }
 
@@ -73,7 +73,7 @@ CMap *CMap::parse(CMapCache *cache, GString *collectionA,
   while (pst->getToken(tok2, sizeof(tok2), &n2)) {
     if (!strcmp(tok2, "usecmap")) {
       if (tok1[0] == '/') {
-	cmap->useCMap(cache, tok1 + 1);
+    cmap->useCMap(cache, tok1 + 1);
       }
       pst->getToken(tok1, sizeof(tok1), &n1);
     } else if (!strcmp(tok1, "/WMode")) {
@@ -81,68 +81,68 @@ CMap *CMap::parse(CMapCache *cache, GString *collectionA,
       pst->getToken(tok1, sizeof(tok1), &n1);
     } else if (!strcmp(tok2, "begincodespacerange")) {
       while (pst->getToken(tok1, sizeof(tok1), &n1)) {
-	if (!strcmp(tok1, "endcodespacerange")) {
-	  break;
-	}
-	if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
-	    !strcmp(tok2, "endcodespacerange")) {
-	  error(-1, "Illegal entry in codespacerange block in CMap");
-	  break;
-	}
-	if (tok1[0] == '<' && tok2[0] == '<' &&
-	    n1 == n2 && n1 >= 4 && (n1 & 1) == 0) {
-	  tok1[n1 - 1] = tok2[n1 - 1] = '\0';
-	  sscanf(tok1 + 1, "%x", &start);
-	  sscanf(tok2 + 1, "%x", &end);
-	  n1 = (n1 - 2) / 2;
-	  cmap->addCodeSpace(cmap->vector, start, end, n1);
-	}
+    if (!strcmp(tok1, "endcodespacerange")) {
+      break;
+    }
+    if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
+        !strcmp(tok2, "endcodespacerange")) {
+      error(-1, "Illegal entry in codespacerange block in CMap");
+      break;
+    }
+    if (tok1[0] == '<' && tok2[0] == '<' &&
+        n1 == n2 && n1 >= 4 && (n1 & 1) == 0) {
+      tok1[n1 - 1] = tok2[n1 - 1] = '\0';
+      sscanf(tok1 + 1, "%x", &start);
+      sscanf(tok2 + 1, "%x", &end);
+      n1 = (n1 - 2) / 2;
+      cmap->addCodeSpace(cmap->vector, start, end, n1);
+    }
       }
       pst->getToken(tok1, sizeof(tok1), &n1);
     } else if (!strcmp(tok2, "begincidchar")) {
       while (pst->getToken(tok1, sizeof(tok1), &n1)) {
-	if (!strcmp(tok1, "endcidchar")) {
-	  break;
-	}
-	if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
-	    !strcmp(tok2, "endcidchar")) {
-	  error(-1, "Illegal entry in cidchar block in CMap");
-	  break;
-	}
-	if (!(tok1[0] == '<' && tok1[n1 - 1] == '>' &&
-	      n1 >= 4 && (n1 & 1) == 0)) {
-	  error(-1, "Illegal entry in cidchar block in CMap");
-	  continue;
-	}
-	tok1[n1 - 1] = '\0';
-	if (sscanf(tok1 + 1, "%x", &code) != 1) {
-	  error(-1, "Illegal entry in cidchar block in CMap");
-	  continue;
-	}
-	n1 = (n1 - 2) / 2;
-	cmap->addCIDs(code, code, n1, (CID)atoi(tok2));
+    if (!strcmp(tok1, "endcidchar")) {
+      break;
+    }
+    if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
+        !strcmp(tok2, "endcidchar")) {
+      error(-1, "Illegal entry in cidchar block in CMap");
+      break;
+    }
+    if (!(tok1[0] == '<' && tok1[n1 - 1] == '>' &&
+          n1 >= 4 && (n1 & 1) == 0)) {
+      error(-1, "Illegal entry in cidchar block in CMap");
+      continue;
+    }
+    tok1[n1 - 1] = '\0';
+    if (sscanf(tok1 + 1, "%x", &code) != 1) {
+      error(-1, "Illegal entry in cidchar block in CMap");
+      continue;
+    }
+    n1 = (n1 - 2) / 2;
+    cmap->addCIDs(code, code, n1, (CID)atoi(tok2));
       }
       pst->getToken(tok1, sizeof(tok1), &n1);
     } else if (!strcmp(tok2, "begincidrange")) {
       while (pst->getToken(tok1, sizeof(tok1), &n1)) {
-	if (!strcmp(tok1, "endcidrange")) {
-	  break;
-	}
-	if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
-	    !strcmp(tok2, "endcidrange") ||
-	    !pst->getToken(tok3, sizeof(tok3), &n3) ||
-	    !strcmp(tok3, "endcidrange")) {
-	  error(-1, "Illegal entry in cidrange block in CMap");
-	  break;
-	}
-	if (tok1[0] == '<' && tok2[0] == '<' &&
-	    n1 == n2 && n1 >= 4 && (n1 & 1) == 0) {
-	  tok1[n1 - 1] = tok2[n1 - 1] = '\0';
-	  sscanf(tok1 + 1, "%x", &start);
-	  sscanf(tok2 + 1, "%x", &end);
-	  n1 = (n1 - 2) / 2;
-	  cmap->addCIDs(start, end, n1, (CID)atoi(tok3));
-	}
+    if (!strcmp(tok1, "endcidrange")) {
+      break;
+    }
+    if (!pst->getToken(tok2, sizeof(tok2), &n2) ||
+        !strcmp(tok2, "endcidrange") ||
+        !pst->getToken(tok3, sizeof(tok3), &n3) ||
+        !strcmp(tok3, "endcidrange")) {
+      error(-1, "Illegal entry in cidrange block in CMap");
+      break;
+    }
+    if (tok1[0] == '<' && tok2[0] == '<' &&
+        n1 == n2 && n1 >= 4 && (n1 & 1) == 0) {
+      tok1[n1 - 1] = tok2[n1 - 1] = '\0';
+      sscanf(tok1 + 1, "%x", &start);
+      sscanf(tok2 + 1, "%x", &end);
+      n1 = (n1 - 2) / 2;
+      cmap->addCIDs(start, end, n1, (CID)atoi(tok3));
+    }
       }
       pst->getToken(tok1, sizeof(tok1), &n1);
     } else {
@@ -204,27 +204,27 @@ void CMap::copyVector(CMapVectorEntry *dest, CMapVectorEntry *src) {
   for (i = 0; i < 256; ++i) {
     if (src[i].isVector) {
       if (!dest[i].isVector) {
-	dest[i].isVector = gTrue;
-	dest[i].vector =
-	  (CMapVectorEntry *)gmallocn(256, sizeof(CMapVectorEntry));
-	for (j = 0; j < 256; ++j) {
-	  dest[i].vector[j].isVector = gFalse;
-	  dest[i].vector[j].cid = 0;
-	}
+    dest[i].isVector = gTrue;
+    dest[i].vector =
+      (CMapVectorEntry *)gmallocn(256, sizeof(CMapVectorEntry));
+    for (j = 0; j < 256; ++j) {
+      dest[i].vector[j].isVector = gFalse;
+      dest[i].vector[j].cid = 0;
+    }
       }
       copyVector(dest[i].vector, src[i].vector);
     } else {
       if (dest[i].isVector) {
-	error(-1, "Collision in usecmap");
+    error(-1, "Collision in usecmap");
       } else {
-	dest[i].cid = src[i].cid;
+    dest[i].cid = src[i].cid;
       }
     }
   }
 }
 
 void CMap::addCodeSpace(CMapVectorEntry *vec, Guint start, Guint end,
-			Guint nBytes) {
+            Guint nBytes) {
   Guint start2, end2;
   int startByte, endByte, i, j;
 
@@ -235,13 +235,13 @@ void CMap::addCodeSpace(CMapVectorEntry *vec, Guint start, Guint end,
     end2 = end & ((1 << (8 * (nBytes - 1))) - 1);
     for (i = startByte; i <= endByte; ++i) {
       if (!vec[i].isVector) {
-	vec[i].isVector = gTrue;
-	vec[i].vector =
-	  (CMapVectorEntry *)gmallocn(256, sizeof(CMapVectorEntry));
-	for (j = 0; j < 256; ++j) {
-	  vec[i].vector[j].isVector = gFalse;
-	  vec[i].vector[j].cid = 0;
-	}
+    vec[i].isVector = gTrue;
+    vec[i].vector =
+      (CMapVectorEntry *)gmallocn(256, sizeof(CMapVectorEntry));
+    for (j = 0; j < 256; ++j) {
+      vec[i].vector[j].isVector = gFalse;
+      vec[i].vector[j].cid = 0;
+    }
       }
       addCodeSpace(vec[i].vector, start2, end2, nBytes - 1);
     }
@@ -259,7 +259,7 @@ void CMap::addCIDs(Guint start, Guint end, Guint nBytes, CID firstCID) {
     byte = (start >> (8 * i)) & 0xff;
     if (!vec[byte].isVector) {
       error(-1, "Invalid CID (%0*x - %0*x) in CMap",
-	    2*nBytes, start, 2*nBytes, end);
+        2*nBytes, start, 2*nBytes, end);
       return;
     }
     vec = vec[byte].vector;
@@ -268,7 +268,7 @@ void CMap::addCIDs(Guint start, Guint end, Guint nBytes, CID firstCID) {
   for (byte = (int)(start & 0xff); byte <= (int)(end & 0xff); ++byte) {
     if (vec[byte].isVector) {
       error(-1, "Invalid CID (%0*x - %0*x) in CMap",
-	    2*nBytes, start, 2*nBytes, end);
+        2*nBytes, start, 2*nBytes, end);
     } else {
       vec[byte].cid = cid;
     }
@@ -386,7 +386,7 @@ CMap *CMapCache::getCMap(GString *collection, GString *cMapName) {
     if (cache[i] && cache[i]->match(collection, cMapName)) {
       cmap = cache[i];
       for (j = i; j >= 1; --j) {
-	cache[j] = cache[j - 1];
+    cache[j] = cache[j - 1];
       }
       cache[0] = cmap;
       cmap->incRefCnt();

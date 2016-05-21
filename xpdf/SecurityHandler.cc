@@ -48,7 +48,7 @@ SecurityHandler *SecurityHandler::make(PDFDoc *docA, Object *encryptDictA) {
     } else {
 #endif
       error(-1, "Couldn't find the '%s' security handler",
-	    filterObj.getName());
+        filterObj.getName());
       secHdlr = NULL;
 #ifdef ENABLE_PLUGINS
     }
@@ -69,7 +69,7 @@ SecurityHandler::~SecurityHandler() {
 }
 
 GBool SecurityHandler::checkEncryption(GString *ownerPassword,
-				       GString *userPassword) {
+                       GString *userPassword) {
   void *authData;
   GBool ok;
   int i;
@@ -124,7 +124,7 @@ public:
 };
 
 StandardSecurityHandler::StandardSecurityHandler(PDFDoc *docA,
-						 Object *encryptDictA):
+                         Object *encryptDictA):
   SecurityHandler(docA)
 {
   Object versionObj, revisionObj, lengthObj;
@@ -168,40 +168,40 @@ StandardSecurityHandler::StandardSecurityHandler(PDFDoc *docA,
       encryptDictA->dictLookup("StmF", &streamFilterObj);
       encryptDictA->dictLookup("StrF", &stringFilterObj);
       if (cryptFiltersObj.isDict() &&
-	  streamFilterObj.isName() &&
-	  stringFilterObj.isName() &&
-	  !strcmp(streamFilterObj.getName(), stringFilterObj.getName())) {
-	if (cryptFiltersObj.dictLookup(streamFilterObj.getName(),
-				       &cryptFilterObj)->isDict()) {
-	  cryptFilterObj.dictLookup("CFM", &cfmObj);
-	  if (cfmObj.isName("V2")) {
-	    encVersion = 2;
-	    encRevision = 3;
-	    if (cryptFilterObj.dictLookup("Length", &cfLengthObj)->isInt()) {
-	      //~ according to the spec, this should be cfLengthObj / 8
-	      fileKeyLength = cfLengthObj.getInt();
-	    }
-	    cfLengthObj.free();
-	  } else if (cfmObj.isName("AESV2")) {
-	    encVersion = 2;
-	    encRevision = 3;
-	    encAlgorithm = cryptAES;
-	    if (cryptFilterObj.dictLookup("Length", &cfLengthObj)->isInt()) {
-	      //~ according to the spec, this should be cfLengthObj / 8
-	      fileKeyLength = cfLengthObj.getInt();
-	    }
-	    cfLengthObj.free();
-	  }
-	  cfmObj.free();
-	}
-	cryptFilterObj.free();
+      streamFilterObj.isName() &&
+      stringFilterObj.isName() &&
+      !strcmp(streamFilterObj.getName(), stringFilterObj.getName())) {
+    if (cryptFiltersObj.dictLookup(streamFilterObj.getName(),
+                       &cryptFilterObj)->isDict()) {
+      cryptFilterObj.dictLookup("CFM", &cfmObj);
+      if (cfmObj.isName("V2")) {
+        encVersion = 2;
+        encRevision = 3;
+        if (cryptFilterObj.dictLookup("Length", &cfLengthObj)->isInt()) {
+          //~ according to the spec, this should be cfLengthObj / 8
+          fileKeyLength = cfLengthObj.getInt();
+        }
+        cfLengthObj.free();
+      } else if (cfmObj.isName("AESV2")) {
+        encVersion = 2;
+        encRevision = 3;
+        encAlgorithm = cryptAES;
+        if (cryptFilterObj.dictLookup("Length", &cfLengthObj)->isInt()) {
+          //~ according to the spec, this should be cfLengthObj / 8
+          fileKeyLength = cfLengthObj.getInt();
+        }
+        cfLengthObj.free();
+      }
+      cfmObj.free();
+    }
+    cryptFilterObj.free();
       }
       stringFilterObj.free();
       streamFilterObj.free();
       cryptFiltersObj.free();
       if (encryptDictA->dictLookup("EncryptMetadata",
-				   &encryptMetadataObj)->isBool()) {
-	encryptMetadata = encryptMetadataObj.getBool();
+                   &encryptMetadataObj)->isBool()) {
+    encryptMetadata = encryptMetadataObj.getBool();
       }
       encryptMetadataObj.free();
     }
@@ -209,21 +209,21 @@ StandardSecurityHandler::StandardSecurityHandler(PDFDoc *docA,
     ownerKey = ownerKeyObj.getString()->copy();
     userKey = userKeyObj.getString()->copy();
     if (encVersion >= 1 && encVersion <= 2 &&
-	encRevision >= 2 && encRevision <= 3) {
+    encRevision >= 2 && encRevision <= 3) {
       if (fileIDObj.isArray()) {
-	if (fileIDObj.arrayGet(0, &fileIDObj1)->isString()) {
-	  fileID = fileIDObj1.getString()->copy();
-	} else {
-	  fileID = new GString();
-	}
-	fileIDObj1.free();
+    if (fileIDObj.arrayGet(0, &fileIDObj1)->isString()) {
+      fileID = fileIDObj1.getString()->copy();
+    } else {
+      fileID = new GString();
+    }
+    fileIDObj1.free();
       } else {
-	fileID = new GString();
+    fileID = new GString();
       }
       ok = gTrue;
     } else {
       error(-1, "Unsupported version/revision (%d/%d) of Standard security handler",
-	    encVersion, encRevision);
+        encVersion, encRevision);
     }
   } else {
     error(-1, "Weird encryption info");
@@ -253,11 +253,11 @@ StandardSecurityHandler::~StandardSecurityHandler() {
 }
 
 void *StandardSecurityHandler::makeAuthData(GString *ownerPassword,
-					    GString *userPassword) {
+                        GString *userPassword) {
   return new StandardAuthData(ownerPassword ? ownerPassword->copy()
-			                    : (GString *)NULL,
-			      userPassword ? userPassword->copy()
-			                   : (GString *)NULL);
+                                : (GString *)NULL,
+                  userPassword ? userPassword->copy()
+                               : (GString *)NULL);
 }
 
 void *StandardSecurityHandler::getAuthData() {
@@ -302,9 +302,9 @@ GBool StandardSecurityHandler::authorize(void *authData) {
     userPassword = NULL;
   }
   if (!Decrypt::makeFileKey(encVersion, encRevision, fileKeyLength,
-			    ownerKey, userKey, permFlags, fileID,
-			    ownerPassword, userPassword, fileKey,
-			    encryptMetadata, &ownerPasswordOk)) {
+                ownerKey, userKey, permFlags, fileID,
+                ownerPassword, userPassword, fileKey,
+                encryptMetadata, &ownerPasswordOk)) {
     return gFalse;
   }
   return gTrue;
@@ -317,8 +317,8 @@ GBool StandardSecurityHandler::authorize(void *authData) {
 //------------------------------------------------------------------------
 
 ExternalSecurityHandler::ExternalSecurityHandler(PDFDoc *docA,
-						 Object *encryptDictA,
-						 XpdfSecurityHandler *xshA):
+                         Object *encryptDictA,
+                         XpdfSecurityHandler *xshA):
   SecurityHandler(docA)
 {
   encryptDictA->copy(&encryptDict);
@@ -327,7 +327,7 @@ ExternalSecurityHandler::ExternalSecurityHandler(PDFDoc *docA,
   ok = gFalse;
 
   if (!(*xsh->newDoc)(xsh->handlerData, (XpdfDoc)docA,
-		      (XpdfObject)encryptDictA, &docData)) {
+              (XpdfObject)encryptDictA, &docData)) {
     return;
   }
 
@@ -340,7 +340,7 @@ ExternalSecurityHandler::~ExternalSecurityHandler() {
 }
 
 void *ExternalSecurityHandler::makeAuthData(GString *ownerPassword,
-					    GString *userPassword) {
+                        GString *userPassword) {
   char *opw, *upw;
   void *authData;
 

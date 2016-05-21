@@ -70,14 +70,14 @@ void OutputDev::updateAll(GfxState *state) {
 }
 
 GBool OutputDev::beginType3Char(GfxState *state, double x, double y,
-				double dx, double dy,
-				CharCode code, Unicode *u, int uLen) {
+                double dx, double dy,
+                CharCode code, Unicode *u, int uLen) {
   return gFalse;
 }
 
 void OutputDev::drawImageMask(GfxState *state, Object *ref, Stream *str,
-			      int width, int height, GBool invert,
-			      GBool inlineImg) {
+                  int width, int height, GBool invert,
+                  GBool inlineImg) {
   int i, j;
 
   if (inlineImg) {
@@ -90,14 +90,14 @@ void OutputDev::drawImageMask(GfxState *state, Object *ref, Stream *str,
 }
 
 void OutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
-			  int width, int height, GfxImageColorMap *colorMap,
-			  int *maskColors, GBool inlineImg) {
+              int width, int height, GfxImageColorMap *colorMap,
+              int *maskColors, GBool inlineImg) {
   int i, j;
 
   if (inlineImg) {
     str->reset();
     j = height * ((width * colorMap->getNumPixelComps() *
-		   colorMap->getBits() + 7) / 8);
+           colorMap->getBits() + 7) / 8);
     for (i = 0; i < j; ++i)
       str->getChar();
     str->close();
@@ -105,20 +105,20 @@ void OutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
 }
 
 void OutputDev::drawMaskedImage(GfxState *state, Object *ref, Stream *str,
-				int width, int height,
-				GfxImageColorMap *colorMap,
-				Stream *maskStr,
-				int maskWidth, int maskHeight,
-				GBool maskInvert) {
+                int width, int height,
+                GfxImageColorMap *colorMap,
+                Stream *maskStr,
+                int maskWidth, int maskHeight,
+                GBool maskInvert) {
   drawImage(state, ref, str, width, height, colorMap, NULL, gFalse);
 }
 
 void OutputDev::drawSoftMaskedImage(GfxState *state, Object *ref, Stream *str,
-				    int width, int height,
-				    GfxImageColorMap *colorMap,
-				    Stream *maskStr,
-				    int maskWidth, int maskHeight,
-				    GfxImageColorMap *maskColorMap) {
+                    int width, int height,
+                    GfxImageColorMap *colorMap,
+                    Stream *maskStr,
+                    int maskWidth, int maskHeight,
+                    GfxImageColorMap *maskColorMap) {
   drawImage(state, ref, str, width, height, colorMap, NULL, gFalse);
 }
 
