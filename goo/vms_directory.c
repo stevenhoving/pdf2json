@@ -87,6 +87,7 @@ char *dirname;
 		strcat(tmpdir, "000000]");
 		strcat(tmpdir, tmp1);
 		strcat(tmpdir, ".dir");
+        free(tmp1);
 	}
 
 	tfp = fopen(tmpdir, "r");
@@ -109,7 +110,11 @@ char *dirname;
 
    if (retdir == NULL) return ((DIR *)NULL);
 
-   if (!Check_Directory(dirname)) return ((DIR *)NULL);
+   if (!Check_Directory(dirname))
+   {
+    free(retdir);
+    return ((DIR *)NULL);
+   }
 
    filepathname = (char *)calloc(256, sizeof(char));
 

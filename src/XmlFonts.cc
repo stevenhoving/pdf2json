@@ -7,15 +7,15 @@
 #include <unistd.h>
 #endif
 
- struct Fonts{
+struct Fonts {
     char *Fontname;
     char *name;
-  };
+};
 
 const int font_num=13;
 
-static Fonts fonts[font_num+1]={  
-     {"Courier",               "Courier" },
+static Fonts fonts[font_num+1]={
+     {"Courier",                "Courier" },
      {"Courier-Bold",           "Courier"},
      {"Courier-BoldOblique",    "Courier"},
      {"Courier-Oblique",        "Courier"},
@@ -45,8 +45,13 @@ XmlFontColor::XmlFontColor(GfxRGB rgb){
   r=colToByte(rgb.r);
   g=colToByte(rgb.g);
   b=colToByte(rgb.b);
-  if (!(Ok(r)&&Ok(b)&&Ok(g))) {printf("Error : Bad color \n");r=0;g=0;b=0;}
-
+  if (!(Ok(r) && Ok(b) && Ok(g)))
+  {
+      printf("Error : Bad color \n");
+      r=0;
+      g=0;
+      b=0;
+  }
 }
 
 GString *XmlFontColor::convtoX(unsigned int xcol) const{
@@ -64,7 +69,7 @@ GString *XmlFontColor::convtoX(unsigned int xcol) const{
 
 GString *XmlFontColor::toString() const{
   GString *tmp=new GString("#");
-  GString *tmpr=convtoX(r); 
+  GString *tmpr=convtoX(r);
   GString *tmpg=convtoX(g);
   GString *tmpb=convtoX(b);
   tmp->append(tmpr);
@@ -74,10 +79,10 @@ GString *XmlFontColor::toString() const{
   delete tmpg;
   delete tmpb;
   return tmp;
-} 
+}
 
 XmlFont::XmlFont(GString* ftname,int _size, double _charspace, GfxRGB rgb){
-  //if (col) color=XmlFontColor(col); 
+  //if (col) color=XmlFontColor(col);
   //else color=XmlFontColor();
   color=XmlFontColor(rgb);
 
@@ -92,7 +97,7 @@ XmlFont::XmlFont(GString* ftname,int _size, double _charspace, GfxRGB rgb){
     fontname = NULL;
     FontName = NULL;
   }
-  
+
   lineSize = -1;
 
   size=(_size-1);
@@ -101,23 +106,23 @@ XmlFont::XmlFont(GString* ftname,int _size, double _charspace, GfxRGB rgb){
   oblique = gFalse;
 
   if (fontname){
-    if (strstr(fontname->lowerCase()->getCString(),"bold"))  bold=gTrue;    
+    if (strstr(fontname->lowerCase()->getCString(),"bold"))  bold=gTrue;
     if (strstr(fontname->lowerCase()->getCString(),"italic")) italic=gTrue;
     if (strstr(fontname->lowerCase()->getCString(),"oblique")) oblique=gTrue;
-    /*||strstr(fontname->lowerCase()->getCString(),"oblique"))  italic=gTrue;*/ 
-    
+    /*||strstr(fontname->lowerCase()->getCString(),"oblique"))  italic=gTrue;*/
+
     int i=0;
-    while (strcmp(ftname->getCString(),fonts[i].Fontname)&&(i<font_num)) 
+    while (strcmp(ftname->getCString(),fonts[i].Fontname)&&(i<font_num))
 	{
 		i++;
 	}
     pos=i;
     delete fontname;
-  }  
+  }
   if (!DefaultFont) DefaultFont=new GString(fonts[font_num].name);
 
 }
- 
+
 XmlFont::XmlFont(const XmlFont& x){
    size=x.size;
    lineSize=x.lineSize;
@@ -136,7 +141,7 @@ XmlFont::~XmlFont(){
 }
 
 XmlFont& XmlFont::operator=(const XmlFont& x){
-   if (this==&x) return *this; 
+   if (this==&x) return *this;
    size=x.size;
    lineSize=x.lineSize;
    italic=x.italic;
@@ -186,7 +191,7 @@ GString* XmlFont::getFullName(){
   if (FontName)
     return new GString(FontName);
   else return new GString(DefaultFont);
-} 
+}
 
 void XmlFont::setDefaultFont(GString* defaultFont){
   if (DefaultFont) delete DefaultFont;
@@ -212,16 +217,16 @@ GString* XmlFont::HtmlFilter(Unicode* u, int uLen) {
 
   for (int i = 0; i < uLen; ++i) {
     switch (u[i])
-      { 
+      {
 	case '"': tmp->append("&quot;");  break;
 	case '&': tmp->append("&amp;");  break;
 	case '<': tmp->append("&lt;");  break;
 	case '>': tmp->append("&gt;");  break;
-	default:  
+	default:
 	  {
 	    // convert unicode to string
 	    if ((n = uMap->mapUnicode(u[i], buf, sizeof(buf))) > 0) {
-	      tmp->append(buf, n); 
+	      tmp->append(buf, n);
 	  }
       }
     }
@@ -232,7 +237,7 @@ GString* XmlFont::HtmlFilter(Unicode* u, int uLen) {
 }
 
 GString* XmlFont::simple(XmlFont* font, Unicode* content, int uLen){
-  GString *cont=HtmlFilter (content, uLen); 
+  GString *cont=HtmlFilter (content, uLen);
 
   /*if (font.isBold()) {
     cont->insert(0,"<b>",3);
@@ -255,10 +260,10 @@ XmlFontAccu::~XmlFontAccu(){
 }
 
 int XmlFontAccu::AddFont(const XmlFont& font){
- GVector<XmlFont>::iterator i; 
+ GVector<XmlFont>::iterator i;
  for (i=accu->begin();i!=accu->end();i++)
  {
-	if (font.isEqual(*i)) 
+	if (font.isEqual(*i))
 	{
 		return (int)(i-(accu->begin()));
 	}
@@ -281,40 +286,41 @@ static GString* EscapeSpecialChars( GString* s)
                 case '\'': replace = "\\u0027";  break;
                 case '&': replace = "\\u0026";  break;
                 case 0x01: replace = "";  break;
-                case 0x02: replace = "";  break;                
-                case 0x03: replace = "";  break;                
-                case 0x04: replace = "";  break;                
-                case 0x05: replace = "";  break;                
-                case 0x06: replace = "";  break;                                
+                case 0x02: replace = "";  break;
+                case 0x03: replace = "";  break;
+                case 0x04: replace = "";  break;
+                case 0x05: replace = "";  break;
+                case 0x06: replace = "";  break;
                 case 0x07: replace = "";  break;
-                case 0x08: replace = "";  break;                
-                case 0x09: replace = "";  break;                
-                case 0x0a: replace = "";  break;                
-                case 0x0b: replace = "";  break;                
-                case 0x0c: replace = "";  break;                
-                case 0x0d: replace = "";  break;                
-                case 0x0e: replace = "";  break;                
-                case 0x0f: replace = "";  break;                
-                case 0x10: replace = "";  break;                                
-                case 0x11: replace = "";  break;                                                
-                case 0x12: replace = "";  break;                                                
-                case 0x13: replace = "";  break;                                                
-                case 0x14: replace = "";  break;                                                
-                case 0x15: replace = "";  break;                                                
-                case 0x16: replace = "";  break;                                                
-                case 0x17: replace = "";  break;                                                
-                case 0x18: replace = "";  break;                                                
-                case 0x19: replace = "";  break;  
-                case 0x1a: replace = "";  break;                                                                
-                case 0x1b: replace = "";  break;                  
-                case 0x1c: replace = "";  break;                  
-                case 0x1d: replace = "";  break;                  
-                case 0x1e: replace = "";  break;                  
-                case 0x1f: replace = "";  break;                  
+                case 0x08: replace = "";  break;
+                case 0x09: replace = "";  break;
+                case 0x0a: replace = "";  break;
+                case 0x0b: replace = "";  break;
+                case 0x0c: replace = "";  break;
+                case 0x0d: replace = "";  break;
+                case 0x0e: replace = "";  break;
+                case 0x0f: replace = "";  break;
+                case 0x10: replace = "";  break;
+                case 0x11: replace = "";  break;
+                case 0x12: replace = "";  break;
+                case 0x13: replace = "";  break;
+                case 0x14: replace = "";  break;
+                case 0x15: replace = "";  break;
+                case 0x16: replace = "";  break;
+                case 0x17: replace = "";  break;
+                case 0x18: replace = "";  break;
+                case 0x19: replace = "";  break;
+                case 0x1a: replace = "";  break;
+                case 0x1b: replace = "";  break;
+                case 0x1c: replace = "";  break;
+                case 0x1d: replace = "";  break;
+                case 0x1e: replace = "";  break;
+                case 0x1f: replace = "";  break;
                 default: continue;
-            }    
+            }
 	    if( replace ){
-	        if( !tmp ) tmp = new GString( s );
+	        if( !tmp )
+                tmp = new GString( s );
 	        if( tmp ){
 	            tmp->del( j, 1 );
 	            int l = strlen( replace );
@@ -326,11 +332,11 @@ static GString* EscapeSpecialChars( GString* s)
 	return tmp ? tmp : s;
 }
 
-// get CSS font name for font #i 
+// get CSS font name for font #i
 GString* XmlFontAccu::getCSStyle(int i, GString* content){
   GString *tmp;
   GString *iStr=GString::fromInt(i);
-  
+
   if (!xml) {
     tmp = new GString("<span class=\"ft");
     tmp->append(iStr);
@@ -340,14 +346,14 @@ GString* XmlFontAccu::getCSStyle(int i, GString* content){
   } else {
     tmp = EscapeSpecialChars(content);
     //tmp->append(content);
-  } 
+  }
 
   delete iStr;
   return tmp;
 }
 
 
-// get CSS font definition for font #i 
+// get CSS font definition for font #i
 GString* XmlFontAccu::CSStyle(int i,GBool textAsJSON){
    GString *tmp=new GString();
    GString *iStr=GString::fromInt(i);
@@ -358,11 +364,11 @@ GString* XmlFontAccu::CSStyle(int i,GBool textAsJSON){
    GString *Size=GString::fromInt(font.getSize());
    GString *colorStr=font.getColor().toString();
    GString *fontName=font.getFontName();
-   GString *lSize;
+
    double _charspace = font.getCharSpace();
    char *cspace = new char [20];
    sprintf(cspace,"%0.05f",_charspace);
-   
+
    if (xml && !textAsJSON) {
      tmp->append("<fontspec id=\"");
      tmp->append(iStr);
@@ -389,8 +395,8 @@ GString* XmlFontAccu::CSStyle(int i,GBool textAsJSON){
    delete colorStr;
    delete iStr;
    delete Size;
-   delete cspace;
+   delete [] cspace;
    return tmp;
 }
- 
+
 
